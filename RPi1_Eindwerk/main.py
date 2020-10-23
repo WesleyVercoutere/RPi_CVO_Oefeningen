@@ -44,10 +44,14 @@ class Bootstrap:
         #root.iconbitmap('c:/gui/codemy.ico')
         #root.geometry("600x400")
         #root.state('zoomed')   #window maximized in windows
-        root.attributes('-zoomed', True)   #window maximized in rpi
+        #root.attributes('-zoomed', True)   #window maximized in rpi
         #root.attributes('-fullscreen', True)   #window full screen
+        #print(f'osname = {os.name}') # windows = nt / raspberry pi = posix
 
-        print(f'osname = {os.name}') # windows = nt / raspberry pi = posix
+        if (os.name == "nt"):
+            root.state('zoomed')
+        elif (os.name == "posix"):
+            root.attributes('-zoomed', True)
 
         root.mainloop()
 
