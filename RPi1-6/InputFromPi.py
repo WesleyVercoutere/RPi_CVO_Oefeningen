@@ -3,7 +3,7 @@ from tkinter import *
 try:
     import RPi.GPIO as GPIO
 except:
-    import GPIO
+    import DummyGPIO as GPIO
 
 
 drukknop=18
