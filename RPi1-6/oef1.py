@@ -20,7 +20,11 @@ button 4 = pin 26
 '''
 
 from tkinter import *
-import RPi.GPIO as GPIO
+
+try:
+    import RPi.GPIO as GPIO
+except:
+    import DummyGPIO as GPIO
 
 ledBlue = 19
 ledRed = 20
@@ -45,9 +49,33 @@ for btn in buttons:
     GPIO.setup(btn, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 
+root = Tk()
+root.title("Oefening 1")
+root.geometry("800x400")
+
+
+click1 = Button(root, text="Blauwe led")
+click2 = Button(root, text="Rode led")
+click3 = Button(root, text="Gele led")
+click4 = Button(root, text="Groene led")
+
+click1.bind("<ButtonPress-1>", )
+
+
+click1.place(x=10, y=10)
+click2.place(x=10, y=60)
+click3.place(x=10, y=110)
+click4.place(x=10, y=160)
+
+
+
 while True:
     for index in range(len(buttons)):
-        GPIO.output(leds[index], GPIO.input(buttons[index]))
+
+        if clicked[index]:
+            GPIO.output(leds[index], GPIO.input(buttons[index]) or clicked[index])
+
+    root.update()
 
 
 
