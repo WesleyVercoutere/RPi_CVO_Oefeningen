@@ -1,38 +1,3 @@
-#############################################################
-##  Wesley Vercoutere                                      ## 
-##  CVO Focus                                              ## 
-##  Deel 1: Basis programmeren in Python met RaspberryPi   ##
-##  Les 6 - Oef 1                                          ##  
-#############################################################
-
-'''
-Oef 1 
-Stuur met een GUI een led verbonden met GPIO 25. 
-Plaats een knop ON en een knop OFF op je GUI
-
-Oef2 
-Stuur met een GUI een led verbonden met GPIO 25. 
-Plaats een knop TOGGLE op je GUI
-
-Oef3 
-Herhaal oef 1 en 2 en toon in de GUI de status van een LED ( 0 of 1) in een label
-
-Oef4
-Gebruik een slider om de knippersnelheid van je LED in te stellen tussen 1 en 10 keer per seconde
-
-Oef5
-Gebruik een slider om de tijdsduur van je LED in te stellen tussen 1 en 100 seconden.
-Met een knop met opschrift “LICHT” start je de led met de ingestelde tijd.
-Uitbreiding : Geef feedback over de status met kleuren of met afbeeldingen ( zelf opzoeken hoe dat moet)
-
-Oef6 schrijf de toestand aan een RP-pin 1 of 0 in een label!
-
-Of7 Verander de kleur van een label van groen naar rood indien input van gesloten naar open verandert! 
-
-Oef8 toon een open of gesloten schakelaar in je GUI die de toestand van je schakelaar aan een pin volgt.
-
-'''
-
 '''
 Setup breadbord:
 
