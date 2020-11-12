@@ -48,6 +48,5 @@ while True:
         startTime = time.time()
         Toggle()
         
-
     GPIO.output(led, ledStatus)
     root.update()
