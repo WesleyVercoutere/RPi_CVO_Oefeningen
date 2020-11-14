@@ -89,6 +89,7 @@ def TurnRotSensor(channel):
     statusRotB = GPIO.input(pinRotB)
     UpdateNumber(statusRotB)
 
+
 def ChangeColor(channel):
     global currentIndex
 
@@ -134,8 +135,6 @@ while True:
         if i == currentIndex:
             labelsText[i]['font'] = ('Helvetica', 18, 'bold')
 
-
-
     labelRed['bg'] = '#%02x%02x%02x' % (colors[0], 0, 0) 
     labelRed['text'] = str(colors[0])
     labelGreen['bg'] = '#%02x%02x%02x' % (0, colors[1], 0) 
@@ -143,6 +142,3 @@ while True:
     labelBlue['bg'] = '#%02x%02x%02x' % (0, 0, colors[2]) 
     labelBlue['text'] = str(colors[2])
     labelColor['bg'] = '#%02x%02x%02x' % (colors[0], colors[1], colors[2]) 
-
-
-    
