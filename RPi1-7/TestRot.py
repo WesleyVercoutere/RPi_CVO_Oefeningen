@@ -3,8 +3,9 @@ from tkinter import Tk
 try:
     import RPi.GPIO as GPIO
 except:
-    from dummygpio.DummyGPIO import DummyGPIO
-    GPIO = DummyGPIO(True)
+    # from dummygpio.DummyGPIO import DummyGPIO
+    # GPIO = DummyGPIO(True)
+    print("No Raspberry Pi found")
 
 
 root = Tk()
@@ -17,12 +18,24 @@ GPIO.setmode(GPIO.BCM)
 
 # Inputs
 pinPushBtn = 25
+statusPushBtn = False
+prevStatusPushBtn = False
 pinRotBtn = 24
+statusRotBtn = False
+prevStatusRotBtn = False
 pinRotA = 26
+statusRotA = False
+prevStatusRotA = False
 pinRotB = 19
+statusRotB = False
+prevStatusRotB = False
 pinPir = 5
+statusPir = False
+prevStatusPir = False
 
 inputs = (pinPushBtn, pinRotBtn, pinRotA, pinRotB, pinPir)
+statusInputs = [statusPushBtn, statusRotBtn, statusRotA, statusRotB, statusPir] 
+prevStatusInputs = [prevStatusPushBtn, prevStatusRotBtn, prevStatusRotA, prevStatusRotB, prevStatusPir] 
 
 GPIO.setup(inputs, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
@@ -37,65 +50,43 @@ pinBuzzer = 23
 outputs = (pinLedBlue, pinLedRed, pinLedYellow, pinLedGreen, pinBuzzer)
 leds = (pinLedBlue, pinLedRed, pinLedYellow, pinLedGreen)
 
-GPIO.setup(outputs, GPIO.OUT)
+GPIO.setup(outputs, GPIO.OUT, initial=GPIO.LOW)
+
 
 # Definitions
-led = 0
-start = False
-
-def DimAllLeds():
-    for led in leds:
-        GPIO.output(led, False)
-
-def UpdateLeds():
-    global led
-
-    if led > len(leds) - 1:
-        led = 0
-
-    if led < 0:
-        led = len(leds) - 1
-
-    DimAllLeds()
-    GPIO.output(leds[led], True)
-
-
-def ChangeLed(statusRotB):
-    global led
-    global start
-
-    if start:
-        if statusRotB:
-            led += 1
-        else:
-            led -= 1
-
-        UpdateLeds()
-
-
-# Callbacks
-def TurnRotSensor(channel):
+def ReadInputs():
+    global statusRotA
+    global statusRotB
+    statusRotA = GPIO.input(pinRotA)
     statusRotB = GPIO.input(pinRotB)
-    ChangeLed(statusRotB)
-
-def Run(channel):
-    global start
-    global led
-    start = not start
-
-    if start:
-        led = 0
-        UpdateLeds()
-    else:
-        DimAllLeds()
 
 
-GPIO.add_event_detect(pinRotA, GPIO.RISING, callback=TurnRotSensor, bouncetime=50)
-GPIO.add_event_detect(pinRotBtn, GPIO.RISING, callback=Run, bouncetime=200)
+def SetPrevStatus():
+    global statusRotA
+    global statusRotB
+    global prevStatusRotA
+    global prevStatusRotB
+    prevStatusRotA = statusRotA
+    prevStatusRotB = statusRotB
 
-DimAllLeds()
-
+# Program loop
 while True:
     root.update()
 
-    
+    ReadInputs()
+
+
+    # if statusRotA != prevStatusRotA:
+    #     print(f"status A {statusRotA}, status B {statusRotB}")
+
+    # if statusRotB != prevStatusRotB:
+    #     print(f"status B {statusRotB}, status A {statusRotA}")
+
+    if statusRotA and (statusRotA != prevStatusRotA):
+        if statusRotB:
+            print("cw")
+        else:
+            print("ccw")
+
+    SetPrevStatus()
+
