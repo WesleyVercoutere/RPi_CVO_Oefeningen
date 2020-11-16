@@ -1,47 +1,53 @@
 import RPi.GPIO as GPIO
 import time
 
-led = 14
-cyclus = 2 # seconden
-update = cyclus / 100
+led = 12
+cycleTime = 2 # seconden
+frequenty = 100
+
+update = cycleTime / 100
+updateValue = 1
+
 dc = 0
+sleep = False
+
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(led, GPIO.OUT)
 
-p = GPIO.PWM(led, 50)
+p = GPIO.PWM(led, frequenty)
 p.start(dc)
 
 startTime = time.time()
 
-add = True
-
 def updateDutyCycle():
-    global add
     global dc
+    global updateValue
     
     # Update duty cycle
-    if add:
-        dc += update
-    else:
-        dc -= update
-
+    dc += updateValue
+    
     # Add or Subtract
     if dc >= 100:
-        add = False
+        updateValue = -1
     if dc <= 0:
-        add = True
+        updateValue = 1
 
 
 while True:
     currentTime = time.time()
 
-    if currentTime >= startTime + update:
+    if (currentTime >= startTime + update) and not sleep:
         startTime = time.time()
-
         updateDutyCycle()
-
         p.ChangeDutyCycle(dc)
+
+    if dc == 0:
+        sleep = True
+
+    if sleep and (currentTime >= startTime + cycleTime):
+        sleep = False
+        
 
 p.stop()
 GPIO.cleanup()
