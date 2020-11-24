@@ -1,0 +1,26 @@
+'''
+7-1) Schrijf een programma dat weergeeft (print en/of GUI) hoeveel milliseconden je een drukknop, verbonden met je RP, had ingedrukt. Je kan deze waarde updaten bij het loslaten.
+
+7-2) Schrijf een programma dat een led vanop 4 plaatsen kan aansturen, zowel met 4 GPIO drukknoppen als met 4 GUI knoppen.
+
+7-3) Schrijf een programma dat een teller verhoogt en ze’n waarde uitprint telkens een schakelaar wordt ingedrukt. Kan je die waarde ook tonen in een GUI? Je kan geen GUI aanpassen vanuit de callback van je schakelaar, hoe los je dit op?
+
+7-4) Schrijf een programma dat met een start en een stop drukknop de tijd registreert zoals een chronometer
+
+7-5) Schrijf een programma dat rode, oranje, groene led toggelt bij respektievelijk indrukken van slechts 1 GPIO drukknop 1,2,3 keer in een bepaalde tijd die je zelf kiest.
+
+7-6) Schrijf een programma dat rode, oranje, groene led toggelt bij respektievelijk indrukken van slechts 1 GPIO drukknop gedurende 1,2,3 seconden.
+
+7-7) PWM 19, Gebruik knop1 dim+, drukknop2 dim-, knop3 om de leds R,G of O te selecteren.
+
+7-8) PWM 20, Gebruik slechts 1 drukknop om zowel de 3 leds R,G of O te selecteren als te dimmen.
+
+7-9) MCP3008 regel met een potentiometer aangesloten op de MCP de snelheid van je knipperende rode led tussen 1 en 5 keer per seconde. Gebruik de volledige rondgang van de potentiometer tussen min en max om de snelheid in te stellen.
+
+7.10) MCP3008 selecteer met de potentiometer welke led r,g,b er brandt. Verdeel het regelgebied van de potentiometer netjes in 3. Er brandt altijd slechts 1vd 3 leds.
+
+7.11) Stuur je servo-motor van links naar rechts met je potentiometer.
+
+7.12) Stuur je servo-motor van links nar rechts met je GUI schuifregelaar en 3 knoppen ( -90/0/+90)
+
+'''
