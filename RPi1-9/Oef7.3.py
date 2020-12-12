@@ -6,7 +6,9 @@
 #############################################################
 
 '''
-7-3) Schrijf een programma dat een teller verhoogt en ze’n waarde uitprint telkens een schakelaar wordt ingedrukt. Kan je die waarde ook tonen in een GUI? Je kan geen GUI aanpassen vanuit de callback van je schakelaar, hoe los je dit op?
+7-3) Schrijf een programma dat een teller verhoogt en ze’n waarde uitprint telkens een schakelaar wordt ingedrukt. 
+    Kan je die waarde ook tonen in een GUI? 
+    Je kan geen GUI aanpassen vanuit de callback van je schakelaar, hoe los je dit op?
 '''
 
 from tkinter import Tk, Label

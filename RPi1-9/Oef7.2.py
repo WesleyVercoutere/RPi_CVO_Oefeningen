@@ -10,7 +10,7 @@
     zowel met 4 GPIO drukknoppen als met 4 GUI knoppen.
 '''
 
-from tkinter import Tk, Label
+from tkinter import Tk, Label, Button
 
 try:
     import RPi.GPIO as GPIO
@@ -53,8 +53,21 @@ leds = (pinLedBlue, pinLedRed, pinLedYellow, pinLedGreen)
 GPIO.setup(outputs, GPIO.OUT, initial=GPIO.LOW)
 
 
+# Program variables
+ledStatus = False
+
+def update_led():
+    GPIO.output(pinLedBlue, ledStatus)
+
 # Callbacks
-GPIO.add_event_detect(pinPushBtn, GPIO.BOTH, callback=toggle_timer, bouncetime=50)
+def toggle_status(channel):
+    global ledStatus
+    ledStatus = not ledStatus
+
+    update_led()
+
+GPIO.add_event_detect(pinPushBtn, GPIO.BOTH, callback=toggle_status, bouncetime=50)
+GPIO.add_event_detect(pinRotBtn, GPIO.BOTH, callback=toggle_status, bouncetime=50)
 
 # GUI
 
