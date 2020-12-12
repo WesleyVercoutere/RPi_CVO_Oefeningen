@@ -12,6 +12,7 @@
 '''
 
 from tkinter import Tk, Label
+import time
 
 try:
     import RPi.GPIO as GPIO
@@ -57,26 +58,40 @@ GPIO.setup(outputs, GPIO.OUT, initial=GPIO.LOW)
 
 
 # Program variables
-time = False
+startTime = time.time()
+endTime = time.time()
 elapsedTime = 0
 prevElapsedTime = 0
 
 
 # Callbacks
-def toggle_timer():
-    global time
-    time = not time
+def start_timer():
+    global startTime
+    startTime = time.time()
 
-GPIO.add_event_detect(pinPushBtn, GPIO.BOTH, callback=toggle_timer, bouncetime=50)
+def stop_timer():
+    global elapsedTime
+    
+    endTime = time.time()
+    elapsedTime = endTime - startTime
+
+GPIO.add_event_detect(pinPushBtn, GPIO.RISING, callback=start_timer, bouncetime=50)
+GPIO.add_event_detect(pinPushBtn, GPIO.FALLING, callback=stop_timer, bouncetime=50)
 
 
 # GUI
 lblText = Label(root, text="Elapsed time :", padx=10, pady=10)
 lblText.grid(row=0, column=0)
-lblTime = Label(root, text=elapsedTime, padx=10, pady=10)
+lblTime = Label(root, text=str(elapsedTime), padx=10, pady=10)
 lblTime.grid(row=0, column=1)
 
+def update_label():
+    lblTime['text'] = str(elapsedTime)
 
 while True:
     root.update()
+
+    if elapsedTime != prevElapsedTime:
+        prevElapsedTime = elapsedTime
+        update_label()
 
