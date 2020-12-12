@@ -58,6 +58,7 @@ GPIO.setup(outputs, GPIO.OUT, initial=GPIO.LOW)
 
 
 # Program variables
+timing = False
 startTime = time.time()
 endTime = time.time()
 elapsedTime = 0
@@ -75,8 +76,18 @@ def stop_timer():
     endTime = time.time()
     elapsedTime = endTime - startTime
 
-GPIO.add_event_detect(pinPushBtn, GPIO.RISING, callback=start_timer, bouncetime=50)
-GPIO.add_event_detect(pinPushBtn, GPIO.FALLING, callback=stop_timer, bouncetime=50)
+def toggle_timer(channel):
+    global timing
+    timing = not timing
+
+    if timing:
+        start_timer()
+
+    else:
+        stop_timer()
+
+
+GPIO.add_event_detect(pinPushBtn, GPIO.BOTH, callback=toggle_timer, bouncetime=50)
 
 
 # GUI
@@ -84,9 +95,12 @@ lblText = Label(root, text="Elapsed time :", padx=10, pady=10)
 lblText.grid(row=0, column=0)
 lblTime = Label(root, text=str(elapsedTime), padx=10, pady=10)
 lblTime.grid(row=0, column=1)
+lblUnit = Label(root, text="msec", padx=10, pady=10)
+lblUnit.grid(row=0, column=2)
 
 def update_label():
-    lblTime['text'] = str(elapsedTime)
+    msec = elapsedTime * 1000
+    lblTime['text'] =  "{0:.0f}".format(msec)
 
 while True:
     root.update()
