@@ -9,56 +9,45 @@
 7.11) Stuur je servo-motor van links naar rechts met je potentiometer.
 '''
 
-from tkinter import Tk, Label
-
 try:
     import RPi.GPIO as GPIO
+    from gpiozero import MCP3008
 except:
     # from dummygpio.DummyGPIO import DummyGPIO
     # GPIO = DummyGPIO(True)
     print("No Raspberry Pi found")
 
 
-root = Tk()
-root.title('Les 9 - Oef 7.11')
-root.geometry('800x400')
-
 # GPIO general
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 
-# Inputs
-pinPushBtn = 25
-pinRotBtn = 24
-pinRotA = 26
-pinRotB = 19
-pinPir = 5
+mcp3008_channel_0 = MCP3008(channel=0, device=0)
 
-inputs = (pinPushBtn, pinRotBtn, pinRotA, pinRotB, pinPir)
+GPIO.setup(18, GPIO.OUT)
+p = GPIO.PWM(18, 50)  # channel=14  frequency=50Hz
+p.start(0)
 
-GPIO.setup(inputs, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+dc = 0
+prevDc = 0
 
+def scale(value):
+    global dc
 
-# Outputs
-pinLedBlue = 12
-pinLedRed = 16
-pinLedYellow = 20
-pinLedGreen = 21
-pinBuzzer = 23
+    inputMin = 1
+    inputMax = 1023
+    outputMin = 2
+    outputMax = 10
 
-outputs = (pinLedBlue, pinLedRed, pinLedYellow, pinLedGreen, pinBuzzer)
-leds = (pinLedBlue, pinLedRed, pinLedYellow, pinLedGreen)
-
-GPIO.setup(outputs, GPIO.OUT, initial=GPIO.LOW)
-
-
-# Callbacks
-
-
-# GUI
-
-
+    dc = int((value - inputMin)*(outputMax-outputMin)/(inputMax-inputMin)+outputMin)
 
 while True:
-    root.update()
+    # print(mcp3008_channel_0.value)
+    # print(mcp3008_channel_0.raw_value)
 
+    scale(mcp3008_channel_0.raw_value)
+    if dc != prevDc:
+        print(dc)
+        prevDc = dc
+
+    p.ChangeDutyCycle(dc)

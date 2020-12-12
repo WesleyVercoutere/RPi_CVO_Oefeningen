@@ -66,11 +66,16 @@ def toggle_status(channel):
 
     update_led()
 
-GPIO.add_event_detect(pinPushBtn, GPIO.BOTH, callback=toggle_status, bouncetime=50)
-GPIO.add_event_detect(pinRotBtn, GPIO.BOTH, callback=toggle_status, bouncetime=50)
+GPIO.add_event_detect(pinPushBtn, GPIO.RISING, callback=toggle_status, bouncetime=50)
+GPIO.add_event_detect(pinRotBtn, GPIO.RISING, callback=toggle_status, bouncetime=100)
 
 # GUI
+#btn = Button(root, text="Toggle led", command = lambda channel=1: toggle_status(channel), padx=10, pady=10)
+#btn.grid(row=0, column=1, padx=10, pady=10)
 
+for i in range(4):
+    btn = Button(root, text="Toggle led", command = lambda: toggle_status(i), padx=10, pady=10)
+    btn.grid(row=0, column=i, padx=10, pady=10)
 
 
 while True:

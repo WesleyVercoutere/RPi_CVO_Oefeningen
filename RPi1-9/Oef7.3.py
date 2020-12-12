@@ -54,13 +54,34 @@ leds = (pinLedBlue, pinLedRed, pinLedYellow, pinLedGreen)
 GPIO.setup(outputs, GPIO.OUT, initial=GPIO.LOW)
 
 
-# Callbacks
+# Program variables
+counter = 0
+prevCounter = 0
 
 
 # GUI
+lblCounterTitle = Label(root, text="Number of times button pushed =", padx=10, pady=10)
+lblCounterTitle.grid(row=0, column=0)
 
+lblCounter = Label(root, text="0", padx=10, pady=10)
+lblCounter.grid(row=0, column=1)
+
+def update_label():
+    lblCounter["text"] = str(counter)
+
+
+# Callbacks
+def update_counter(channel):
+    global counter
+    counter += 1
+
+
+GPIO.add_event_detect(pinPushBtn, GPIO.RISING, callback=update_counter, bouncetime=50)
 
 
 while True:
     root.update()
 
+    if counter != prevCounter:
+        prevCounter = counter
+        update_label()
