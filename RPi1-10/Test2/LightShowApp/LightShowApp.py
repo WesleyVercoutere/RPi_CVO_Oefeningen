@@ -1,3 +1,4 @@
+import RPi.GPIO as GPIO
 
 class LightShowApp:
 
@@ -6,10 +7,26 @@ class LightShowApp:
         self.initCallbacks()
 
     def initIO(self):
-        pass
+        # GPIO general
+        GPIO.setwarnings(False)
+        GPIO.setmode(GPIO.BCM)
+
+        # Inputs
+        self.pinBtn1 = 20
+        self.pinBtn2 = 21
+        
+        inputs = (self.pinBtn1, self.pinBtn2)
+        GPIO.setup(inputs, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
     def initCallbacks(self):
-        pass
+        GPIO.add_event_detect(self.pinBtn1, GPIO.RISING, callback=self.toggleShow1, bouncetime=50)
+        GPIO.add_event_detect(self.pinBtn2, GPIO.RISING, callback=self.toggleShow2, bouncetime=50)
+
+    def toggleShow1(self, channel):
+        print('Show 1')
+
+    def toggleShow1(self, channel):
+        print('Show 2')
 
     def run(self):
         pass
