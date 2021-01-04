@@ -2,9 +2,21 @@
 class LightShowApp:
 
     def __init__(self):
-        print("Hello World")
+        self.initIO()
+        self.initCallbacks()
+
+    def initIO(self):
+        pass
+
+    def initCallbacks(self):
+        pass
+
+    def run(self):
+        pass
+
 
 
 if __name__ == '__main__':
-    LightShowApp()
+    lsa = LightShowApp()
+    lsa.run()
     
