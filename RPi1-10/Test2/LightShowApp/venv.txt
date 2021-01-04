@@ -1,5 +1,0 @@
-# Create virtual environment
-py -m venv venv
-
-# Install lib
-pip3 install RPi.GPIO
