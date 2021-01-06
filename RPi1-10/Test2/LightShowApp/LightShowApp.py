@@ -7,7 +7,7 @@ class LightShowApp:
 
     def __init__(self):
         self.currentShow = 'idle'
-        self.interval = 0.05
+        self.interval = 1
 
         self.initIO()
         self.initCallbacks()
@@ -99,24 +99,24 @@ class LightShowApp:
                 self.step = 1
                 self.prevLed = -1
 
+    def setInterval(self):
+        self.interval = self.scale(self.potMeter.raw_value)
+
     def scale(self, value):
-        inputMin = 1
+        inputMin = 0
         inputMax = 1023
-        outputMin = 2
-        outputMax = 10
+        outputMin = 0.1
+        outputMax = 0.5
 
         return ((value - inputMin)*(outputMax-outputMin)/(inputMax-inputMin)+outputMin)
         
     def run(self):
         while True:
-
-            print(self.potMeter.value)
-            print(self.potMeter.raw_value)
-            print()
-
             if self.currentShow == 'show1':
+                self.setInterval()
                 self.show1()
             elif self.currentShow == 'show2':
+                self.setInterval()
                 self.show2()
             else:
                 self.idle()
