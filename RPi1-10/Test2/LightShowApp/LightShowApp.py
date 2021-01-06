@@ -1,5 +1,6 @@
 import RPi.GPIO as GPIO
 from rpi_ws281x import *
+from gpiozero import MCP3008
 import time
 
 class LightShowApp:
@@ -20,9 +21,11 @@ class LightShowApp:
         # Inputs
         self.pinBtn1 = 20
         self.pinBtn2 = 21
-        
         inputs = (self.pinBtn1, self.pinBtn2)
         GPIO.setup(inputs, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+
+        # Potentiometer
+        self.potMeter = MCP3008(channel=0, device=0)
 
     def initCallbacks(self):
         GPIO.add_event_detect(self.pinBtn1, GPIO.RISING, callback=lambda channel, arg='show1': self.toggleShow(channel, arg), bouncetime=200)
@@ -38,7 +41,7 @@ class LightShowApp:
         LED_INVERT     = False   # True to invert the signal (when using NPN transistor level shift)
         LED_CHANNEL    = 1       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
-        self.strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)  # last par LED_CHANNEL not used 
+        self.strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
         self.strip.begin()
         self.resetStrip()
 
@@ -63,7 +66,8 @@ class LightShowApp:
         self.strip.show()
 
     def idle(self):
-        pass
+        self.resetStrip()
+        #pass
 
     def show1(self):
         if time.time() > (self.startTime + self.interval):
@@ -94,9 +98,22 @@ class LightShowApp:
             if self.ledIndex <= 0:
                 self.step = 1
                 self.prevLed = -1
+
+    def scale(self, value):
+        inputMin = 1
+        inputMax = 1023
+        outputMin = 2
+        outputMax = 10
+
+        return ((value - inputMin)*(outputMax-outputMin)/(inputMax-inputMin)+outputMin)
         
     def run(self):
         while True:
+
+            print(self.potMeter.value)
+            print(self.potMeter.raw_value)
+            print()
+
             if self.currentShow == 'show1':
                 self.show1()
             elif self.currentShow == 'show2':
