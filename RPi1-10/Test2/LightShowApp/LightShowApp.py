@@ -6,7 +6,7 @@ class LightShowApp:
 
     def __init__(self):
         self.currentShow = 'idle'
-        self.interval = 0.1
+        self.interval = 0.05
 
         self.initIO()
         self.initCallbacks()
@@ -59,7 +59,7 @@ class LightShowApp:
     def resetStrip(self):
         for i in range(8):
             self.strip.setPixelColorRGB(i, 0, 0, 0)
-            
+  
         self.strip.show()
 
     def idle(self):
