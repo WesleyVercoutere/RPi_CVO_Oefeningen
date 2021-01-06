@@ -1,3 +1,10 @@
+#############################################################
+##  Wesley Vercoutere                                      ##
+##  CVO Focus                                              ##
+##  Deel 1: Basis programmeren in Python met RaspberryPi   ##
+##  Les 10 - Test 2                                        ##
+#############################################################
+
 import RPi.GPIO as GPIO
 from rpi_ws281x import *
 from gpiozero import MCP3008
@@ -100,14 +107,14 @@ class LightShowApp:
                 self.prevLed = -1
 
     def setInterval(self):
-        self.interval = self.scale(self.potMeter.raw_value)
-
-    def scale(self, value):
         inputMin = 0
         inputMax = 1023
         outputMin = 0.1
         outputMax = 0.5
 
+        self.interval = self.scale(self.potMeter.raw_value, inputMin, inputMax, outputMin, outputMax)
+
+    def scale(self, value, inputMin, inputMax, outputMin, outputMax):
         return ((value - inputMin)*(outputMax-outputMin)/(inputMax-inputMin)+outputMin)
         
     def run(self):
