@@ -39,12 +39,12 @@ def draairechts(wacht):
     
 while True:
     for steps in range(509):
-        draairechts(2)
+        draairechts(2) # max 100 pulsen per seconde => wacht moet gelijk zijn aan 10
         
     time.sleep(1)
         
     for steps in range(509):
-        draailinks(2)
+        draailinks(2) # max 100 pulsen per seconde => wacht moet gelijk zijn aan 10
         
     time.sleep(1)    
        
