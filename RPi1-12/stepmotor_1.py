@@ -7,7 +7,7 @@ GPIO.setmode(GPIO.BCM)
 naar_pin_in1 = 22
 naar_pin_in2 = 27
 naar_pin_in3 = 17
-naar_pin_in4 = 26
+naar_pin_in4 = 4
 
 GPIO.setwarnings(False)
 GPIO.setup(naar_pin_in1, GPIO.OUT)
