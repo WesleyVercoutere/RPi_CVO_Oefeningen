@@ -12,7 +12,7 @@ os.system('modprobe w1-gpio')  # enable the one-wire interface
 os.system('modprobe w1-therm')  # os.system om systeem commando's te geven vanuit python
  
 base_dir = '/sys/bus/w1/devices/w1_bus_master1/'
-device_folder = glob.glob(base_dir + '28*')[0] # In Python, the glob module is used to retrieve files/pathnames matching a specified pattern
+'28*')[0] # In Python, the glob module is used to retrieve files/pathnames matching a specified pattern
 print("device_folder",device_folder)
 device_file = device_folder + '/w1_slave'
 print("device_file",device_file)
