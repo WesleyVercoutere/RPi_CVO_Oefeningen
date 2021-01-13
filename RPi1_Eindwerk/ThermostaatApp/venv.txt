@@ -1,0 +1,27 @@
+# Create virtual evironment
+python3 -m venv venv
+
+# Install libraries
+pip3 install RPi.GPIO
+pip3 install rpi_ws281x
+
+
+
+
+Keep sudo session: sudo -s
+
+
+I believe the general command is sudo usermod -aG gpio,spi <user>.
+You probably shouldn't be doing this under the pi user. I would create a new user account that does not have root access, build this library, and then run strandtest.py. You should make sure to configure it to use pin 10 like the comment says.
+If that does not work, post the groups that user is in, and the exact output you get when running it, ie $ python strandtest.py [output]
+
+
+
+I was able to control a neopixel ring without sudo. Here are the steps I took. I didn't exhaustively try with and without all of them so I'm not sure if they're all necessary:
+
+  1. physically move LED connection to BCM10/MOSI/physical pin 19
+  2. change pin in code accordingly
+  3. add pi user to spi and gpio groups: sudo usermod -aG gpio,spi pi
+  4. create /etc/udev/rules.d/99-com.rules containing the single line SUBSYSTEM=="spidev", GROUP="spi"
+  5. enable SPI interface through raspi-config
+  6. run the program as pi user without sudo
