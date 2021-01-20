@@ -5,29 +5,26 @@
 ##  Eindopdracht: Thermostaat applicatie                   ##
 #############################################################
 
-import service.DigitalInput
+from service.InputManager import *
+from service.OutputManager import *
+from service.ThermostatManager import *
+
+from frontend.GUI import *
+import time
+
 
 class ThermostaatApp:
 
     def __init__(self):
-        print("Hello World")
-
-        self.initIO()
-
-        
-
-    def initIO(self):
-        GPIO.setwarnings(False)
-        GPIO.setmode(GPIO.BCM)
-
-        self.btn1 = DigitalInput(21)
-        self.btn2 = DigitalInput(16)
-        self.btnRot = DigitalInput(20)
-        self.rotA = DigitalInput(26)
-        self.rotB = DigitalInput(19)
+        self.inputMgr = InputManager()
+        self.outputMgr = OutputManager()
+        self.thermoMgr = ThermostatManager(self.inputMgr, self.outputMgr)
+       # self.gui = GUI(thermoMgr)
 
     def run(self):
-        pass
+        while True:
+            print(self.inputMgr.tempSensor.readTemp())
+            time.sleep(1)
 
 
 if __name__ == '__main__':
