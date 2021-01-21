@@ -5,21 +5,21 @@
 ##  Eindopdracht: Thermostaat applicatie                   ##
 #############################################################
 
-from service.InputManager import *
-from service.OutputManager import *
-from service.ThermostatManager import *
+from service.InputManager import InputManager
+from service.OutputManager import OutputManager
+from service.ThermostatManager import ThermostatManager
+from frontend.GUI import GUI
 
-from frontend.GUI import *
 import time
 
 
-class ThermostaatApp:
+class ThermostatApp:
 
     def __init__(self):
         self.inputMgr = InputManager()
         self.outputMgr = OutputManager()
         self.thermoMgr = ThermostatManager(self.inputMgr, self.outputMgr)
-       # self.gui = GUI(thermoMgr)
+       # self.gui = GUI(self.thermoMgr)
 
     def run(self):
         while True:
@@ -28,5 +28,5 @@ class ThermostaatApp:
 
 
 if __name__ == '__main__':
-    ta = ThermostaatApp()
+    ta = ThermostatApp()
     ta.run()

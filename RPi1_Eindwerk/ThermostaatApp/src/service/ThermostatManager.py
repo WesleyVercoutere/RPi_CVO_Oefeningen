@@ -1,5 +1,5 @@
-from service.InputManager import *
-from service.OutputManager import *
+from InputManager import InputManager
+from OutputManager import OutputManager
 
 class ThermostatManager:
 

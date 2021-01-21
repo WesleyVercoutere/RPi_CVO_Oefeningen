@@ -1,6 +1,6 @@
 import RPi.GPIO as GPIO
-from hardware.DigitalInput import *
-from hardware.TemperatureSensor import *
+from DigitalInput import DigitalInput
+from TemperatureSensor import TemperatureSensor
 
 
 class InputManager:
