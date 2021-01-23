@@ -39,3 +39,5 @@ class OutputManager:
             self.strip.setPixelColorRGB(i, brightness, brightness, brightness)
         
         self.strip.show()
+
+    

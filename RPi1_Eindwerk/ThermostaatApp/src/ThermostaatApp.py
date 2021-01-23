@@ -5,6 +5,10 @@
 ##  Eindopdracht: Thermostaat applicatie                   ##
 #############################################################
 
+# TODO  
+
+
+
 from service.InputManager import InputManager
 from service.OutputManager import OutputManager
 from service.ThermostatManager import ThermostatManager
@@ -23,8 +27,12 @@ class ThermostatApp:
 
     def run(self):
         while True:
-            print(self.inputMgr.tempSensor.readTemp())
-            time.sleep(1)
+            self.thermoMgr.loop()
+
+
+
+
+            
 
 
 if __name__ == '__main__':

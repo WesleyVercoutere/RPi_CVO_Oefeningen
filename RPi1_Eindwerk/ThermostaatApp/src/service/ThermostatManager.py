@@ -1,5 +1,8 @@
-from InputManager import InputManager
-from OutputManager import OutputManager
+import RPi.GPIO as GPIO
+import time
+
+from service.InputManager import InputManager
+from service.OutputManager import OutputManager
 
 class ThermostatManager:
 
@@ -10,12 +13,29 @@ class ThermostatManager:
         self.init()
 
     def init(self):
-        self.ledStatus = False
-        self.inputMgr.btn1.setEvent(edge=GPIO.RISING, callback=self.toggleLed, bouncetime=200)
+       # local variables
+        self.startTime10sLoop = 0
 
-    def toggleLed(self, channel):
-        self.ledStatus = not self.ledStatus
-        self.outputMgr.toggleLed(self.ledStatus)
+       # set Callbacks
+        self.setCallbacks()
 
+    def loop(self):
+       # 10 s loop
+        if self.updateLoop(self.startTime10sLoop, 10):
+            self.startTime10sLoop = time.time()
+           # print temperature
+            print(f"Temperature : {self.inputMgr.getTemp()} °C")
+        
+    def updateLoop(self, startTime, loopTime):
+        currentTime = time.time()
 
+        if currentTime >= (startTime + loopTime):
+            return True
 
+        return False
+
+    def setCallbacks(self):
+        self.inputMgr.setCallbacks(self.test)
+
+    def test(self, channel):
+        print(f"Button {channel} pressed")
