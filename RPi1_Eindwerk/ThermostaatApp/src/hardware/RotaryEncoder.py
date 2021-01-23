@@ -6,6 +6,7 @@ from hardware.DigitalInput import DigitalInput
 class RotaryEncoder:
 
     def __init__(self, pinA, pinB):
+       # Werkt niet met het gebruik van een standaard DigitalInput 
         self.rotA = DigitalInput(pinA)
         self.rotB = DigitalInput(pinB)
 
@@ -15,12 +16,12 @@ class RotaryEncoder:
         self.rotA.setEvent(edge=GPIO.RISING, callback=self.direction, bouncetime=10)
 
     def direction(self, channel):
-        rot = self.rotB.getRawValue()
+        statusB = self.rotB.getRawValue()
+        
         direction = "CW"
 
-        if not rot:
+        if not statusB:
             direction = "CCW"
 
         print(direction)
         return direction
-

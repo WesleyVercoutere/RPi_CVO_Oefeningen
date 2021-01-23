@@ -1,12 +1,14 @@
 import RPi.GPIO as GPIO
 import time
 
+from business.Thermostat import Thermostat
 from service.InputManager import InputManager
 from service.OutputManager import OutputManager
 
 class ThermostatManager:
 
-    def __init__(self, inputManager, outputManager):
+    def __init__(self, thermostat, inputManager, outputManager):
+        self.thermostat = thermostat
         self.inputMgr = inputManager
         self.outputMgr = outputManager
 
@@ -19,12 +21,22 @@ class ThermostatManager:
        # set Callbacks
         self.setCallbacks()
 
+    def setCallbacks(self):
+        self.inputMgr.setStatusCallback(self.toggleStatus)
+
+    def toggleStatus(self, channel=0):
+        self.thermostat.status = not self.thermostat.status
+
+        if not self.thermostat.status:
+            self.outputMgr.resetStrip()
+
     def loop(self):
-       # 10 s loop
-        if self.updateLoop(self.startTime10sLoop, 10):
-            self.startTime10sLoop = time.time()
-           # print temperature
-            print(f"Temperature : {self.inputMgr.getTemp()} °C")
+        if self.thermostat.status:
+           # 5 s loop
+            if self.updateLoop(self.startTime10sLoop, 5):
+                self.startTime10sLoop = time.time()
+                self.setCurrentTemp()
+                self.setOutput()
         
     def updateLoop(self, startTime, loopTime):
         currentTime = time.time()
@@ -34,8 +46,13 @@ class ThermostatManager:
 
         return False
 
-    def setCallbacks(self):
-        self.inputMgr.setCallbacks(self.test)
+    def setCurrentTemp(self):
+        self.thermostat.currentTemp = self.inputMgr.getTemp()
 
-    def test(self, channel):
-        print(f"Button {channel} pressed")
+    def setOutput(self):
+        if self.thermostat.settings.inputTemp < self.thermostat.currentTemp:
+            self.outputMgr.cool()
+        else:
+            self.outputMgr.heat()
+
+    
