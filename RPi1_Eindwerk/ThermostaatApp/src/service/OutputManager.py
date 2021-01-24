@@ -1,5 +1,5 @@
 import RPi.GPIO as GPIO
-# from rpi_ws281x import *
+from rpi_ws281x import *
 
 class OutputManager:
 
@@ -19,28 +19,41 @@ class OutputManager:
         LED_INVERT     = False   # True to invert the signal (when using NPN transistor level shift)
         LED_CHANNEL    = 1       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
-       # self.strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
-       # self.strip.begin()
-       # self.resetStrip()
+        self.strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
+        self.strip.begin()
+        self.resetStrip()
 
     def resetStrip(self):
         for i in range(8):
-           # self.strip.setPixelColorRGB(i, 0, 0, 0)
+            self.strip.setPixelColorRGB(i, 0, 0, 0)
             pass
   
-       # self.strip.show()
+        self.strip.show()
 
-    def heat(self):
-        for i in range(8):
-           # self.strip.setPixelColorRGB(i, 255, 0, 0)
-            pass
-  
-       # self.strip.show()
+    def heat(self, dif, brightness):
+        self.resetStrip()
 
-    def cool(self):
-        for i in range(8):
-           # self.strip.setPixelColorRGB(i, 0, 0, 255)
+        if dif > 8:
+            dif = 8
+
+        for i in range(dif):
+            self.strip.setPixelColorRGB(i, brightness, 0, 0)
             pass
   
-       # self.strip.show()
+        self.strip.show()
+
+    def cool(self, dif, brightness):
+        self.resetStrip()
+
+        if dif > 8:
+            dif = 8
+
+        for i in range(dif):
+            self.strip.setPixelColorRGB(i, 0, 0, brightness)
+            pass
+  
+        self.strip.show()
+
+    def idle(self):
+        pass
     

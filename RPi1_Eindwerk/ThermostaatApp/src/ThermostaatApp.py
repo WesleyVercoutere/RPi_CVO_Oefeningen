@@ -9,6 +9,7 @@
 
 import RPi.GPIO as GPIO
 import time
+import threading
 
 from business.Thermostat import Thermostat
 from service.InputManager import InputManager
@@ -27,12 +28,8 @@ class ThermostatApp:
         self.gui = GUI(self.thermoMgr)
 
     def run(self):
-        while True:
-            self.thermoMgr.loop()
-            self.gui.loop()
-
-           # time.sleep nodig voor de correcte werking van de rotary encoder! 
-            time.sleep(0.001)
+        threading.Thread(target=self.thermoMgr.loop).start()
+        self.gui.root.mainloop()
 
 
 if __name__ == '__main__':

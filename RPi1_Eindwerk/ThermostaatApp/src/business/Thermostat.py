@@ -6,3 +6,4 @@ class Thermostat:
         self.status = False
         self.currentTemp = 0
         self.settings = Settings()
+        self.setRoomTemp = False

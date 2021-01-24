@@ -10,12 +10,13 @@ class RotaryEncoder:
         self.rotA = DigitalInput(pinA)
         self.rotB = DigitalInput(pinB)
 
-        self.setCallback()
+    def clearEvent(self):
+        self.rotA.clearEvent()
 
-    def setCallback(self):
-        self.rotA.setEvent(edge=GPIO.RISING, callback=self.direction, bouncetime=10)
+    def setEvent(self, edge, callback, bouncetime=50):
+        self.rotA.setEvent(edge=GPIO.RISING, callback=lambda x: self.direction(callback), bouncetime=bouncetime)
 
-    def direction(self, channel):
+    def direction(self, callback):
         statusB = self.rotB.getRawValue()
         
         direction = "CW"
@@ -23,5 +24,4 @@ class RotaryEncoder:
         if not statusB:
             direction = "CCW"
 
-        print(direction)
-        return direction
+        callback(direction)

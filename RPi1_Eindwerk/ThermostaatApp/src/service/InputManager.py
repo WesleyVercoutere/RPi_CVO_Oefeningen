@@ -1,4 +1,5 @@
 import RPi.GPIO as GPIO
+
 from hardware.DigitalInput import DigitalInput
 from hardware.TemperatureSensor import TemperatureSensor
 from hardware.RotaryEncoder import RotaryEncoder
@@ -28,6 +29,9 @@ class InputManager:
     def getTemp(self):
         return self.tempSensor.readTemp()
 
-    def setStatusCallback(self, callback):
-        self.btn2.clearEvent()
-        self.btn2.setEvent(edge=GPIO.RISING, callback=callback, bouncetime=200)
+    def setCallback(self, input, callback, bouncetime=200):
+        input.clearEvent()
+        input.setEvent(edge=GPIO.RISING, callback=callback, bouncetime=bouncetime)
+
+    def clearCallback(self, input):
+        input.clearEvent()
