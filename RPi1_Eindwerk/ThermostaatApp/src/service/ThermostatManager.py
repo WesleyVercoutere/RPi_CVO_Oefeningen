@@ -14,8 +14,6 @@ class ThermostatManager(Observable):
         self.inputMgr = inputManager
         self.outputMgr = outputManager
 
-        self.observers = []
-
         self.init()
 
     def init(self):
