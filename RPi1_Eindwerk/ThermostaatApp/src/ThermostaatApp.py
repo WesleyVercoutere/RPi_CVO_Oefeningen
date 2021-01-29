@@ -1,9 +1,9 @@
-#############################################################
-##  Wesley Vercoutere                                      ##
-##  CVO Focus                                              ##
-##  Deel 1: Basis programmeren in Python met RaspberryPi   ##
-##  Eindopdracht: Thermostaat applicatie                   ##
-#############################################################
+###########################################################
+#  Wesley Vercoutere                                      #
+#  CVO Focus                                              #
+#  Deel 1: Basis programmeren in Python met RaspberryPi   #
+#  Eindopdracht: Thermostaat applicatie                   #
+###########################################################
 
 # TODO  
 
