@@ -12,7 +12,7 @@ class Main:
 
     def setupRoot(self):
         self.root = Tk()
-        self.root.title("Hello World")
+        self.root.title("Pong")
         self.root.geometry("800x400")
 
     def run(self):
