@@ -1,0 +1,3 @@
+btn_1:red
+btn_2:green
+btn_3:blue
