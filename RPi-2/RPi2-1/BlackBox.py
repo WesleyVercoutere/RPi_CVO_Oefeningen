@@ -58,8 +58,7 @@ class BlackBox:
         while True:
             
             for btn in self.buttons:
-                
-
+                pass
 
             time.sleep(0.05)
         
