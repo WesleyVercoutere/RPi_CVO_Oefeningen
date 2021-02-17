@@ -1,4 +1,5 @@
 from hardware.DigitalInput import DigitalInput
+from hardware.DigitalOutput import DigitalOutput
 from hardware.RotaryEncoder import RotaryEncoder
 
 '''
@@ -10,6 +11,7 @@ from hardware.RotaryEncoder import RotaryEncoder
 -	Drukknop 6 : GPIO 26
 -	Rotary A : GPIO 20
 -	Rotary B : GPIO 21
+
 -	Potentiometer : MCP 3008 channel 1
 -	MCP3008 :
     o	CLK : GPIO 11 / SPIO SCLK
@@ -21,6 +23,7 @@ from hardware.RotaryEncoder import RotaryEncoder
 -	Led yellow : GPIO 6
 -	Led blue : GPIO 13
 -	Led red : GPIO 19
+
 -	Stepper motor
     o	In 1 : GPIO 17
     o	In 2 : GPIO 27
@@ -49,7 +52,10 @@ class HardwareManager:
         pass
 
     def initDigitalOutputs(self):
-        pass
+        self.ledGreen = DigitalOutput(5)
+        self.ledYellow = DigitalOutput(6)
+        self.ledBlue = DigitalOutput(13)
+        self.ledRed = DigitalOutput(19)
 
     def loop(self):
         while True:
