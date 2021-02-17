@@ -4,30 +4,29 @@ import tkinter.font as font
 
 class GUI:
 
-    def __init__(self, thermostatManager):
-        self.thermostatMgr = thermostatManager
-        self.thermostatMgr.addObserver(self)
+    def __init__(self, ConveyorManager):
+        self.conveyorMgr = ConveyorManager
 
         self.init()
         self.setLabels()
 
     def init(self):
         self.root = Tk()
-        self.root.title('Thermostaat')
+        self.root.title('Transportband')
         self.root.geometry('800x400')
 
-        self.myFont = font.Font(family='Helvetica', size=40)
-
+        # self.myFont = font.Font(family='Helvetica', size=40)
 
     def loop(self):
         self.root.mainloop()
 
     def setLabels(self):
-        self.label = Label(self.root, text="STANDBY", font=self.myFont, padx=20, pady=20)
-        self.label.grid(row=0, column=0)
+        pass
+        # self.label = Label(self.root, text="STANDBY", font=self.myFont, padx=20, pady=20)
+        # self.label.grid(row=0, column=0)
 
-        self.labelTemp = Label(self.root, text="", font=self.myFont, padx=20, pady=20)
-        self.labelTemp.grid(row=0, column=1)
+        # self.labelTemp = Label(self.root, text="", font=self.myFont, padx=20, pady=20)
+        # self.labelTemp.grid(row=0, column=1)
 
     def setLabelsText(self, textLabel, textTemp=""):
         self.label["text"] = textLabel
@@ -47,17 +46,20 @@ class GUI:
             self.toggleRoomTemp()
 
     def toggleState(self):
-        if self.thermostatMgr.thermostat.status:
-            self.updateTemp()
-        else:
-            self.setLabelsText("STANDBY")
+        pass
+        # if self.thermostatMgr.thermostat.status:
+        #     self.updateTemp()
+        # else:
+        #     self.setLabelsText("STANDBY")
 
     def updateTemp(self):
-        temp = self.thermostatMgr.thermostat.currentTemp
-        self.setLabelsText("Room temperature: ", temp)
+        pass
+        # temp = self.thermostatMgr.thermostat.currentTemp
+        # self.setLabelsText("Room temperature: ", temp)
 
     def toggleRoomTemp(self):
-        if self.thermostatMgr.thermostat.setRoomTemp:
-            self.setLabelsText("Set room temperature", self.thermostatMgr.thermostat.settings.inputTemp)
-        else:
-            self.updateTemp()
+        pass
+        # if self.thermostatMgr.thermostat.setRoomTemp:
+        #     self.setLabelsText("Set room temperature", self.thermostatMgr.thermostat.settings.inputTemp)
+        # else:
+        #     self.updateTemp()
