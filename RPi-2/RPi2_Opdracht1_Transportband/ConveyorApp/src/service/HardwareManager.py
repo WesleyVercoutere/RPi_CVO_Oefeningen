@@ -1,3 +1,5 @@
+import RPi.GPIO as GPIO
+
 from hardware.DigitalInput import DigitalInput
 from hardware.DigitalOutput import DigitalOutput
 from hardware.RotaryEncoder import RotaryEncoder
@@ -35,9 +37,14 @@ from hardware.RotaryEncoder import RotaryEncoder
 class HardwareManager:
 
     def __init__(self):
+        self.initGPIO()
         self.initDigitalInputs()
         self.initAnalogInputs()
         self.initDigitalOutputs()
+
+    def initGPIO(self):
+        GPIO.setwarnings(False)
+        GPIO.setmode(GPIO.BCM)
 
     def initDigitalInputs(self):
         self.btn1 = DigitalInput(18)
