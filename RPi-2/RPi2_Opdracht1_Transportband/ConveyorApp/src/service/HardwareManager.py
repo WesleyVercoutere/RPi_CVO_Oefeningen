@@ -29,8 +29,9 @@ from hardware.RotaryEncoder import RotaryEncoder
 -	Stepper motor
     o	In 1 : GPIO 17
     o	In 2 : GPIO 27
-    o	In 3 : GPIO 22
-    o	In 4 : GPIO 23
+    o	In 3 : GPIO 24
+    o	In 4 : GPIO 22
+
 '''
 
 
