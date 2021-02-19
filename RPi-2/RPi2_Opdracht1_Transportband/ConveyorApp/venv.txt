@@ -7,7 +7,6 @@ pip3 install rpi_ws281x
 
 
 
-
 Keep sudo session: sudo -s
 
 

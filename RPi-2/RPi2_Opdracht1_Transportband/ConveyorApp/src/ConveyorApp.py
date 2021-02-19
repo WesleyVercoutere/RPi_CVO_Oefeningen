@@ -16,7 +16,7 @@ from service.CommunicationManager import CommunicationManager
 from frontend.GUI import GUI
 
 
-class ThermostatApp:
+class ConveyorApp:
 
     def __init__(self):
         self.hardwareMgr = HardwareManager()
@@ -31,5 +31,5 @@ class ThermostatApp:
 
 
 if __name__ == '__main__':
-    ta = ThermostatApp()
-    ta.run()
+    ca = ConveyorApp()
+    ca.run()
