@@ -7,13 +7,15 @@ class ConveyorManager(Observable):
 
     def __init__(self, hardwareManager):
         self.hardwareMgr = hardwareManager
-
         self.setHardwareCallbacks()
+
+        self.moveToHomePosition()
 
 #region Main methods conveyor
 
     def moveToHomePosition(self):
         print("Moving to home position")
+        
 
     def moveToPosition(self, position):
         print(f"Moving to {position}")
@@ -28,8 +30,10 @@ class ConveyorManager(Observable):
 
 
     def setHardwareCallbacks(self):
-        callbacks = [self.toggleLed()]
+        print("Set hardware callbacks")
+        callbacks = [self.toggleLed]
         self.hardwareMgr.setCallbacks(callbacks)
 
     def toggleLed(self):
+        print("Toggle led")
         self.hardwareMgr.ledGreen.toggle()

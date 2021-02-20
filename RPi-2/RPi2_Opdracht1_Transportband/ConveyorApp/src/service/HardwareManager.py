@@ -66,8 +66,7 @@ class HardwareManager:
         self.ledRed = DigitalOutput(19)
 
     def setCallbacks(self, callbacks):
-        self.btn1.setEvent(GPIO.RISING, callbacks[0], 200)
-
+        self.btn1.setEvent(GPIO.RISING, lambda _: callbacks[0](), 200)
 
     def loop(self):
         while True:
