@@ -8,7 +8,7 @@ class ConveyorManager(Observable):
     def __init__(self, hardwareManager):
         self.hardwareMgr = hardwareManager
 
-        self.setCallbacks()
+        self.setHardwareCallbacks()
 
 #region Main methods conveyor
 
@@ -26,8 +26,10 @@ class ConveyorManager(Observable):
 
 #endregion
 
-    def setCallbacks(self):
-        self.hardwareMgr.btn1.setEvent(GPIO.RISING, lambda _ : self.toggleLed(), 200)
+
+    def setHardwareCallbacks(self):
+        callbacks = [self.toggleLed()]
+        self.hardwareMgr.setCallbacks(callbacks)
 
     def toggleLed(self):
         self.hardwareMgr.ledGreen.toggle()
