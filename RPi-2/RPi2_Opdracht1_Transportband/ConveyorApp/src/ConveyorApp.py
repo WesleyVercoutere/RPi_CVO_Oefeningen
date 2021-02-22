@@ -10,9 +10,9 @@ import RPi.GPIO as GPIO
 import time
 import threading
 
-from service.HardwareManager import HardwareManager
-from service.ConveyorManager import ConveyorManager
-from service.CommunicationManager import CommunicationManager
+from service.manager.HardwareManager import HardwareManager
+from service.manager.ConveyorManager import ConveyorManager
+from service.manager.CommunicationManager import CommunicationManager
 from frontend.GUI import GUI
 
 

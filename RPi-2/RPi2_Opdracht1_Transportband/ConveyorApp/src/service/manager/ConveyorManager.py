@@ -21,7 +21,6 @@ class ConveyorManager(Observable):
         self.hardwareMgr.setConveyor(self)
         self.hardwareMgr.setCallbacks()
 
-        # self.setHardwareCallbacks()
         self.moveToHomePosition()
         
 
@@ -36,6 +35,10 @@ class ConveyorManager(Observable):
     def moveToPosition(self, position):
         if self.state == State.MOVING_HOME_POSITION:
             print("Action not allowed - Homing")
+            return
+
+        if self.state != State.IDLE:
+            print("Conveyor not ready")
             return
 
         if self.position == position:
@@ -53,6 +56,10 @@ class ConveyorManager(Observable):
             print("Action not allowed - Homing")
             return
 
+        if self.state != State.IDLE:
+            print("Conveyor not ready")
+            return
+
         if self.state == State.IDLE:
             print(f"Moving one step {direction}")
             self.hardwareMgr.motorRotateOneStep(direction)
@@ -64,8 +71,27 @@ class ConveyorManager(Observable):
         self.updatePosition()
         self.updateLights()
 
-    def setPosition(self, positionId, position):
-        print(f"Set {positionId} to {position}")
+    def setPosition(self):
+        print("Set position")
+        if self.state == State.MOVING_HOME_POSITION:
+            print("Action not allowed - Homing")
+            return
+
+        if self.state == State.MOVING_POSITION_1 or self.state == State.MOVING_POSITION_2:
+            print("Conveyor not ready")
+            return
+        
+        if self.state == State.IDLE:
+            print(f"Setup position")
+            self.state = State.SET_POSITION
+            self.updateLights()
+            return
+
+        if self.state == State.SET_POSITION:
+            print("Save new position")
+            self.state = State.IDLE
+            self.updateLights()
+            return
 
 #endregion
 
@@ -104,7 +130,6 @@ class ConveyorManager(Observable):
             self.updatePosition()
             self.updateLights()
 
-
 #endregion
 
     def updatePosition(self):
@@ -140,6 +165,9 @@ class ConveyorManager(Observable):
 
         if self.state == State.MOVING_POSITION_2:
             self.hardwareMgr.toggleBlinkLed(2)
+
+        if self.state == State.SET_POSITION:
+            self.hardwareMgr.toggleBlinkLed(3)
 
     def calculateDirection(self, newPosition):
         currentPosition = self.hardwareMgr.nbrOfStepsFromHomePosition

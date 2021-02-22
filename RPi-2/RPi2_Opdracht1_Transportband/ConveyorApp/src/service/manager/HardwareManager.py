@@ -92,10 +92,8 @@ class HardwareManager:
         self.btn3.setEvent(GPIO.RISING, lambda _: self.conveyor.move(Rotation.CLOCKWISE), 200)
         self.btn4.setEvent(GPIO.RISING, lambda _: self.conveyor.moveToPosition(Position.POSITION_1), 200)
         self.btn5.setEvent(GPIO.RISING, lambda _: self.conveyor.moveToPosition(Position.POSITION_2), 200)
-        self.rotBtn.setEvent(GPIO.RISING, self.rotary)
-
-    def setPositionCallback(self, callback):
-        self.updatePosition = callback
+        self.btn6.setEvent(GPIO.RISING, lambda _: self.conveyor.setPosition(), 200)
+        self.rotBtn.setEvent(GPIO.RISING, self.conveyor.move)
 
     def setHomePosition(self):
         self.nbrOfStepsFromHomePosition = 0
@@ -130,9 +128,6 @@ class HardwareManager:
 
         for led in self.leds:
             led.setOutput(False)
-
-    def rotary(self, direction):
-        self.conveyor.move(direction)
 
 
     def loop(self):
