@@ -1,8 +1,13 @@
 import RPi.GPIO as GPIO
+import time
 
+import domain.Position as Position
+import hardware.Rotation as Rotation
 from hardware.DigitalInput import DigitalInput
 from hardware.DigitalOutput import DigitalOutput
 from hardware.RotaryEncoder import RotaryEncoder
+from hardware.PulseGenerator import PusleGenerator
+from hardware.StepperMotor import StepperMotor
 
 '''
 -	Drukknop 1 : GPIO 18
@@ -42,6 +47,14 @@ class HardwareManager:
         self.initDigitalInputs()
         self.initAnalogInputs()
         self.initDigitalOutputs()
+        self.initMotor()
+
+        self.nbrOfStepsFromHomePosition = 0
+        self.moveMotorCcw = False
+        self.moveMotorCw = False
+
+        self.ledPulse = PusleGenerator(0.5)
+        self.blink = [False, False, False, False]
 
     def initGPIO(self):
         GPIO.setwarnings(False)
@@ -65,9 +78,78 @@ class HardwareManager:
         self.ledBlue = DigitalOutput(13)
         self.ledRed = DigitalOutput(19)
 
-    def setCallbacks(self, callbacks):
-        self.btn1.setEvent(GPIO.RISING, lambda _: callbacks[0](), 200)
+        self.leds = (self.ledGreen, self.ledYellow, self.ledBlue, self.ledRed)
+
+    def initMotor(self):
+        self.motor = StepperMotor(17, 27, 24, 22)
+
+    def setConveyor(self, conveyor):
+        self.conveyor = conveyor
+
+    def setCallbacks(self):
+        self.btn1.setEvent(GPIO.RISING, lambda _: self.conveyor.homePositionReached(), 200)
+        self.btn2.setEvent(GPIO.RISING, lambda _: self.conveyor.move(Rotation.COUNTERCLOCKWISE), 200)
+        self.btn3.setEvent(GPIO.RISING, lambda _: self.conveyor.move(Rotation.CLOCKWISE), 200)
+        self.btn4.setEvent(GPIO.RISING, lambda _: self.conveyor.moveToPosition(Position.POSITION_1), 200)
+        self.btn5.setEvent(GPIO.RISING, lambda _: self.conveyor.moveToPosition(Position.POSITION_2), 200)
+        self.rotBtn.setEvent(GPIO.RISING, self.rotary)
+
+    def setPositionCallback(self, callback):
+        self.updatePosition = callback
+
+    def setHomePosition(self):
+        self.nbrOfStepsFromHomePosition = 0
+
+    def motorRotate(self, direction):
+        if direction == Rotation.CLOCKWISE:
+            self.moveMotorCcw = False
+            self.moveMotorCw = True
+
+        if direction == Rotation.COUNTERCLOCKWISE:
+            self.moveMotorCcw = True
+            self.moveMotorCw = False
+
+    def motorRotateOneStep(self, direction):
+        self.motor.rotate(direction)
+        self.nbrOfStepsFromHomePosition += direction
+
+    def motorStop(self):
+        self.moveMotorCcw = False
+        self.moveMotorCw = False
+        self.motor.stop()
+
+    def toggleBlinkLed(self, color):
+        self.blink[color] = True
+
+    def ledHigh(self, color):
+        self.leds[color].setOutput(True)
+
+    def resetLeds(self):
+        for i in range(len(self.blink)):
+            self.blink[i] = False
+
+        for led in self.leds:
+            led.setOutput(False)
+
+    def rotary(self, direction):
+        self.conveyor.move(direction)
+
 
     def loop(self):
         while True:
-            pass
+            self.ledPulse.generate()
+
+            for i in range(len(self.blink)):
+                if self.blink[i] and self.ledPulse.Q:
+                    self.leds[i].toggle()
+
+            if self.moveMotorCw:
+                self.motorRotateOneStep(Rotation.CLOCKWISE)
+                self.conveyor.positionReached()
+
+            if self.moveMotorCcw:
+                self.motorRotateOneStep(Rotation.COUNTERCLOCKWISE)
+                self.conveyor.positionReached()
+                
+            time.sleep(0.01)
+

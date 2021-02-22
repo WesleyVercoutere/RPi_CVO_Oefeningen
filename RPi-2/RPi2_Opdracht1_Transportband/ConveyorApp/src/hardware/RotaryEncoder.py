@@ -1,5 +1,6 @@
 import RPi.GPIO as GPIO
 
+import hardware.Rotation as Rotation
 from hardware.DigitalInput import DigitalInput
 
 
@@ -13,15 +14,21 @@ class RotaryEncoder:
     def clearEvent(self):
         self.rotA.clearEvent()
 
-    def setEvent(self, edge, callback, bouncetime=50):
+    def setEvent(self, edge, callback, bouncetime=10):
         self.rotA.setEvent(edge=GPIO.RISING, callback=lambda x: self.direction(callback), bouncetime=bouncetime)
+
+    def getSignalA(self):
+        return self.rotA.getRawValue()
+
+    def getSignalB(self):
+        return self.rotB.getRawValue()
 
     def direction(self, callback):
         statusB = self.rotB.getRawValue()
         
-        direction = "CW"
+        direction = Rotation.CLOCKWISE
 
         if not statusB:
-            direction = "CCW"
+            direction = Rotation.COUNTERCLOCKWISE
 
         callback(direction)

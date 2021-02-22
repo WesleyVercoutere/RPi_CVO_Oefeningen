@@ -1,50 +1,38 @@
 import RPi.GPIO as GPIO
 import time
 
-GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BCM)
+import hardware.Rotation as Rotation
 
-naar_pin_in1 = 17
-naar_pin_in2 = 27
-naar_pin_in3 = 24
-naar_pin_in4 = 22
+class StepperMotor:
 
-GPIO.setwarnings(False)
-GPIO.setup(naar_pin_in1, GPIO.OUT)
-GPIO.setup(naar_pin_in2, GPIO.OUT)
-GPIO.setup(naar_pin_in3, GPIO.OUT)
-GPIO.setup(naar_pin_in4, GPIO.OUT)
-
-links= [[1,0,0,0],[0,0,0,1],[0,0,1,0],[0,1,0,0]]
-rechts=[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]
-
-def stuur_spoelen(pins):
-    GPIO.output(naar_pin_in1,pins[0])
-    GPIO.output(naar_pin_in2,pins[1])
-    GPIO.output(naar_pin_in3,pins[2])
-    GPIO.output(naar_pin_in4,pins[3])
-
-def map_value(incoming_value, min_incoming , max_incoming , min_outgoing , max_outgoing):
-    return min_outgoing + (max_outgoing - min_outgoing) * ((incoming_value - min_incoming) / (max_incoming - min_incoming))     
-
-def draailinks(wacht):
-    for step in range (0,4):
-        stuur_spoelen(links[step])
-        time.sleep(wacht/1000)
+    def __init__(self, pin1, pin2, pin3, pin4):
+        self.channels = (pin1, pin2, pin3, pin4)
+        self.steps = [[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]
         
-def draairechts(wacht):
-    for step in range (0,4):
-        stuur_spoelen(rechts[step])
-        time.sleep(wacht/1000)
-    
-while True:
-    for steps in range(509):
-        draairechts(10) # max 100 pulsen per seconde => wacht moet gelijk zijn aan 10
-        
-    time.sleep(1)
-        
-    for steps in range(509):
-        draailinks(10) # max 100 pulsen per seconde => wacht moet gelijk zijn aan 10
-        
-    time.sleep(1)    
-       
+        GPIO.setup(self.channels, GPIO.OUT)
+
+    def rotate(self, direction):
+        if direction == Rotation.CLOCKWISE:
+            self.rotateClockwise(10)
+
+        if direction == Rotation.COUNTERCLOCKWISE:
+            self.rotateCounterclockwise(10)
+
+    def setMotor(self, state):
+        for i in range(len(self.channels)):
+            GPIO.output(self.channels[i], state[i])
+
+    def rotateCounterclockwise(self, hold):
+        for step in range (3,-1, -1):
+            self.setMotor(self.steps[step])
+            time.sleep(hold/1000)
+            
+    def rotateClockwise(self, hold):
+        for step in range (0,4):
+            self.setMotor(self.steps[step])
+            time.sleep(hold/1000)
+
+    def stop(self):
+        step = [0,0,0,0]
+        self.setMotor(step)
+

@@ -1,39 +1,157 @@
 import RPi.GPIO as GPIO
+import time
 
+import domain.Position as Position
+import domain.ConveyorState as State
+import hardware.Rotation as Rotation
 from service.observer.Observable import Observable
 
 
 class ConveyorManager(Observable):
 
     def __init__(self, hardwareManager):
-        self.hardwareMgr = hardwareManager
-        self.setHardwareCallbacks()
+        self.isHomed = False
+        self.position = Position.NONE
+        self.state = State.IDLE
 
+        self.nbrOfStepsPos1 = 20
+        self.nbrOfStepsPos2 = 40
+
+        self.hardwareMgr = hardwareManager
+        self.hardwareMgr.setConveyor(self)
+        self.hardwareMgr.setCallbacks()
+
+        # self.setHardwareCallbacks()
         self.moveToHomePosition()
+        
 
 #region Main methods conveyor
 
     def moveToHomePosition(self):
         print("Moving to home position")
+        self.state = State.MOVING_HOME_POSITION
+        self.hardwareMgr.motorRotate(Rotation.COUNTERCLOCKWISE)
+        self.updateLights()
         
-
     def moveToPosition(self, position):
-        print(f"Moving to {position}")
+        if self.state == State.MOVING_HOME_POSITION:
+            print("Action not allowed - Homing")
+            return
 
+        if self.position == position:
+            print(f"Conveyor already on position {position}")
+            return
+
+        print(f"Moving to {position}")
+        direction = self.calculateDirection(position)
+        self.state = position
+        self.hardwareMgr.motorRotate(direction)
+        self.updateLights()
+        
     def move(self, direction):
-        print(f"Moving {direction}")
+        if self.state == State.MOVING_HOME_POSITION:
+            print("Action not allowed - Homing")
+            return
+
+        if self.state == State.IDLE:
+            print(f"Moving one step {direction}")
+            self.hardwareMgr.motorRotateOneStep(direction)
+        else:
+            print("Stop motor")
+            self.hardwareMgr.motorStop()
+
+        self.state = State.IDLE
+        self.updatePosition()
+        self.updateLights()
 
     def setPosition(self, positionId, position):
         print(f"Set {positionId} to {position}")
 
 #endregion
 
+#region Callbacks
 
-    def setHardwareCallbacks(self):
-        print("Set hardware callbacks")
-        callbacks = [self.toggleLed]
-        self.hardwareMgr.setCallbacks(callbacks)
+    def homePositionReached(self):
+        if self.isHomed:
+            print("Conveyor is already homed.")
+            return
 
-    def toggleLed(self):
-        print("Toggle led")
-        self.hardwareMgr.ledGreen.toggle()
+        if self.position == Position.HOME and not self.state == State.MOVING_HOME_POSITION:
+            print("Is already on home position")
+            return
+
+        print("Home position reached")
+        self.hardwareMgr.motorStop()
+        self.hardwareMgr.setHomePosition()
+        self.state = State.IDLE
+        self.isHomed = True
+        self.updatePosition()
+        self.updateLights()
+
+    def positionReached(self):
+        newPosition = 0
+        nbrOfSteps = self.hardwareMgr.nbrOfStepsFromHomePosition
+
+        if self.state == State.MOVING_POSITION_1:
+            newPosition = self.nbrOfStepsPos1
+        else:
+            newPosition = self.nbrOfStepsPos2
+
+        if nbrOfSteps == newPosition:
+            print("Position reached")
+            self.hardwareMgr.motorStop()
+            self.state = State.IDLE
+            self.updatePosition()
+            self.updateLights()
+
+
+#endregion
+
+    def updatePosition(self):
+        nbrOfSteps = self.hardwareMgr.nbrOfStepsFromHomePosition
+
+        if nbrOfSteps == 0:
+            self.position = Position.HOME
+        elif nbrOfSteps == self.nbrOfStepsPos1:
+            self.position = Position.POSITION_1
+        elif nbrOfSteps == self.nbrOfStepsPos2:
+            self.position = Position.POSITION_2
+        else:
+            self.position = Position.NONE
+
+    def updateLights(self):
+        self.hardwareMgr.resetLeds()
+
+        if self.state == State.IDLE:
+            if self.position == Position.HOME:
+                self.hardwareMgr.ledHigh(0)
+
+            if self.position == Position.POSITION_1:
+                self.hardwareMgr.ledHigh(1)
+
+            if self.position == Position.POSITION_2:
+                self.hardwareMgr.ledHigh(2)
+
+        if self.state == State.MOVING_HOME_POSITION:
+            self.hardwareMgr.toggleBlinkLed(0)
+
+        if self.state == State.MOVING_POSITION_1:
+            self.hardwareMgr.toggleBlinkLed(1)
+
+        if self.state == State.MOVING_POSITION_2:
+            self.hardwareMgr.toggleBlinkLed(2)
+
+    def calculateDirection(self, newPosition):
+        currentPosition = self.hardwareMgr.nbrOfStepsFromHomePosition
+        toPosition = 0
+
+        if newPosition == Position.POSITION_1:
+            toPosition = self.nbrOfStepsPos1
+        else:
+            toPosition = self.nbrOfStepsPos2
+
+        if currentPosition < toPosition:
+            return Rotation.CLOCKWISE
+        else:
+            return Rotation.COUNTERCLOCKWISE
+
