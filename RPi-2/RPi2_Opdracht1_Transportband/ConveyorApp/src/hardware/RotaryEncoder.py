@@ -14,7 +14,7 @@ class RotaryEncoder:
     def clearEvent(self):
         self.rotA.clearEvent()
 
-    def setEvent(self, edge, callback, bouncetime=10):
+    def setEvent(self, edge, callback, bouncetime=50):
         self.rotA.setEvent(edge=GPIO.RISING, callback=lambda x: self.direction(callback), bouncetime=bouncetime)
 
     def getSignalA(self):
