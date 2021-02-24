@@ -5,7 +5,7 @@ class DigitalOutput:
 
     def __init__(self, pin):
         self.pin = pin
-        GPIO.setup(self.pin, GPIO.OUT, initial = GPIO.LOW)
+        GPIO.setup(self.pin, GPIO.OUT, initial=GPIO.LOW)
 
     def getValue(self):
         return GPIO.input(self.pin)

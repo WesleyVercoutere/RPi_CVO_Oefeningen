@@ -1,4 +1,4 @@
-#Enumeration for positions
+# Enumeration for positions
 
 NONE = 0
 HOME = 1

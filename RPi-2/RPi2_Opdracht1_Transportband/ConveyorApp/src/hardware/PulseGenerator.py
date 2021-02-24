@@ -1,6 +1,7 @@
 import time
 
-class PusleGenerator:
+
+class PulseGenerator:
 
     def __init__(self, pulseTime):
         self.pulseTime = pulseTime

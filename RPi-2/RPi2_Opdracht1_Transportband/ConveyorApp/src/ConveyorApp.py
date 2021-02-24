@@ -6,14 +6,12 @@
 #########################################################
 
 
-import RPi.GPIO as GPIO
-import time
 import threading
 
-from service.manager.HardwareManager import HardwareManager
-from service.manager.ConveyorManager import ConveyorManager
-from service.manager.CommunicationManager import CommunicationManager
 from frontend.GUI import GUI
+from service.manager.CommunicationManager import CommunicationManager
+from service.manager.ConveyorManager import ConveyorManager
+from service.manager.HardwareManager import HardwareManager
 
 
 class ConveyorApp:

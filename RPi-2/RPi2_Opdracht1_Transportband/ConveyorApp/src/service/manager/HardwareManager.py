@@ -1,12 +1,13 @@
-import RPi.GPIO as GPIO
 import time
+
+import RPi.GPIO as GPIO
 
 import domain.Position as Position
 import hardware.Rotation as Rotation
 from hardware.DigitalInput import DigitalInput
 from hardware.DigitalOutput import DigitalOutput
+from hardware.PulseGenerator import PulseGenerator
 from hardware.RotaryEncoder import RotaryEncoder
-from hardware.PulseGenerator import PusleGenerator
 from hardware.StepperMotor import StepperMotor
 
 '''
@@ -53,7 +54,7 @@ class HardwareManager:
         self.moveMotorCcw = False
         self.moveMotorCw = False
 
-        self.ledPulse = PusleGenerator(0.5)
+        self.ledPulse = PulseGenerator(0.5)
         self.blink = [False, False, False, False]
 
     def initGPIO(self):
@@ -129,7 +130,6 @@ class HardwareManager:
         for led in self.leds:
             led.setOutput(False)
 
-
     def loop(self):
         while True:
             self.ledPulse.generate()
@@ -147,4 +147,3 @@ class HardwareManager:
                 self.conveyor.positionReached()
                 
             time.sleep(0.01)
-

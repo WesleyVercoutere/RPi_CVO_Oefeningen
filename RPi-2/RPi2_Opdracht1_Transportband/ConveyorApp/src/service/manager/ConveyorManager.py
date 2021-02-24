@@ -1,8 +1,5 @@
-import RPi.GPIO as GPIO
-import time
-
-import domain.Position as Position
 import domain.ConveyorState as State
+import domain.Position as Position
 import hardware.Rotation as Rotation
 from service.observer.Observable import Observable
 
@@ -22,16 +19,15 @@ class ConveyorManager(Observable):
         self.hardwareMgr.setCallbacks()
 
         self.moveToHomePosition()
-        
 
-#region Main methods conveyor
+    # region Main methods conveyor
 
     def moveToHomePosition(self):
         print("Moving to home position")
         self.state = State.MOVING_HOME_POSITION
         self.hardwareMgr.motorRotate(Rotation.COUNTERCLOCKWISE)
         self.updateLights()
-        
+
     def moveToPosition(self, position):
         if self.state == State.MOVING_HOME_POSITION:
             print("Action not allowed - Homing")
@@ -50,7 +46,7 @@ class ConveyorManager(Observable):
         self.state = position
         self.hardwareMgr.motorRotate(direction)
         self.updateLights()
-        
+
     def move(self, direction):
         if self.state == State.MOVING_HOME_POSITION:
             print("Action not allowed - Homing")
@@ -80,7 +76,7 @@ class ConveyorManager(Observable):
         if self.state == State.MOVING_POSITION_1 or self.state == State.MOVING_POSITION_2:
             print("Conveyor not ready")
             return
-        
+
         if self.state == State.IDLE:
             print(f"Setup position")
             self.state = State.SET_POSITION
@@ -93,9 +89,9 @@ class ConveyorManager(Observable):
             self.updateLights()
             return
 
-#endregion
+    # endregion
 
-#region Callbacks
+    # region Callbacks
 
     def homePositionReached(self):
         if self.isHomed:
@@ -130,7 +126,7 @@ class ConveyorManager(Observable):
             self.updatePosition()
             self.updateLights()
 
-#endregion
+    # endregion
 
     def updatePosition(self):
         nbrOfSteps = self.hardwareMgr.nbrOfStepsFromHomePosition
@@ -182,4 +178,3 @@ class ConveyorManager(Observable):
             return Rotation.CLOCKWISE
         else:
             return Rotation.COUNTERCLOCKWISE
-

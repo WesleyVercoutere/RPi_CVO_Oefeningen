@@ -7,7 +7,6 @@ from hardware.DigitalInput import DigitalInput
 class RotaryEncoder:
 
     def __init__(self, pinA, pinB):
-       # Werkt niet met het gebruik van een standaard DigitalInput 
         self.rotA = DigitalInput(pinA)
         self.rotB = DigitalInput(pinB)
 

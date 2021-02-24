@@ -1,5 +1,4 @@
-from tkinter import Tk, Label
-import tkinter.font as font
+from tkinter import Tk
 
 
 class GUI:

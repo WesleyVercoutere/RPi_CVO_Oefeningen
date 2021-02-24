@@ -1,5 +1,5 @@
-import os   # os.system om systeem commando's te geven
-import glob   # In Python, the glob module is used to retrieve files/pathnames matching a specified pattern
+import glob  # In Python, the glob module is used to retrieve files/pathnames matching a specified pattern
+import os  # os.system om systeem commando's te geven
 
 
 class TemperatureSensor:
