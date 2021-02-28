@@ -2,7 +2,7 @@ import time
 
 import RPi.GPIO as GPIO
 
-import domain.Position as Position
+import domain.PositionState as Position
 import hardware.Rotation as Rotation
 from hardware.DigitalInput import DigitalInput
 from hardware.DigitalOutput import DigitalOutput

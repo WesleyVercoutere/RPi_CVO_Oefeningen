@@ -1,5 +1,5 @@
 import domain.ConveyorState as State
-import domain.Position as Position
+import domain.PositionState as Position
 
 
 class Conveyor:

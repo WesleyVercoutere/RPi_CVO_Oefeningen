@@ -1,6 +1,6 @@
-# Enumeration for positions
 
-NONE = 0
-HOME = 1
-POSITION_1 = 2
-POSITION_2 = 3
+class Position:
+
+    def __init__(self, id=None, nbrOfSteps=None):
+        self.id = id if id is not None else ""
+        self.nbrOfStepsFromHomePosition = nbrOfSteps if nbrOfSteps is not None else 0

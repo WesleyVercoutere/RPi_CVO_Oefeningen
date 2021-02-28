@@ -1,5 +1,5 @@
 import domain.ConveyorState as State
-import domain.Position as Position
+import domain.PositionState as Position
 import hardware.Rotation as Rotation
 from service.observer.Observable import Observable
 
@@ -7,6 +7,8 @@ from service.observer.Observable import Observable
 class ConveyorManager(Observable):
 
     def __init__(self, hardwareManager):
+        super().__init__()
+
         self.isHomed = False
         self.position = Position.NONE
         self.state = State.IDLE
