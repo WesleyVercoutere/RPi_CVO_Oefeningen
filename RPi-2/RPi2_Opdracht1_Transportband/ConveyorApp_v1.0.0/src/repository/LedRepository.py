@@ -4,7 +4,6 @@ from repository.Repository import Repository
 class LedRepository(Repository):
 
     def __init__(self):
-        super.__init__()
         self.leds = []
 
     def append(self, obj):

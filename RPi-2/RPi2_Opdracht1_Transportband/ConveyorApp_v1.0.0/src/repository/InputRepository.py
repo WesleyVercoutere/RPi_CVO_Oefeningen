@@ -4,7 +4,6 @@ from repository.Repository import Repository
 class InputRepository(Repository):
 
     def __init__(self):
-        super.__init__()
         self.inputs = []
 
     def append(self, obj):

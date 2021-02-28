@@ -34,6 +34,7 @@
 """
 
 import threading
+import RPi.GPIO as GPIO
 
 from domain import PositionState
 from domain.Conveyor import Conveyor
@@ -59,6 +60,9 @@ from service.manager.SettingsManager import SettingsManager
 class ConveyorApp:
 
     def __init__(self):
+        GPIO.setwarnings(False)
+        GPIO.setmode(GPIO.BCM)
+
         conveyor = Conveyor()
         inputMgr = self.setupInputs()
         ledMgr = self.setupLeds()
@@ -110,7 +114,7 @@ class ConveyorApp:
         positionRepo.append(Position(id=PositionState.NONE))
         positionRepo.append(Position(id=PositionState.HOME, nbrOfSteps=0))
         positionRepo.append(Position(id=PositionState.POSITION_1, nbrOfSteps=50))
-        positionRepo.append(Position(id=PositionState.POSITION_1, nbrOfSteps=100))
+        positionRepo.append(Position(id=PositionState.POSITION_2, nbrOfSteps=100))
 
         positionMgr = PositionManager(positionRepo)
         return positionMgr

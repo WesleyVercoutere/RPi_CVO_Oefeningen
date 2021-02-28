@@ -4,7 +4,6 @@ from repository.Repository import Repository
 class PositionRepository(Repository):
 
     def __init__(self):
-        super.__init__()
         self.positions = []
 
     def append(self, obj):

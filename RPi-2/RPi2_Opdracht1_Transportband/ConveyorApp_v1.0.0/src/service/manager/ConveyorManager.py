@@ -10,7 +10,7 @@ class ConveyorManager(Observable):
                  displayManager,
                  positionManager,
                  settingsManager):
-        super.__init__()
+        super(ConveyorManager, self).__init__()
 
         self.conveyor = conveyor
         self.inputMgr = inputManager
