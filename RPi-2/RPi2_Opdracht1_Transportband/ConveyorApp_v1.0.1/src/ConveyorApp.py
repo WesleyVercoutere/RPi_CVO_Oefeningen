@@ -121,9 +121,13 @@ class ConveyorApp:
         positionMgr = PositionManager(positionRepo)
         return positionMgr
 
+    def loop(self):
+        while True:
+            self.conveyorMgr.loop()
+            self.ledMgr.loop()
+
     def run(self):
-        threading.Thread(target=self.conveyorMgr.loop).start()
-        threading.Thread(target=self.ledMgr.loop).start()
+        threading.Thread(target=self.loop).start()
         self.gui.loop()
 
 

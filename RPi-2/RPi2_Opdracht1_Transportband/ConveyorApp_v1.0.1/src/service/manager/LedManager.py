@@ -1,3 +1,4 @@
+from hardware.PulseGenerator import PulseGenerator
 from service.observer.Observer import Observer
 
 
@@ -5,6 +6,7 @@ class LedManager(Observer):
 
     def __init__(self, leds, conveyorManager):
         self.leds = leds
+        self.ledPulse = PulseGenerator(0.5)
 
         conveyorManager.addObserver(self)
 
@@ -12,4 +14,8 @@ class LedManager(Observer):
         pass
 
     def loop(self):
-        pass
+        self.ledPulse.generate()
+
+        if self.ledPulse.Q:
+            for led in self.leds:
+                led.toggle()

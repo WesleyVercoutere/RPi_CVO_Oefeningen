@@ -16,7 +16,8 @@ class ConveyorManager(Observable):
         self.motorMgr = motorManager
         self.positionMgr = positionManager
 
-        self.inputMgr.setConveyor(self)
+        self.inputMgr.setManagers(self, self.motorMgr)
+        self.inputMgr.setCallbacks()
         self.startHoming()
 
     def startHoming(self):
@@ -36,6 +37,5 @@ class ConveyorManager(Observable):
         self.conveyor.position = positionState
 
     def loop(self):
-        while True:
-            self.inputMgr.loop()
-            self.motorMgr.loop()
+        self.inputMgr.loop()
+        self.motorMgr.loop()
