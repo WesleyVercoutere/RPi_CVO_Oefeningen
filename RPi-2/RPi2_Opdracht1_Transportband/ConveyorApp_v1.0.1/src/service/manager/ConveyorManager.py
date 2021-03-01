@@ -7,17 +7,13 @@ class ConveyorManager(Observable):
 
     def __init__(self, conveyor,
                  inputManager,
-                 ledManager,
                  motorManager,
-                 displayManager,
                  positionManager):
         super(ConveyorManager, self).__init__()
 
         self.conveyor = conveyor
         self.inputMgr = inputManager
-        self.ledMgr = ledManager
         self.motorMgr = motorManager
-        self.displayMgr = displayManager
         self.positionMgr = positionManager
 
         self.inputMgr.setConveyor(self)
@@ -26,7 +22,7 @@ class ConveyorManager(Observable):
     def startHoming(self):
         self.setConveyorProperties(False, ConveyorState.MOVING_TO_HOME_POSITION, PositionState.NONE)
         self.motorMgr.rotate(Rotation.COUNTERCLOCKWISE)
-        self.ledMgr.updateSignal(self.conveyor)
+        self.notifyObservers(self.conveyor)
 
     def moveOneStep(self, direction):
         pass
@@ -42,6 +38,4 @@ class ConveyorManager(Observable):
     def loop(self):
         while True:
             self.inputMgr.loop()
-            self.ledMgr.loop()
             self.motorMgr.loop()
-            self.displayMgr.loop()

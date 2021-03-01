@@ -5,6 +5,9 @@
 #  Opdracht 1: Transportband applicatie                 #
 #                                                       #
 #  v1.0.0 : Update architecture                         #
+#  v1.0.1 : Update architecture                         #
+#   - remove hardware repos                             #
+#   - led and display -> observers                      #
 #########################################################
 
 """
@@ -46,8 +49,6 @@ from hardware.DigitalInput import DigitalInput
 from hardware.OLedDisplay import OLedDisplay
 from hardware.RotaryEncoder import RotaryEncoder
 from hardware.StepperMotor import StepperMotor
-from repository.InputRepository import InputRepository
-from repository.LedRepository import LedRepository
 from repository.PositionRepository import PositionRepository
 from service.manager.ConveyorManager import ConveyorManager
 from service.manager.DisplayManager import DisplayManager
@@ -65,36 +66,28 @@ class ConveyorApp:
 
         conveyor = Conveyor()
         inputMgr = self.setupInputs()
-        ledMgr = self.setupLeds()
         motorMgr = self.setupMotor()
-        displayMgr = self.setupDisplay()
         positionMgr = self.setupPosition()
 
-        self.conveyorMgr = ConveyorManager(conveyor, inputMgr, ledMgr, motorMgr, displayMgr, positionMgr)
+        self.conveyorMgr = ConveyorManager(conveyor, inputMgr, motorMgr, positionMgr)
+        self.ledMgr = self.setupLeds(self.conveyorMgr)
+        self.setupDisplay(self.conveyorMgr)
+
         self.gui = GUI(self.conveyorMgr)
 
     def setupInputs(self):
-        inputRepo = InputRepository()
-        inputRepo.append(DigitalInput(18))
-        inputRepo.append(DigitalInput(23))
-        inputRepo.append(DigitalInput(25))
-        inputRepo.append(DigitalInput(12))
-        inputRepo.append(DigitalInput(16))
-        inputRepo.append(DigitalInput(26))
-        inputRepo.append(RotaryEncoder(20, 21))
+        buttons = [DigitalInput(18),
+                   DigitalInput(23),
+                   DigitalInput(25),
+                   DigitalInput(12),
+                   DigitalInput(16),
+                   DigitalInput(26)
+                   ]
 
-        inputMgr = InputManager(inputRepo)
+        rotary = RotaryEncoder(20, 21)
+
+        inputMgr = InputManager(buttons, rotary)
         return inputMgr
-
-    def setupLeds(self):
-        ledRepo = LedRepository()
-        ledRepo.append(Led("green", 5))
-        ledRepo.append(Led("yellow", 6))
-        ledRepo.append(Led("blue", 13))
-        ledRepo.append(Led("red", 19))
-
-        ledMgr = LedManager(ledRepo)
-        return ledMgr
 
     def setupMotor(self):
         motor = StepperMotor(17, 27, 24, 22)
@@ -102,10 +95,20 @@ class ConveyorApp:
         motorMgr = MotorManager(motor)
         return motorMgr
 
-    def setupDisplay(self):
+    def setupLeds(self, mgr):
+        leds = [Led("green", 5),
+                Led("yellow", 6),
+                Led("blue", 13),
+                Led("red", 19)
+                ]
+
+        ledMgr = LedManager(leds, mgr)
+        return ledMgr
+
+    def setupDisplay(self, mgr):
         display = OLedDisplay()
 
-        displayMgr = DisplayManager(display)
+        displayMgr = DisplayManager(display, mgr)
         return displayMgr
 
     def setupPosition(self):
@@ -120,6 +123,7 @@ class ConveyorApp:
 
     def run(self):
         threading.Thread(target=self.conveyorMgr.loop).start()
+        threading.Thread(target=self.ledMgr.loop).start()
         self.gui.loop()
 
 
