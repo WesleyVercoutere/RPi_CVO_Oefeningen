@@ -26,6 +26,8 @@ class ConveyorManager(Observable):
         self.notifyObservers(self.conveyor)
 
     def moveOneStep(self, direction):
+        # Move motor one step
+        # Update conveyor position and state
         pass
 
     def moveToPosition(self, position):

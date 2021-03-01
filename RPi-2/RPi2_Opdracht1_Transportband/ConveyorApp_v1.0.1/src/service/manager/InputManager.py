@@ -1,5 +1,7 @@
 import RPi.GPIO as GPIO
 
+from hardware import Rotation
+
 
 class InputManager:
 
@@ -16,23 +18,15 @@ class InputManager:
 
     def setCallbacks(self):
         self.buttons[0].setEvent(GPIO.RISING, lambda _: self.btn1Pressed(), 200)
-        self.buttons[1].setEvent(GPIO.RISING, lambda _: self.btn2Pressed(), 200)
-        self.buttons[2].setEvent(GPIO.RISING, lambda _: self.btn3Pressed(), 200)
+        self.buttons[1].setEvent(GPIO.RISING, lambda _: self.conveyorMgr.move(Rotation.COUNTERCLOCKWISE), 200)
+        self.buttons[2].setEvent(GPIO.RISING, lambda _: self.conveyorMgr.move(Rotation.CLOCKWISE), 200)
         self.buttons[3].setEvent(GPIO.RISING, lambda _: self.btn4Pressed(), 200)
         self.buttons[4].setEvent(GPIO.RISING, lambda _: self.btn5Pressed(), 200)
         self.buttons[5].setEvent(GPIO.RISING, lambda _: self.btn6Pressed(), 200)
-        self.rotary.setEvent(self.conveyor.move)
+        self.rotary.setEvent(self.conveyorMgr.move)
 
     def btn1Pressed(self):
         # Homing position reached
-        pass
-
-    def btn2Pressed(self):
-        # Move one step ccw
-        pass
-
-    def btn3Pressed(self):
-        # Move one step cw
         pass
 
     def btn4Pressed(self):
