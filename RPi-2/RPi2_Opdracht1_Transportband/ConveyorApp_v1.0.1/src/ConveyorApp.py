@@ -122,6 +122,7 @@ class ConveyorApp:
         return positionMgr
 
     def loop(self):
+        self.conveyorMgr.startHoming()
         while True:
             self.conveyorMgr.loop()
             self.ledMgr.loop()

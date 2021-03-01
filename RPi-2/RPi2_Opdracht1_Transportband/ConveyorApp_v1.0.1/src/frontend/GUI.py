@@ -12,7 +12,7 @@ class GUI(Observer):
         self.root.title('Transportband')
         self.root.geometry('800x400')
 
-    def notify(self, *args, **kwargs):
+    def update(self, *args, **kwargs):
         pass
 
     def loop(self):

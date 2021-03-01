@@ -1,4 +1,5 @@
-from domain import ConveyorState, PositionState
+from domain import ConveyorState as ConveyorState
+from domain import PositionState as PositionState
 from hardware import Rotation
 from service.observer.Observable import Observable
 
@@ -18,14 +19,14 @@ class ConveyorManager(Observable):
 
         self.inputMgr.setManagers(self, self.motorMgr)
         self.inputMgr.setCallbacks()
-        self.startHoming()
 
     def startHoming(self):
         self.setConveyorProperties(False, ConveyorState.MOVING_TO_HOME_POSITION, PositionState.NONE)
-        self.motorMgr.rotate(Rotation.COUNTERCLOCKWISE)
+        self.motorMgr.rotateLoop(Rotation.COUNTERCLOCKWISE)
         self.notifyObservers(self.conveyor)
 
     def moveOneStep(self, direction):
+        print(f"Rotate one step {direction}")
         # Move motor one step
         # Update conveyor position and state
         pass

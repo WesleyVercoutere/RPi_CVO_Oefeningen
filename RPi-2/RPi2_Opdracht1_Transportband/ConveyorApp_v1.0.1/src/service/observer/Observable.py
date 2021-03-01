@@ -6,6 +6,6 @@ class Observable:
     def addObserver(self, observer):
         self.observers.append(observer)
 
-    def notifyObservers(self, arg):
+    def notifyObservers(self, *args, **kwargs):
         for observer in self.observers:
-            observer.update(arg)
+            observer.update(args, kwargs)

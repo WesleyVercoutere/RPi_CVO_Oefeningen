@@ -8,7 +8,7 @@ class DisplayManager(Observer):
 
         conveyorManager.addObserver(self)
 
-    def notify(self, *args, **kwargs):
+    def update(self, *args, **kwargs):
         pass
 
     def loop(self):
