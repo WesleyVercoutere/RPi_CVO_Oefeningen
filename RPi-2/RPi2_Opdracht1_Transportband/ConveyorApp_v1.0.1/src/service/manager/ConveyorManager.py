@@ -31,6 +31,8 @@ class ConveyorManager(Observable):
         pass
 
     def moveToPosition(self, position):
+        # Move motor to position
+        # Update conveyor position and state
         pass
 
     def setConveyorProperties(self, isHomed, conveyorState, positionState):
