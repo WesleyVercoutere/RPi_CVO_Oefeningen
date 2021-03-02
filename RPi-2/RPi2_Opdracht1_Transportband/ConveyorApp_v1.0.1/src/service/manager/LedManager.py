@@ -32,7 +32,6 @@ class LedManager(Observer):
         if conveyor.position == PositionState.POSITION_2:
             self.leds[1].setOutput(True)
 
-
     def controlConveyorState(self, conveyor):
         if conveyor.state == ConveyorState.MOVING_TO_HOME_POSITION:
             self.leds[0].blink = True
