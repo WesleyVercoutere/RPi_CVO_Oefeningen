@@ -4,7 +4,7 @@ from hardware.PulseGenerator import PulseGenerator
 from service.observer.Observer import Observer
 
 
-class LedManager(Observer):
+class LedSignal(Observer):
 
     def __init__(self, leds, conveyorManager):
         self.leds = leds

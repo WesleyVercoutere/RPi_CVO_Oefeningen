@@ -1,7 +1,7 @@
 from service.observer.Observer import Observer
 
 
-class DisplayManager(Observer):
+class OLedDisplay(Observer):
 
     def __init__(self, display, conveyorManager):
         self.display = display

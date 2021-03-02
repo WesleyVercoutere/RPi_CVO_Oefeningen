@@ -44,16 +44,16 @@ from domain import PositionState
 from domain.Conveyor import Conveyor
 from domain.Led import Led
 from domain.Position import Position
-from frontend.GUI import GUI
 from hardware.DigitalInput import DigitalInput
 from hardware.OLedDisplay import OLedDisplay
 from hardware.RotaryEncoder import RotaryEncoder
 from hardware.StepperMotor import StepperMotor
+from hmi.DesktopGUI import DesktopGUI
+from hmi.LedSignal import LedSignal
+from hmi.OLedDisplay import OLedDisplay
+from hmi.controller.InputController import InputController
 from repository.PositionRepository import PositionRepository
 from service.manager.ConveyorManager import ConveyorManager
-from service.manager.DisplayManager import DisplayManager
-from controller.InputController import InputController
-from service.manager.LedManager import LedManager
 from service.manager.MotorManager import MotorManager
 from service.manager.PositionManager import PositionManager
 
@@ -74,7 +74,7 @@ class ConveyorApp:
         self.ledMgr = self.setupLeds(self.conveyorMgr)
         self.setupDisplay(self.conveyorMgr)
 
-        self.gui = GUI(self.conveyorMgr)
+        self.gui = DesktopGUI(self.conveyorMgr)
 
     def setupInputs(self, conveyorManager, motorManager):
         buttons = [DigitalInput(18),
@@ -103,13 +103,13 @@ class ConveyorApp:
                 Led("red", 19)
                 ]
 
-        ledMgr = LedManager(leds, mgr)
+        ledMgr = LedSignal(leds, mgr)
         return ledMgr
 
     def setupDisplay(self, mgr):
         display = OLedDisplay()
 
-        displayMgr = DisplayManager(display, mgr)
+        displayMgr = OLedDisplay(display, mgr)
         return displayMgr
 
     def setupPosition(self):

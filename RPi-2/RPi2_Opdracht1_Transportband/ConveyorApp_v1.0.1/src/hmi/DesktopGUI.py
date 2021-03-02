@@ -3,7 +3,7 @@ from tkinter import Tk
 from service.observer.Observer import Observer
 
 
-class GUI(Observer):
+class DesktopGUI(Observer):
 
     def __init__(self, conveyorManager):
         conveyorManager.addObserver(self)
