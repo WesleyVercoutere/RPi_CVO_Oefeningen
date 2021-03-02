@@ -52,7 +52,7 @@ from hardware.StepperMotor import StepperMotor
 from repository.PositionRepository import PositionRepository
 from service.manager.ConveyorManager import ConveyorManager
 from service.manager.DisplayManager import DisplayManager
-from service.manager.InputManager import InputManager
+from controller.InputController import InputController
 from service.manager.LedManager import LedManager
 from service.manager.MotorManager import MotorManager
 from service.manager.PositionManager import PositionManager
@@ -65,17 +65,18 @@ class ConveyorApp:
         GPIO.setmode(GPIO.BCM)
 
         conveyor = Conveyor()
-        inputMgr = self.setupInputs()
+
         motorMgr = self.setupMotor()
         positionMgr = self.setupPosition()
 
-        self.conveyorMgr = ConveyorManager(conveyor, inputMgr, motorMgr, positionMgr)
+        self.conveyorMgr = ConveyorManager(conveyor, motorMgr, positionMgr)
+        self.inputCtrl = self.setupInputs(self.conveyorMgr, motorMgr)
         self.ledMgr = self.setupLeds(self.conveyorMgr)
         self.setupDisplay(self.conveyorMgr)
 
         self.gui = GUI(self.conveyorMgr)
 
-    def setupInputs(self):
+    def setupInputs(self, conveyorManager, motorManager):
         buttons = [DigitalInput(18),
                    DigitalInput(23),
                    DigitalInput(25),
@@ -86,7 +87,7 @@ class ConveyorApp:
 
         rotary = RotaryEncoder(20, 21)
 
-        inputMgr = InputManager(buttons, rotary)
+        inputMgr = InputController(buttons, rotary, conveyorManager, motorManager)
         return inputMgr
 
     def setupMotor(self):
@@ -122,12 +123,13 @@ class ConveyorApp:
         return positionMgr
 
     def loop(self):
-        self.conveyorMgr.startHoming()
         while True:
             self.conveyorMgr.loop()
             self.ledMgr.loop()
 
     def run(self):
+        self.conveyorMgr.startHoming()
+
         threading.Thread(target=self.loop).start()
         self.gui.loop()
 

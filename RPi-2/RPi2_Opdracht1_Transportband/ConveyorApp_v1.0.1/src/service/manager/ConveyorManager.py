@@ -7,18 +7,13 @@ from service.observer.Observable import Observable
 class ConveyorManager(Observable):
 
     def __init__(self, conveyor,
-                 inputManager,
                  motorManager,
                  positionManager):
         super(ConveyorManager, self).__init__()
 
         self.conveyor = conveyor
-        self.inputMgr = inputManager
         self.motorMgr = motorManager
         self.positionMgr = positionManager
-
-        self.inputMgr.setManagers(self, self.motorMgr)
-        self.inputMgr.setCallbacks()
 
     def startHoming(self):
         self.setConveyorProperties(False, ConveyorState.MOVING_TO_HOME_POSITION, PositionState.NONE)
@@ -42,5 +37,4 @@ class ConveyorManager(Observable):
         self.conveyor.position = positionState
 
     def loop(self):
-        self.inputMgr.loop()
         self.motorMgr.loop()
