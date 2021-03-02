@@ -13,23 +13,19 @@ class LedSignal(Observer):
         conveyorManager.addObserver(self)
 
     def update(self, *args, **kwargs):
-        print("Update")
-        print(args)
-        conveyor = args[0][0]
-        print(conveyor)
-
+        conveyor = kwargs["conveyor"]
         self.resetLeds()
         self.controlPositionState(conveyor)
         self.controlConveyorState(conveyor)
 
     def controlPositionState(self, conveyor):
-        if conveyor.position == PositionState.HOME:
+        if conveyor.position.id == PositionState.HOME:
             self.leds[0].setOutput(True)
 
-        if conveyor.position == PositionState.POSITION_1:
+        if conveyor.position.id == PositionState.POSITION_1:
             self.leds[1].setOutput(True)
 
-        if conveyor.position == PositionState.POSITION_2:
+        if conveyor.position.id == PositionState.POSITION_2:
             self.leds[1].setOutput(True)
 
     def controlConveyorState(self, conveyor):

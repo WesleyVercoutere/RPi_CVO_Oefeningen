@@ -9,7 +9,9 @@ class OLedDisplay(Observer):
         conveyorManager.addObserver(self)
 
     def update(self, *args, **kwargs):
-        pass
+        message = kwargs["message"]
+
+        print(message)
 
     def loop(self):
         pass

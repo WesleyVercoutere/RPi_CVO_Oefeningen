@@ -13,8 +13,8 @@ class RotaryEncoder:
     def clearEvent(self):
         self.rotA.clearEvent()
 
-    def setEvent(self, callback, bouncetime=50):
-        self.rotA.setEvent(edge=GPIO.RISING, callback=lambda x: self.direction(callback), bouncetime=bouncetime)
+    def setEvent(self, callback, bouncetime=10):
+        self.rotA.setEvent(edge=GPIO.RISING, callback=lambda x: self.direction(self.rotB.getRawValue(), callback), bouncetime=bouncetime)
 
     def getSignalA(self):
         return self.rotA.getRawValue()
@@ -22,9 +22,7 @@ class RotaryEncoder:
     def getSignalB(self):
         return self.rotB.getRawValue()
 
-    def direction(self, callback):
-        statusB = self.rotB.getRawValue()
-        
+    def direction(self, statusB, callback):
         direction = Rotation.CLOCKWISE
 
         if not statusB:

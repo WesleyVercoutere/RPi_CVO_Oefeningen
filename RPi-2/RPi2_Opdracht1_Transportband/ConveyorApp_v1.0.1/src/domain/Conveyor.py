@@ -7,7 +7,5 @@ class Conveyor:
 
     def __init__(self):
         self.isHomed = False
-        self.position = PositionState.NONE
         self.state = State.IDLE
-
-        self.currentPosition = Position(PositionState.CURRENT_POSITION)
+        self.position = Position(PositionState.NONE)

@@ -45,7 +45,7 @@ from domain.Conveyor import Conveyor
 from domain.Led import Led
 from domain.Position import Position
 from hardware.DigitalInput import DigitalInput
-from hardware.OLedDisplay import OLedDisplay
+from hardware.OLedDisplay_I2C import OLedDisplay_I2C
 from hardware.RotaryEncoder import RotaryEncoder
 from hardware.StepperMotor import StepperMotor
 from hmi.DesktopGUI import DesktopGUI
@@ -66,28 +66,27 @@ class ConveyorApp:
 
         conveyor = Conveyor()
 
-        motorMgr = self.setupMotor()
+        self.motorMgr = self.setupMotor()
         positionMgr = self.setupPosition()
 
-        self.conveyorMgr = ConveyorManager(conveyor, motorMgr, positionMgr)
-        self.inputCtrl = self.setupInputs(self.conveyorMgr, motorMgr)
+        self.conveyorMgr = ConveyorManager(conveyor, self.motorMgr, positionMgr)
+        self.inputCtrl = self.setupInputs(self.conveyorMgr)
         self.ledMgr = self.setupLeds(self.conveyorMgr)
         self.setupDisplay(self.conveyorMgr)
 
         self.gui = DesktopGUI(self.conveyorMgr)
 
-    def setupInputs(self, conveyorManager, motorManager):
+    def setupInputs(self, conveyorManager):
         buttons = [DigitalInput(18),
                    DigitalInput(23),
                    DigitalInput(25),
                    DigitalInput(12),
                    DigitalInput(16),
-                   DigitalInput(26)
-                   ]
+                   DigitalInput(26)]
 
         rotary = RotaryEncoder(20, 21)
 
-        inputMgr = InputController(buttons, rotary, conveyorManager, motorManager)
+        inputMgr = InputController(buttons, rotary, conveyorManager)
         return inputMgr
 
     def setupMotor(self):
@@ -100,14 +99,13 @@ class ConveyorApp:
         leds = [Led("green", 5),
                 Led("yellow", 6),
                 Led("blue", 13),
-                Led("red", 19)
-                ]
+                Led("red", 19)]
 
         ledMgr = LedSignal(leds, mgr)
         return ledMgr
 
     def setupDisplay(self, mgr):
-        display = OLedDisplay()
+        display = OLedDisplay_I2C()
 
         displayMgr = OLedDisplay(display, mgr)
         return displayMgr
@@ -124,10 +122,10 @@ class ConveyorApp:
 
     def loop(self):
         while True:
-            self.conveyorMgr.loop()
+            self.motorMgr.loop()
             self.ledMgr.loop()
 
-    def run(self):
+    def main(self):
         self.conveyorMgr.startHoming()
 
         threading.Thread(target=self.loop).start()
@@ -136,4 +134,4 @@ class ConveyorApp:
 
 if __name__ == '__main__':
     ca = ConveyorApp()
-    ca.run()
+    ca.main()

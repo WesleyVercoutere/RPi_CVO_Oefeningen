@@ -13,6 +13,10 @@ class MotorManager:
         self.motor.keepMoving = True
         self.direction = direction
 
+    def stop(self):
+        self.motor.keepMoving = False
+        self.motor.stop()
+        
     def loop(self):
         if self.motor.keepMoving:
             self.motor.rotate(self.direction)
