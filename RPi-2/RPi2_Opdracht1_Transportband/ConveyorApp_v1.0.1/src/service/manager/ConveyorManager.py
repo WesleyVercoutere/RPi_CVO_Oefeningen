@@ -21,16 +21,17 @@ class ConveyorManager(Observable):
         self.notifyObservers(conveyor=self.conveyor, message="Homing...")
 
     def moveOneStep(self, direction):
-        # Move motor one step
-        # Update conveyor position and state
+        self.motorMgr.rotateOneStep(direction)
+        self.conveyor.position.nbrOfStepsFromHomePosition += direction
+        self.updateConveyor()
         self.notifyObservers(conveyor=self.conveyor, message=f"Move one step {direction}")
         pass
 
     def moveToPosition(self, position):
-        # Move motor to position
+        self.setConveyorProperties()
+        self.motorMgr.rotateToPosition(direction, nbrOfSteps, callback):
         # Update conveyor position and state
         self.notifyObservers(conveyor=self.conveyor, message=f"Move to position {position}")
-        pass
 
     def setHomed(self):
         self.motorMgr.stop()
@@ -45,3 +46,10 @@ class ConveyorManager(Observable):
         self.conveyor.state = conveyorState
         self.conveyor.position.id = positionState
         self.conveyor.position.nbrOfStepsFromHomePosition = nbrOfStepsFromHomePosition
+
+    def updateConveyor(self):
+        positions = self.positionMgr.getAllPositions()
+
+        for pos in positions:
+            if self.conveyor.position.nbrOfStepsFromHomePosition == pos.nbrOfStepsFromHomePosition:
+                self.conveyor.position.id = pos.id

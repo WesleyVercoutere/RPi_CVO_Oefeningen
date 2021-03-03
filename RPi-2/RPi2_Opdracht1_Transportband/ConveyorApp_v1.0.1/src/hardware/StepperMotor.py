@@ -11,8 +11,6 @@ class StepperMotor:
         self.channels = (pin1, pin2, pin3, pin4)
         self.steps = [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]
 
-        self.keepMoving = False
-
         GPIO.setup(self.channels, GPIO.OUT)
 
     def rotate(self, direction):
@@ -37,6 +35,5 @@ class StepperMotor:
             time.sleep(hold/1000)
 
     def stop(self):
-        self.keepMoving = False
         step = [0, 0, 0, 0]
         self.setMotor(step)
