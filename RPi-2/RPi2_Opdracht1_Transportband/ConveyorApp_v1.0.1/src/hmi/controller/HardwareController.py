@@ -7,7 +7,7 @@ from hmi.controller.BaseController import BaseController
 
 class HardwareController(BaseController):
 
-    def __init__(self, buttons, rotary, conveyorManager):
+    def __init__(self, conveyorManager, buttons, rotary):
         super(HardwareController, self).__init__(conveyorManager)
         self.buttons = buttons
         self.rotary = rotary

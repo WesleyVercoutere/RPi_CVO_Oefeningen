@@ -71,7 +71,7 @@ class ConveyorApp:
         positionMgr = self.setupPosition()
 
         self.conveyorMgr = ConveyorManager(conveyor, self.motorMgr, positionMgr)
-        self.inputCtrl = self.setupInputs(self.conveyorMgr)
+        self.hardwareCtrl = self.setupInputs(self.conveyorMgr)
         self.ledMgr = self.setupLeds(self.conveyorMgr)
         self.setupDisplay(self.conveyorMgr)
 
@@ -87,8 +87,8 @@ class ConveyorApp:
 
         rotary = RotaryEncoder(20, 21)
 
-        inputMgr = HardwareController(buttons, rotary, conveyorManager)
-        return inputMgr
+        hardwareCtrl = HardwareController(conveyorManager, buttons, rotary)
+        return hardwareCtrl
 
     def setupMotor(self):
         motor = StepperMotor(17, 27, 24, 22)
@@ -125,6 +125,8 @@ class ConveyorApp:
         while True:
             self.motorMgr.loop()
             self.ledMgr.loop()
+
+            # Needed to get the correct output from the rotary encoder
             time.sleep(0.01)
 
     def main(self):
