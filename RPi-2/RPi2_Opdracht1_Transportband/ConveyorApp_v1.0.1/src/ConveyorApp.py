@@ -37,6 +37,7 @@
 """
 
 import threading
+import time
 
 import RPi.GPIO as GPIO
 
@@ -124,6 +125,7 @@ class ConveyorApp:
         while True:
             self.motorMgr.loop()
             self.ledMgr.loop()
+            time.sleep(0.01)
 
     def main(self):
         self.conveyorMgr.startHoming()
