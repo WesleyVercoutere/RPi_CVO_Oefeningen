@@ -51,7 +51,7 @@ from hardware.StepperMotor import StepperMotor
 from hmi.DesktopGUI import DesktopGUI
 from hmi.LedSignal import LedSignal
 from hmi.OLedDisplay import OLedDisplay
-from hmi.controller.InputController import InputController
+from hmi.controller.HardwareController import HardwareController
 from repository.PositionRepository import PositionRepository
 from service.manager.ConveyorManager import ConveyorManager
 from service.manager.MotorManager import MotorManager
@@ -86,7 +86,7 @@ class ConveyorApp:
 
         rotary = RotaryEncoder(20, 21)
 
-        inputMgr = InputController(buttons, rotary, conveyorManager)
+        inputMgr = HardwareController(buttons, rotary, conveyorManager)
         return inputMgr
 
     def setupMotor(self):

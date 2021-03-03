@@ -18,29 +18,29 @@ class ConveyorManager(Observable):
     def startHoming(self):
         self.setConveyorProperties(ConveyorState.MOVING_TO_HOME_POSITION, PositionState.NONE, 0, False)
         self.motorMgr.rotateLoop(Rotation.COUNTERCLOCKWISE)
-        self.notifyObservers(conveyor = self.conveyor, message = "Homing...")
+        self.notifyObservers(conveyor=self.conveyor, message="Homing...")
 
     def moveOneStep(self, direction):
         # Move motor one step
         # Update conveyor position and state
-        self.notifyObservers(conveyor = self.conveyor, message = f"Move one step {direction}")
+        self.notifyObservers(conveyor=self.conveyor, message=f"Move one step {direction}")
         pass
 
     def moveToPosition(self, position):
         # Move motor to position
         # Update conveyor position and state
-        self.notifyObservers(conveyor = self.conveyor, message = f"Move to position {position}")
+        self.notifyObservers(conveyor=self.conveyor, message=f"Move to position {position}")
         pass
 
     def setHomed(self):
         self.motorMgr.stop()
         self.setConveyorProperties(ConveyorState.IDLE, PositionState.HOME, 0)
-        self.notifyObservers(conveyor = self.conveyor, message = "Conveyor is homed")
+        self.notifyObservers(conveyor=self.conveyor, message="Conveyor is homed")
 
     def broadcastMessage(self, message):
-        self.notifyObservers(conveyor = self.conveyor, message = message)
+        self.notifyObservers(conveyor=self.conveyor, message=message)
 
-    def setConveyorProperties(self, conveyorState, positionState, nbrOfStepsFromHomePosition, isHomed=True,):
+    def setConveyorProperties(self, conveyorState, positionState, nbrOfStepsFromHomePosition, isHomed=True, ):
         self.conveyor.isHomed = isHomed
         self.conveyor.state = conveyorState
         self.conveyor.position.id = positionState
