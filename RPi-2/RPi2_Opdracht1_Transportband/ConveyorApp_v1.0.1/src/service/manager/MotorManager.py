@@ -10,20 +10,25 @@ class MotorManager:
         self.nbrOfStepsTaken = 0
         self.nbrOfStepsToTake = 0
 
+        self.update = None
         self.callback = None
 
     def rotateLoop(self, direction):
         self.keepMoving = True
         self.direction = direction
 
-    def rotateOneStep(self, direction):
+    def rotateOneStep(self, direction, updatePosition):
         self.motor.rotate(direction)
 
-    def rotateToPosition(self, direction, nbrOfSteps, callback):
+        if updatePosition is not None:
+            updatePosition(direction)
+
+    def rotateToPosition(self, direction, nbrOfSteps, update, stop):
         self.movingToPosition = True
         self.nbrOfStepsToTake = nbrOfSteps
         self.direction = direction
-        self.callback = callback
+        self.update = update
+        self.callback = stop
 
     def stop(self):
         self.keepMoving = False
@@ -33,15 +38,15 @@ class MotorManager:
         self.motor.stop()
 
     def positionReached(self):
-        self.callback(self.nbrOfStepsTaken)
         self.stop()
+        self.callback()
         
     def loop(self):
         if self.keepMoving or self.movingToPosition:
-            self.motor.rotate(self.direction)
+            self.rotateOneStep(self.direction, self.update)
 
         if self.movingToPosition:
             self.nbrOfStepsTaken += 1
 
-        if self.nbrOfStepsTaken == self.nbrOfStepsToTake:
+        if self.movingToPosition and (self.nbrOfStepsTaken == self.nbrOfStepsToTake):
             self.positionReached()

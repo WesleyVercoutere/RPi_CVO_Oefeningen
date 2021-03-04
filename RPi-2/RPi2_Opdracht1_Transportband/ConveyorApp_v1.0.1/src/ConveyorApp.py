@@ -113,7 +113,7 @@ class ConveyorApp:
 
     def setupPosition(self):
         positionRepo = PositionRepository()
-        positionRepo.append(Position(id=PositionState.NONE))
+        positionRepo.append(Position(id=PositionState.NONE, nbrOfSteps=-1))
         positionRepo.append(Position(id=PositionState.HOME, nbrOfSteps=0))
         positionRepo.append(Position(id=PositionState.POSITION_1, nbrOfSteps=50))
         positionRepo.append(Position(id=PositionState.POSITION_2, nbrOfSteps=100))

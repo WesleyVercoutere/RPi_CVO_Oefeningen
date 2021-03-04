@@ -15,6 +15,10 @@ class BaseController(metaclass=abc.ABCMeta):
         self.conveyorMgr.setHomed()
 
     def btnMoveOneStep_clicked(self, direction):
+        if self.conveyorMgr.conveyor.state == ConveyorState.MOVING_TO_POSITION_1 or self.conveyorMgr.conveyor.state == ConveyorState.MOVING_TO_POSITION_2:
+            self.conveyorMgr.stopConceyor()
+            return
+
         if self.conveyorMgr.conveyor.state != ConveyorState.IDLE:
             self.conveyorMgr.broadcastMessage("Action not allowed - Conveyor not ready!")
             return
@@ -24,9 +28,12 @@ class BaseController(metaclass=abc.ABCMeta):
     def btnMoveToPosition_clicked(self, position):
         conveyor = self.conveyorMgr.conveyor
 
-        if conveyor.state != ConveyorState.IDLE or conveyor.state != ConveyorState.SET_POSITION_GENERAL:
+        if conveyor.state != ConveyorState.IDLE:
             self.conveyorMgr.broadcastMessage("Action not allowed - Conveyor not ready!")
             return
+
+        if conveyor.state != ConveyorState.SET_POSITION_GENERAL:
+            pass        
 
         self.conveyorMgr.moveToPosition(position)
 

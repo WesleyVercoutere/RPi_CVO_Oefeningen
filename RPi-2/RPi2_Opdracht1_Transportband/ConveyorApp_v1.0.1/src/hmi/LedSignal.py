@@ -26,7 +26,7 @@ class LedSignal(Observer):
             self.leds[1].setOutput(True)
 
         if conveyor.position.id == PositionState.POSITION_2:
-            self.leds[1].setOutput(True)
+            self.leds[2].setOutput(True)
 
     def controlConveyorState(self, conveyor):
         if conveyor.state == ConveyorState.MOVING_TO_HOME_POSITION:
