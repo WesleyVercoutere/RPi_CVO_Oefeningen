@@ -25,7 +25,6 @@ class ConveyorManager(Observable):
         self.conveyor.position.nbrOfStepsFromHomePosition += direction
         self.updateConveyor()
         self.notifyObservers(conveyor=self.conveyor, message=f"Move one step {direction}")
-        pass
 
     def moveToPosition(self, position):
         self.setConveyorProperties()
