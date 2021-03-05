@@ -8,6 +8,7 @@
 #  v1.0.1 : Update architecture                         #
 #   - remove hardware repos                             #
 #   - led and display -> observers                      #
+#  v1.0.2 : Update repository                           #
 #########################################################
 
 """
@@ -41,10 +42,8 @@ import time
 
 import RPi.GPIO as GPIO
 
-from domain import PositionState
 from domain.Conveyor import Conveyor
 from domain.Led import Led
-from domain.Position import Position
 from hardware.DigitalInput import DigitalInput
 from hardware.RotaryEncoder import RotaryEncoder
 from hardware.StepperMotor import StepperMotor
@@ -115,11 +114,6 @@ class ConveyorApp:
 
     def setupPosition(self):
         positionRepo = PositionRepository()
-        positionRepo.create(Position(id=PositionState.NONE, nbrOfSteps=-1))
-        positionRepo.create(Position(id=PositionState.HOME, nbrOfSteps=0))
-        positionRepo.create(Position(id=PositionState.POSITION_1, nbrOfSteps=50))
-        positionRepo.create(Position(id=PositionState.POSITION_2, nbrOfSteps=100))
-
         positionMgr = PositionManager(positionRepo)
         return positionMgr
 

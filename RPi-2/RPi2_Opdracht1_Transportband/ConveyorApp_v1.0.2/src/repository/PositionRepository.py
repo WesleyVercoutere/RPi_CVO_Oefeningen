@@ -27,12 +27,17 @@ class PositionRepository(Repository):
         return self.positions
 
     def update(self, obj):
-        pass
+        raise NotImplementedError
 
     def delete(self, obj):
-        pass
+        raise NotImplementedError
 
 """
+
+positionRepo.create(Position(id=PositionState.NONE, nbrOfSteps=-1))
+positionRepo.create(Position(id=PositionState.HOME, nbrOfSteps=0))
+positionRepo.create(Position(id=PositionState.POSITION_1, nbrOfSteps=50))
+positionRepo.create(Position(id=PositionState.POSITION_2, nbrOfSteps=100))
 
    def initSettings(self):
         default_settings = '{"5":"001", "6":"010", "13":"100"}'
