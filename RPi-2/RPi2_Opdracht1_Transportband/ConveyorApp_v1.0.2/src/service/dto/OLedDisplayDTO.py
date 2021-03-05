@@ -1,4 +1,7 @@
 class OLedDisplayDTO:
 
     def __init__(self):
-        pass
+        self.state = None
+        self.position = None
+        self.nbrOfSteps = None
+

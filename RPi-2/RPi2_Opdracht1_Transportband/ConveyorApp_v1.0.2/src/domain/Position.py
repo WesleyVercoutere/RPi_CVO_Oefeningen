@@ -1,4 +1,3 @@
-
 class Position:
 
     def __init__(self, id=None, nbrOfSteps=None):

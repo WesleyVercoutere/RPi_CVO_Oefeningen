@@ -1,15 +1,29 @@
 import json
 
+from domain.DefaultPositions import DefaultPositions
+from domain.Position import Position
+from repository.FileHandler import FileHandler
 from repository.Repository import Repository
 
 
 class PositionRepository(Repository):
 
     def __init__(self):
+        self.file = FileHandler("positions")
+        self.default = DefaultPositions().positions
         self.positions = []
 
+        self.initPositions()
+
+    def initPositions(self):
+        json = self.file.read(self.getDefaultJson())
+
+        for k, v in json.items():
+            pos = Position(id=int(k), nbrOfSteps=v)
+            self.positions.append(pos)
+        
     def create(self, obj):
-        self.positions.append(obj)
+        raise NotImplementedError
 
     def readById(self, idOfObj):
         position = None
@@ -27,67 +41,27 @@ class PositionRepository(Repository):
         return self.positions
 
     def update(self, obj):
-        raise NotImplementedError
+        position = self.readById(obj.id)
+        position.nbrOfStepsFromHomePosition = obj.nbrOfStepsFromHomePosition
+
+        json = self.setJson()
+        self.file.write(json)
 
     def delete(self, obj):
         raise NotImplementedError
 
-"""
+    def getDefaultJson(self):
+        settings = {}
 
-positionRepo.create(Position(id=PositionState.NONE, nbrOfSteps=-1))
-positionRepo.create(Position(id=PositionState.HOME, nbrOfSteps=0))
-positionRepo.create(Position(id=PositionState.POSITION_1, nbrOfSteps=50))
-positionRepo.create(Position(id=PositionState.POSITION_2, nbrOfSteps=100))
-
-   def initSettings(self):
-        default_settings = '{"5":"001", "6":"010", "13":"100"}'
+        for pos in self.default:
+            settings[pos.id] = pos.nbrOfStepsFromHomePosition
         
-        try:
-            f = open("settings.txt","rt")
-            print("File settings.txt exists!")
-            self.settings = json.loads(f.read())
-            print("Settings are", self.settings)
-            f.close()
+        return json.dumps(settings)
 
-        except FileNotFoundError:
-            print("File settings.txt not exists, now we create it and save default settings!")
-            f = open("settings.txt","wt")
-            f.write(default_settings)
-            f.close()
-            print("File settings.txt made!")
-            print("Settings are",default_settings)
-            self.settings = json.loads(f.read())
+    def setJson(self):
+        settings = {}
 
-   def saveSettings(self):
-        self.settings[self.pinBtn1] = self.string_var_setting_1.get()
-        self.settings[self.pinBtn2] = self.string_var_setting_2.get()
-        self.settings[self.pinBtn3] = self.string_var_setting_3.get()
+        for pos in self.positions:
+            settings[pos.id] = pos.nbrOfStepsFromHomePosition
         
-        current_settings = json.dumps(self.settings)
-        print(type(current_settings))
-        print("Saving current settings as>",current_settings)
-        
-        try:
-            f = open("settings.txt","wt")
-            f.write(current_settings)
-            f.close
-            print("Saved current settings as>",current_settings)
-        except FileNotFoundError:
-            print("Error during saving")
-
-
-    def loadSettings(self):
-        # loads json from txt file and shows 3 values in the entry fields
-        try:
-            f = open("settings.txt","rt")
-            self.settings = json.loads(f.read())
-            f.close()
-            print("Settings are",self.settings)
-            
-            self.string_var_setting_1.set(self.settings["5"])
-            self.string_var_setting_2.set(self.settings["6"])
-            self.string_var_setting_3.set(self.settings["13"])
-                                    
-        except FileNotFoundError:    
-            print("Error loading settings!") 
-"""
+        return json.dumps(settings)

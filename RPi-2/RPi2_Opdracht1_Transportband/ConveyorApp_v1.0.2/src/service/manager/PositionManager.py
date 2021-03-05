@@ -1,5 +1,3 @@
-
-
 class PositionManager:
 
     def __init__(self, positionRepository):
@@ -12,5 +10,4 @@ class PositionManager:
         return self.repo.readById(id)
 
     def update(self, position):
-        
-        print(f"Update position {position.id} with {position.nbrOfSteps} nbr of steps from home")
+        self.repo.update(position)

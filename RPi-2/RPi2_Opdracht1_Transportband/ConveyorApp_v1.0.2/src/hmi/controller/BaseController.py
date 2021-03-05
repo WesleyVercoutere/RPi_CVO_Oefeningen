@@ -16,7 +16,7 @@ class BaseController(metaclass=abc.ABCMeta):
 
     def btnMoveOneStep_clicked(self, direction):
         if self.conveyorMgr.conveyor.state == ConveyorState.MOVING_TO_POSITION_1 or self.conveyorMgr.conveyor.state == ConveyorState.MOVING_TO_POSITION_2:
-            self.conveyorMgr.stopConceyor()
+            self.conveyorMgr.stopConveyor()
             return
 
         if self.conveyorMgr.conveyor.state != ConveyorState.IDLE and self.conveyorMgr.conveyor.state != ConveyorState.SET_POSITION_1 and self.conveyorMgr.conveyor.state != ConveyorState.SET_POSITION_2:
