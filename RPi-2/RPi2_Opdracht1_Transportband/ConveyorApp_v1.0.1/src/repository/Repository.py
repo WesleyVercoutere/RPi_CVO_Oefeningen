@@ -3,6 +3,8 @@ import abc
 
 class Repository(metaclass=abc.ABCMeta):
 
+    # Default CRUD methods
+    
     @abc.abstractmethod
     def append(self, obj):
         raise NotImplementedError

@@ -39,13 +39,16 @@ class LedSignal(Observer):
             self.leds[2].blink = True
 
         if conveyor.state == ConveyorState.SET_POSITION_GENERAL:
+            self.resetLeds()
             self.leds[3].blink = True
         
         if conveyor.state == ConveyorState.SET_POSITION_1:
+            self.resetLeds()
             self.leds[1].blink = True
             self.leds[3].setOutput(True)
 
         if conveyor.state == ConveyorState.SET_POSITION_2:
+            self.resetLeds()
             self.leds[2].blink = True
             self.leds[3].setOutput(True)
 

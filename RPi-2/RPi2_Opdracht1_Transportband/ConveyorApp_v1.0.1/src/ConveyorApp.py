@@ -57,6 +57,7 @@ from repository.PositionRepository import PositionRepository
 from service.manager.ConveyorManager import ConveyorManager
 from service.manager.MotorManager import MotorManager
 from service.manager.PositionManager import PositionManager
+from service.manager.SimpleLogger import SimpleLogger
 
 
 class ConveyorApp:
@@ -76,6 +77,8 @@ class ConveyorApp:
         self.setupDisplay(self.conveyorMgr)
 
         self.gui = DesktopGUI(self.conveyorMgr)
+
+        logger = SimpleLogger(self.conveyorMgr)
 
     def setupInputs(self, conveyorManager):
         buttons = [DigitalInput(18),

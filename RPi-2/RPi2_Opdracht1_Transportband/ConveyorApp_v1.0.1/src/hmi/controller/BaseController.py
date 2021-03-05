@@ -19,7 +19,7 @@ class BaseController(metaclass=abc.ABCMeta):
             self.conveyorMgr.stopConceyor()
             return
 
-        if self.conveyorMgr.conveyor.state != ConveyorState.IDLE:
+        if self.conveyorMgr.conveyor.state != ConveyorState.IDLE and  self.conveyorMgr.conveyor.state != ConveyorState.SET_POSITION_1 and self.conveyorMgr.conveyor.state != ConveyorState.SET_POSITION_2:
             self.conveyorMgr.broadcastMessage("Action not allowed - Conveyor not ready!")
             return
 
@@ -28,30 +28,27 @@ class BaseController(metaclass=abc.ABCMeta):
     def btnMoveToPosition_clicked(self, position):
         conveyor = self.conveyorMgr.conveyor
 
-        if conveyor.state != ConveyorState.IDLE:
-            self.conveyorMgr.broadcastMessage("Action not allowed - Conveyor not ready!")
-            return
+        if conveyor.state == ConveyorState.SET_POSITION_GENERAL:
+            self.conveyorMgr.setNewPosition(position)
 
-        if conveyor.state != ConveyorState.SET_POSITION_GENERAL:
-            pass
-
-        if conveyor.position.id == position:
+        elif conveyor.state == ConveyorState.SET_POSITION_1 or conveyor.state == ConveyorState.SET_POSITION_2:
+            self.conveyorMgr.saveNewPosition(position)
+        
+        elif conveyor.position.id == position:
             self.conveyorMgr.broadcastMessage(f"Action not allowed - Conveyor is on position {position}!")
-            return      
 
-        if conveyor.state == ConveyorState.IDLE:
+        elif conveyor.state == ConveyorState.IDLE:
             self.conveyorMgr.moveToPosition(position)
+
+        else:
+            self.conveyorMgr.broadcastMessage("Action not allowed - Conveyor not ready!")
 
     def btnProgramPosition_clicked(self):
         if self.conveyorMgr.conveyor.state == ConveyorState.IDLE:
-            # self.setConveyorProperties(ConveyorState.IDLE, self.conveyor.position.id)
-            # self.notifyObservers(conveyor=self.conveyor, message="Conveyor is stopped")
-
-
-            self.conveyorMgr.conveyor.state = ConveyorState.SET_POSITION_GENERAL
+            self.conveyorMgr.setProgramMode(True)
 
         elif self.conveyorMgr.conveyor.state == ConveyorState.SET_POSITION_GENERAL:
-            self.conveyorMgr.conveyor.state = ConveyorState.IDLE
+            self.conveyorMgr.setProgramMode(False)
 
         else:
             self.conveyorMgr.broadcastMessage("Action not allowed - Conveyor not ready!")

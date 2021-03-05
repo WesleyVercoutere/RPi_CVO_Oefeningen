@@ -32,7 +32,40 @@ class ConveyorManager(Observable):
 
         self.setConveyorProperties(conveyorState, PositionState.NONE)
         self.motorMgr.rotateToPosition(direction, nbrOfStepsToTake, self.updatePosition, self.stopConceyor)
-        self.notifyObservers(conveyor=self.conveyor, message=f"Move to position {position}")
+        self.notifyObservers(conveyor=self.conveyor, message=f"Move to position {position}...")
+
+    def setProgramMode(self, active):
+        conveyorState = ConveyorState.IDLE
+
+        if active:
+            conveyorState = ConveyorState.SET_POSITION_GENERAL
+    
+        self.setConveyorProperties(conveyorState, self.conveyor.position.id)
+        self.notifyObservers(conveyor=self.conveyor, message=f"Toggle program position mode")
+
+    def setNewPosition(self, posId):
+        conveyorState = ConveyorState.SET_POSITION_1
+
+        if posId == PositionState.POSITION_2:
+            conveyorState = ConveyorState.SET_POSITION_2
+
+        self.setConveyorProperties(conveyorState, self.conveyor.position.id)
+        self.notifyObservers(conveyor=self.conveyor, message=f"Set new position for {posId}")
+
+    def saveNewPosition(self, posId):
+        if self.conveyor.state == ConveyorState.SET_POSITION_1 and posId == PositionState.POSITION_2:
+            self.broadcastMessage(f"Can't save this position for {posId}")
+            return
+
+        if self.conveyor.state == ConveyorState.SET_POSITION_2 and posId == PositionState.POSITION_1:
+            self.broadcastMessage(f"Can't save this position for {posId}")
+            return
+
+        newPos = Position(id=posId, nbrOfSteps=self.conveyor.position.nbrOfStepsFromHomePosition)
+
+        self.positionMgr.update(newPos)
+        self.setConveyorProperties(ConveyorState.SET_POSITION_GENERAL, self.conveyor.position.id)
+        self.notifyObservers(conveyor=self.conveyor, message=f"New position for {posId} saved")
 
     def stopConceyor(self):
         self.motorMgr.stop()
