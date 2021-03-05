@@ -46,7 +46,7 @@ class MotorManager:
             self.rotateOneStep(self.direction, self.update)
 
         if self.movingToPosition:
-            self.nbrOfStepsTaken += 1
+            self.nbrOfStepsTaken += self.direction
 
         if self.movingToPosition and (self.nbrOfStepsTaken == self.nbrOfStepsToTake):
             self.positionReached()

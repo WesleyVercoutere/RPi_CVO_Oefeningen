@@ -50,12 +50,6 @@ class ConveyorManager(Observable):
     def updatePosition(self, direction):
         self.conveyor.position.nbrOfStepsFromHomePosition += direction
 
-    # def setPositionReached(self):
-    #     self.setConveyorProperties()
-    #     # self.motorMgr.rotateToPosition(direction, nbrOfSteps, callback):
-    #     # Update conveyor position and state
-    #     self.notifyObservers(conveyor=self.conveyor, message=f"Move to position {position}")
-
     def setConveyorProperties(self, conveyorState, positionState, isHomed=True):
         self.conveyor.isHomed = isHomed
         self.conveyor.state = conveyorState
@@ -83,7 +77,8 @@ class ConveyorManager(Observable):
         return conveyorState
 
     def calculateNbrOfSteps(self, position):
-        totalSteps = position
+        pos = self.positionMgr.getPositionById(position)
+        totalSteps = pos.nbrOfStepsFromHomePosition
         currentSteps = self.conveyor.position.nbrOfStepsFromHomePosition
 
         return (totalSteps - currentSteps)

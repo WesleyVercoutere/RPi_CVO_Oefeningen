@@ -33,11 +33,22 @@ class BaseController(metaclass=abc.ABCMeta):
             return
 
         if conveyor.state != ConveyorState.SET_POSITION_GENERAL:
-            pass        
+            pass
 
-        self.conveyorMgr.moveToPosition(position)
+        if conveyor.position.id == position:
+            self.conveyorMgr.broadcastMessage(f"Action not allowed - Conveyor is on position {position}!")
+            return      
+
+        if conveyor.state == ConveyorState.IDLE:
+            self.conveyorMgr.moveToPosition(position)
 
     def btnProgramPosition_clicked(self):
-        if self.conveyorMgr.conveyor.state != ConveyorState.IDLE:
+        if self.conveyorMgr.conveyor.state == ConveyorState.IDLE:
+            self.conveyorMgr.conveyor.state = ConveyorState.SET_POSITION_GENERAL
+
+        elif self.conveyorMgr.conveyor.state == ConveyorState.SET_POSITION_GENERAL:
+            self.conveyorMgr.conveyor.state = ConveyorState.IDLE
+
+        else:
             self.conveyorMgr.broadcastMessage("Action not allowed - Conveyor not ready!")
             return

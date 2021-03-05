@@ -8,3 +8,5 @@ class PositionManager:
     def getAllPositions(self):
         return self.repo.getAll()
 
+    def getPositionById(self, id):
+        return self.repo.getById(id)
