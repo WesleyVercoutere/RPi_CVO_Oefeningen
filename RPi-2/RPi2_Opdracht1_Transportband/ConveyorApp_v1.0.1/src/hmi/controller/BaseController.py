@@ -44,6 +44,10 @@ class BaseController(metaclass=abc.ABCMeta):
 
     def btnProgramPosition_clicked(self):
         if self.conveyorMgr.conveyor.state == ConveyorState.IDLE:
+            # self.setConveyorProperties(ConveyorState.IDLE, self.conveyor.position.id)
+            # self.notifyObservers(conveyor=self.conveyor, message="Conveyor is stopped")
+
+
             self.conveyorMgr.conveyor.state = ConveyorState.SET_POSITION_GENERAL
 
         elif self.conveyorMgr.conveyor.state == ConveyorState.SET_POSITION_GENERAL:

@@ -32,7 +32,6 @@ class ConveyorManager(Observable):
 
         self.setConveyorProperties(conveyorState, PositionState.NONE)
         self.motorMgr.rotateToPosition(direction, nbrOfStepsToTake, self.updatePosition, self.stopConceyor)
-        # Update conveyor position and state
         self.notifyObservers(conveyor=self.conveyor, message=f"Move to position {position}")
 
     def stopConceyor(self):
@@ -81,7 +80,7 @@ class ConveyorManager(Observable):
         totalSteps = pos.nbrOfStepsFromHomePosition
         currentSteps = self.conveyor.position.nbrOfStepsFromHomePosition
 
-        return (totalSteps - currentSteps)
+        return totalSteps - currentSteps
 
     def setDirection(self, nbrOfSteps):
         rotation = None
