@@ -1,4 +1,4 @@
-from domain import PositionState
+from util import PositionState
 from domain.Position import Position
 
 

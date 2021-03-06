@@ -1,6 +1,6 @@
 import RPi.GPIO as GPIO
 
-from domain import PositionState
+from util import PositionState
 from hardware import Rotation
 from hmi.controller.BaseController import BaseController
 
@@ -22,3 +22,9 @@ class HardwareController(BaseController):
         self.buttons[4].setEvent(GPIO.RISING, lambda _: self.btnMoveToPosition_clicked(PositionState.POSITION_2), 200)
         self.buttons[5].setEvent(GPIO.RISING, lambda _: self.btnProgramPosition_clicked(), 200)
         self.rotary.setEvent(self.btnMoveOneStep_clicked)
+
+    def btnHomePositionReached_clicked(self):
+        if self.conveyorMgr.conveyor.isHomed:
+            self.conveyorMgr.broadcastMessage("Action not allowed - Conveyor already homed!")
+        
+        self.conveyorMgr.setHomed()

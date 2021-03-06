@@ -1,5 +1,5 @@
-from domain import ConveyorState as ConveyorState
-from domain import PositionState as PositionState
+from util import ConveyorState as ConveyorState
+from util import PositionState as PositionState
 from hardware.PulseGenerator import PulseGenerator
 from service.observer.Observer import Observer
 

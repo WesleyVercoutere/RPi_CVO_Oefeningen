@@ -1,18 +1,12 @@
 import abc
 
-from domain import ConveyorState
+from util import ConveyorState
 
 
 class BaseController(metaclass=abc.ABCMeta):
 
     def __init__(self, conveyorManager):
         self.conveyorMgr = conveyorManager
-
-    def btnHomePositionReached_clicked(self):
-        if self.conveyorMgr.conveyor.isHomed:
-            self.conveyorMgr.broadcastMessage("Action not allowed - Conveyor already homed!")
-        
-        self.conveyorMgr.setHomed()
 
     def btnMoveOneStep_clicked(self, direction):
         if self.conveyorMgr.conveyor.state == ConveyorState.MOVING_TO_POSITION_1 or self.conveyorMgr.conveyor.state == ConveyorState.MOVING_TO_POSITION_2:

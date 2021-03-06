@@ -47,10 +47,12 @@ from domain.Led import Led
 from hardware.DigitalInput import DigitalInput
 from hardware.RotaryEncoder import RotaryEncoder
 from hardware.StepperMotor import StepperMotor
+from hmi.BluetoothInterface import BluetoothInterface
 from hmi.DesktopGUI import DesktopGUI
 from hmi.LedSignal import LedSignal
 from hmi.OLedDisplay import OLedDisplay
 from hmi.controller.HardwareController import HardwareController
+from hmi.controller.BluetoothController import BluetoothController
 from repository.PositionRepository import PositionRepository
 from service.manager.ConveyorManager import ConveyorManager
 from service.manager.MotorManager import MotorManager
@@ -72,6 +74,7 @@ class ConveyorApp:
 
         self.conveyorMgr = ConveyorManager(conveyor, self.motorMgr, positionMgr)
         self.hardwareCtrl = self.setupInputs(self.conveyorMgr)
+        self.bluetooth = self.setupBluetoothCommunication(self.conveyorMgr)
         self.ledMgr = self.setupLeds(self.conveyorMgr)
         self.setupDisplay(self.conveyorMgr)
 
@@ -117,8 +120,14 @@ class ConveyorApp:
         positionMgr = PositionManager(positionRepo)
         return positionMgr
 
+    def setupBluetoothCommunication(self, conveyorManager):
+        controller = BluetoothController(conveyorManager)
+        interface = BluetoothInterface(conveyorManager, controller)
+        return interface
+
     def loop(self):
         while True:
+            self.bluetooth.loop()
             self.motorMgr.loop()
             self.ledMgr.loop()
 

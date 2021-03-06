@@ -1,5 +1,5 @@
-import domain.ConveyorState as State
-import domain.PositionState as PositionState
+import util.ConveyorState as State
+import util.PositionState as PositionState
 from domain.Position import Position
 
 

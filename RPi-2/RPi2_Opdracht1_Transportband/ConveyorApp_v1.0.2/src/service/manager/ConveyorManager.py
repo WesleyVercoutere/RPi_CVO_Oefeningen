@@ -1,5 +1,5 @@
-from domain import ConveyorState as ConveyorState
-from domain import PositionState as PositionState
+from util import ConveyorState as ConveyorState
+from util import PositionState as PositionState
 from domain.Position import Position
 from hardware import Rotation
 from service.observer.Observable import Observable
@@ -42,6 +42,7 @@ class ConveyorManager(Observable):
             conveyorState = ConveyorState.SET_POSITION_GENERAL
     
         self.setConveyorProperties(conveyorState, self.conveyor.position.id)
+        self.updateConveyor()
         self.notifyObservers(conveyor=self.conveyor, message=f"Toggle program position mode")
 
     def setNewPosition(self, posId):
@@ -50,6 +51,7 @@ class ConveyorManager(Observable):
         if posId == PositionState.POSITION_2:
             conveyorState = ConveyorState.SET_POSITION_2
 
+        self.updateConveyor()
         self.setConveyorProperties(conveyorState, self.conveyor.position.id)
         self.notifyObservers(conveyor=self.conveyor, message=f"Set new position for {posId}")
 

@@ -4,8 +4,8 @@ import datetime
 
 time_stamp = datetime.datetime.now().strftime('%S')
 
-#port = serial.Serial("/dev/ttyS0",115200)
-port = serial.Serial("/dev/ttyAMA0",9600)
+port = serial.Serial("/dev/ttyS0",9600)
+# port = serial.Serial("/dev/ttyAMA0",9600)
 c=0
 # msg=[]  dan komen alle bytes in een list
 msg=b""

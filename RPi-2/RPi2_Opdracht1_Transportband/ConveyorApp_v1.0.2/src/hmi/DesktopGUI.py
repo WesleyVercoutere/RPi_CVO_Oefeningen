@@ -6,7 +6,7 @@ from service.observer.Observer import Observer
 class DesktopGUI(Observer):
 
     def __init__(self, conveyorManager):
-        self.root = ""
+        self.root = None
 
         conveyorManager.addObserver(self)
         self.setupRoot()
