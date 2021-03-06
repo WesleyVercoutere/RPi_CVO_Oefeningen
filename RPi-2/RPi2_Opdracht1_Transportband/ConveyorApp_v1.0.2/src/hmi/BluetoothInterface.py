@@ -1,8 +1,6 @@
 import serial
-import time
-import datetime
 
-from service.observer.Observer import Observer
+from util.observer import Observer
 
 
 class BluetoothInterface(Observer):

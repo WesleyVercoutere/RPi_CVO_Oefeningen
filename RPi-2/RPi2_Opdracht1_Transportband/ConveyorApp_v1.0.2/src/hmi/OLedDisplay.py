@@ -1,10 +1,8 @@
-import time
-
-from luma.core.interface.serial import i2c, spi
+from luma.core.interface.serial import i2c
 from luma.core.render import canvas
-from luma.oled.device import ssd1306, sh1106
+from luma.oled.device import sh1106
 
-from service.observer.Observer import Observer
+from util.observer import Observer
 
 
 class OLedDisplay(Observer):

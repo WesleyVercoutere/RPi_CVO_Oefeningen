@@ -1,6 +1,6 @@
 from tkinter import Tk
 
-from service.observer.Observer import Observer
+from util.observer import Observer
 
 
 class DesktopGUI(Observer):

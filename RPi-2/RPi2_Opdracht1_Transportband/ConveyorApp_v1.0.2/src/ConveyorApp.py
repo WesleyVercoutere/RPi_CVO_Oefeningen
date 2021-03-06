@@ -51,8 +51,8 @@ from hmi.BluetoothInterface import BluetoothInterface
 from hmi.DesktopGUI import DesktopGUI
 from hmi.LedSignal import LedSignal
 from hmi.OLedDisplay import OLedDisplay
-from hmi.controller.HardwareController import HardwareController
 from hmi.controller.BluetoothController import BluetoothController
+from hmi.controller.HardwareController import HardwareController
 from repository.PositionRepository import PositionRepository
 from service.manager.ConveyorManager import ConveyorManager
 from service.manager.MotorManager import MotorManager

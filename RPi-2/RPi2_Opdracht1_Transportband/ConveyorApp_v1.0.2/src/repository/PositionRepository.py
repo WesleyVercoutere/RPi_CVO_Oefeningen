@@ -2,8 +2,8 @@ import json
 
 from domain.DefaultPositions import DefaultPositions
 from domain.Position import Position
-from repository.FileHandler import FileHandler
 from repository.Repository import Repository
+from util.FileHandler import FileHandler
 
 
 class PositionRepository(Repository):

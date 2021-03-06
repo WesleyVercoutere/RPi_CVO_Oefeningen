@@ -1,5 +1,5 @@
-from util import PositionState
 from domain.Position import Position
+from util import PositionState
 
 
 class DefaultPositions:

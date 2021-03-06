@@ -1,8 +1,8 @@
-from util import ConveyorState as ConveyorState
-from util import PositionState as PositionState
 from domain.Position import Position
 from hardware import Rotation
-from service.observer.Observable import Observable
+from util import ConveyorState as ConveyorState
+from util import PositionState as PositionState
+from util.observer.Observable import Observable
 
 
 class ConveyorManager(Observable):

@@ -1,8 +1,8 @@
 import RPi.GPIO as GPIO
 
-from util import PositionState
 from hardware import Rotation
 from hmi.controller.BaseController import BaseController
+from util import PositionState
 
 
 class HardwareController(BaseController):
