@@ -59,7 +59,6 @@ from hmi.controller.HardwareController import HardwareController
 from repository.PositionRepository import PositionRepository
 from service.manager.ConveyorManager import ConveyorManager
 from service.manager.MotorManager import MotorManager
-from service.manager.OLedDisplayManager import OLedDisplayManager
 from service.manager.PositionManager import PositionManager
 from service.manager.SimpleLogger import SimpleLogger
 
@@ -114,8 +113,7 @@ class ConveyorApp:
         return ledMgr
 
     def setupDisplay(self, conveyorManager):
-        oLedDisplayManager = OLedDisplayManager()
-        displayMgr = OLedDisplay(oLedDisplayManager, conveyorManager)
+        displayMgr = OLedDisplay(conveyorManager)
         return displayMgr
 
     def setupPosition(self):

@@ -1,4 +1,4 @@
-from hardware.PulseGenerator import PulseGenerator
+from util.PulseGenerator import PulseGenerator
 from util import ConveyorState as ConveyorState
 from util import PositionState as PositionState
 from util.observer.Observer import Observer
@@ -29,7 +29,10 @@ class LedSignal(Observer):
             self.leds[2].setOutput(True)
 
     def controlConveyorState(self, conveyor):
-        if conveyor.state == ConveyorState.MOVING_TO_HOME_POSITION:
+        if conveyor.state == ConveyorState.HOMING:
+            self.leds[0].blink = True
+
+        if conveyor.state == ConveyorState.MOVING_TO_POSITION_HOME:
             self.leds[0].blink = True
 
         if conveyor.state == ConveyorState.MOVING_TO_POSITION_1:

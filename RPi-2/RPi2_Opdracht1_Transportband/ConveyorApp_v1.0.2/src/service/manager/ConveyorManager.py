@@ -18,7 +18,7 @@ class ConveyorManager(Observable):
         self.positionMgr = positionManager
 
     def startHoming(self):
-        self.setConveyorProperties(ConveyorState.MOVING_TO_HOME_POSITION, PositionState.NONE, isHomed=False)
+        self.setConveyorProperties(ConveyorState.HOMING, PositionState.NONE, isHomed=False)
         self.motorMgr.rotateLoop(Rotation.COUNTERCLOCKWISE)
         self.notifyObservers(conveyor=self.conveyor, message="Homing...")
 
@@ -104,10 +104,13 @@ class ConveyorManager(Observable):
     def setConveyorState(self, position):
         conveyorState = None
 
-        if position == ConveyorState.MOVING_TO_POSITION_1:
+        if position == PositionState.HOME:
+            conveyorState = ConveyorState.MOVING_TO_POSITION_HOME
+
+        if position == PositionState.POSITION_1:
             conveyorState = ConveyorState.MOVING_TO_POSITION_1
 
-        if position == ConveyorState.MOVING_TO_POSITION_2:
+        if position == PositionState.POSITION_2:
             conveyorState = ConveyorState.MOVING_TO_POSITION_2
 
         return conveyorState
@@ -135,8 +138,46 @@ class ConveyorManager(Observable):
     def getState(self):
         dto = ConveyorDTO
 
-        dto.state = "test from mgr"
-        dto.position = "test"
+        dto.state = self.getDtoState()
+        dto.position = self.getDtoPosition()
         dto.steps = self.conveyor.position.nbrOfStepsFromHomePosition
 
         return dto
+
+    def getDtoState(self):
+        if self.conveyor.state == ConveyorState.IDLE:
+            return "IDLE"
+
+        if self.conveyor.state == ConveyorState.HOMING:
+            return "Homing"
+
+        if self.conveyor.state == ConveyorState.MOVING_TO_POSITION_HOME:
+            return "GoTo Home"
+
+        if self.conveyor.state == ConveyorState.MOVING_TO_POSITION_1:
+            return "GoTo 1"
+
+        if self.conveyor.state == ConveyorState.MOVING_TO_POSITION_2:
+            return "GoTo 2"
+
+        if self.conveyor.state == ConveyorState.SET_POSITION_GENERAL:
+            return "Set"
+        
+        if self.conveyor.state == ConveyorState.SET_POSITION_1:
+            return "Set 1"
+
+        if self.conveyor.state == ConveyorState.SET_POSITION_2:
+            return "Set 2"
+
+    def getDtoPosition(self):
+        if self.conveyor.position.id == PositionState.NONE:
+            return "None"
+
+        if self.conveyor.position.id == PositionState.HOME:
+            return "Home"
+
+        if self.conveyor.position.id == PositionState.POSITION_1:
+            return "Pos 1"
+
+        if self.conveyor.position.id == PositionState.POSITION_2:
+            return "Pos 2"

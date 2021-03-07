@@ -32,6 +32,7 @@ class BaseController(metaclass=abc.ABCMeta):
             self.conveyorMgr.broadcastMessage(f"Action not allowed - Conveyor is on position {position}!")
 
         elif conveyor.state == ConveyorState.IDLE:
+            print(f"move to {position}")
             self.conveyorMgr.moveToPosition(position)
 
         else:
