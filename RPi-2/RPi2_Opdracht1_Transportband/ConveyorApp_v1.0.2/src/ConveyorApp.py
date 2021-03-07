@@ -11,6 +11,8 @@
 #  v1.0.2 : Update repository                           #
 #########################################################
 
+# TODO - check saved position is not equal to other position
+
 """
 -	Drukknop 1 : GPIO 18
 -	Drukknop 2 : GPIO 23
@@ -52,6 +54,7 @@ from hmi.DesktopGUI import DesktopGUI
 from hmi.LedSignal import LedSignal
 from hmi.OLedDisplay import OLedDisplay
 from hmi.controller.BluetoothController import BluetoothController
+from hmi.controller.DesktopController import DesktopController
 from hmi.controller.HardwareController import HardwareController
 from repository.PositionRepository import PositionRepository
 from service.manager.ConveyorManager import ConveyorManager
@@ -78,7 +81,7 @@ class ConveyorApp:
         self.ledMgr = self.setupLeds(self.conveyorMgr)
         self.setupDisplay(self.conveyorMgr)
 
-        self.gui = DesktopGUI(self.conveyorMgr)
+        self.gui = self.setupGUI(self.conveyorMgr)
 
         logger = SimpleLogger(self.conveyorMgr)
 
@@ -124,6 +127,11 @@ class ConveyorApp:
         controller = BluetoothController(conveyorManager)
         interface = BluetoothInterface(conveyorManager, controller)
         return interface
+
+    def setupGUI(self, conveyorManager):
+        controller = DesktopController(conveyorManager)
+        gui = DesktopGUI(conveyorManager, controller)
+        return gui
 
     def loop(self):
         while True:

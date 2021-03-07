@@ -2,7 +2,7 @@ from luma.core.interface.serial import i2c
 from luma.core.render import canvas
 from luma.oled.device import sh1106
 
-from util.observer import Observer
+from util.observer.Observer import Observer
 
 
 class OLedDisplay(Observer):

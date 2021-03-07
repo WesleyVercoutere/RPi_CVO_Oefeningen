@@ -1,5 +1,6 @@
 from domain.Position import Position
 from hardware import Rotation
+from service.dto.ConveyorDTO import ConveyorDTO
 from util import ConveyorState as ConveyorState
 from util import PositionState as PositionState
 from util.observer.Observable import Observable
@@ -131,3 +132,11 @@ class ConveyorManager(Observable):
     def broadcastMessage(self, message):
         self.notifyObservers(conveyor=self.conveyor, message=message)
 
+    def getState(self):
+        dto = ConveyorDTO
+
+        dto.state = "test from mgr"
+        dto.position = "test"
+        dto.steps = self.conveyor.position.nbrOfStepsFromHomePosition
+
+        return dto

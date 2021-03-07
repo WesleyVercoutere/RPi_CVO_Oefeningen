@@ -1,7 +1,7 @@
 from hardware.PulseGenerator import PulseGenerator
 from util import ConveyorState as ConveyorState
 from util import PositionState as PositionState
-from util.observer import Observer
+from util.observer.Observer import Observer
 
 
 class LedSignal(Observer):

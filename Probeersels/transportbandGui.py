@@ -1,17 +1,10 @@
+import time
 from tkinter import *
 
-from util.observer.Observer import Observer
 
-"""
-https://www.dreamincode.net/forums/topic/371440-tkinter-overview-with-a-fixed-width-grid/
-"""
-class DesktopGUI(Observer):
+class DesktopGUI:
 
-    def __init__(self, conveyorManager, desktopController):
-        self.mgr = conveyorManager
-        self.mgr.addObserver(self)
-        self.controller = desktopController
-
+    def __init__(self):
         self.root = None
         self.setupRoot()
 
@@ -27,6 +20,8 @@ class DesktopGUI(Observer):
         self.setupStateSection()
         self.setupControlSection()
         self.setupSettingsSection()
+
+        self.loop()
 
     def setupRoot(self):
         self.root = Tk()
@@ -104,12 +99,9 @@ class DesktopGUI(Observer):
     def update(self, *args, **kwargs):
         message = kwargs["message"]
 
-        dto = self.mgr.getState()
-
-        self.currentState.set(dto.state)
-        self.currentPosition.set(dto.position)
-        self.currentSteps.set(dto.steps)
-        self.currentMessage.set(message)
-
     def loop(self):
         self.root.mainloop()
+
+
+if __name__ == "__main__":
+    DesktopGUI()

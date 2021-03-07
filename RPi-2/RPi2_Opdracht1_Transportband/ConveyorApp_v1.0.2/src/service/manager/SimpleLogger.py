@@ -1,4 +1,4 @@
-from util.observer import Observer
+from util.observer.Observer import Observer
 
 
 class SimpleLogger(Observer):
