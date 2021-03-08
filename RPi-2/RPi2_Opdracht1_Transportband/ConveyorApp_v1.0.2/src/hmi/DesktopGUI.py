@@ -29,15 +29,15 @@ class DesktopGUI(Observer):
     def setupRoot(self):
         self.root = Tk()
         self.root.title('Transportband')
-        self.root.geometry("800x400")
-        self.root.resizable(width=False, height=True)
+        # self.root.geometry("800x400")
+        # self.root.resizable(width=False, height=True)
         self.root.columnconfigure(0, weight=1)
 
     def setupStateSection(self):
         frame = LabelFrame(self.root, text = "Conveyor State", padx=10, pady=10)
 
-        frame.columnconfigure(0, weight=1)
-        frame.columnconfigure(1, weight=1)
+        frame.columnconfigure(0,minsize=150, weight=1)
+        frame.columnconfigure(1,minsize=150, weight=1)
         frame.columnconfigure(2, weight=1)
 
         frame1 = Frame(frame)
@@ -74,7 +74,7 @@ class DesktopGUI(Observer):
         frame = LabelFrame(self.root, text = "Conveyor Control", padx=10, pady=10)
 
         for i in range(5):
-            frame.columnconfigure(i, weight=1)
+            frame.columnconfigure(i,minsize=150, weight=1)
 
         btn_home = Button(frame, text="Home", command=lambda: self.controller.btnMoveToPosition_clicked(PositionState.HOME))
         btn_home.grid(column=0, row=0, padx=10, pady=10, sticky='ew')
