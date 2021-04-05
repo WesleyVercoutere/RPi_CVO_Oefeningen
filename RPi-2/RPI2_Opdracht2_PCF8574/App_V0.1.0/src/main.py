@@ -78,7 +78,7 @@ class Main:
         self.btns1 = (self.btn5, self.btn6, self.btn7, self.btn8)
 
         self.pcfAddress = 0x20
-        self.pcfMessage = 240
+        self.pcfMessage = 15
         self.bus = None
 
         self.setup()
@@ -112,7 +112,7 @@ class Main:
 
 
             for i in range(len(self.btns1)):
-                if self.is_set(self.pcfMessage, i):
+                if self.is_set(self.pcfMessage, self.btns1[i]):
                     GPIO.output(self.leds[i], not GPIO.input(self.leds[i]))
                     time.sleep(0.2)
 
