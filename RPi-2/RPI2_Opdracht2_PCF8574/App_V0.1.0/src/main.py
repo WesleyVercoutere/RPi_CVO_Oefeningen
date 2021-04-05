@@ -32,6 +32,8 @@ Zorg er nu voor dat de drukkknoppen van de RP de leds van de PCF8574 sturen en o
     Led PCF8574 Yellow 	: P3
 """
 
+import RPi.GPIO as GPIO
+
 
 class Main:
 
@@ -40,7 +42,10 @@ class Main:
         self.runLoop()
 
     def setup(self):
-        pass
+        GPIO.setwarnings(False)
+        GPIO.setmode(GPIO.BCM)
+
+        GPIO.setup
 
     def runLoop(self):
         while True:
