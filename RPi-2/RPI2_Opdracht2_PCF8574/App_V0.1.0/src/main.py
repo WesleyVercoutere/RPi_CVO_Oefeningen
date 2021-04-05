@@ -22,14 +22,14 @@ Zorg er nu voor dat de drukkknoppen van de RP de leds van de PCF8574 sturen en o
     Led Pi Blue 	    : GPIO 13
     Led Pi Yellow 	    : GPIO 6
     
-    Drukknop PCF8574 1 	: P0
-    Drukknop PCF8574 2 	: P1
-    Drukknop PCF8574 3 	: P2
-    Drukknop PCF8574 4	: P3
-    Led PCF8574 Red 	: P4
-    Led PCF8574 Green	: P5
-    Led PCF8574 Blue	: P6
-    Led PCF8574 Yellow 	: P7
+    Drukknop PCF8574 1 	: P4
+    Drukknop PCF8574 2 	: P5
+    Drukknop PCF8574 3 	: P6
+    Drukknop PCF8574 4	: P7
+    Led PCF8574 Red 	: P0
+    Led PCF8574 Green	: P1
+    Led PCF8574 Blue	: P2
+    Led PCF8574 Yellow 	: P3
 """
 
 """
@@ -65,16 +65,16 @@ class Main:
         self.btn4 = 12
         self.btns = (self.btn1, self.btn2, self.btn3, self.btn4)
 
-        self.ledRed1 = 4
-        self.ledGreen1 = 5
-        self.ledBlue1 = 6
-        self.ledYellow1 = 7
+        self.ledRed1 = 0
+        self.ledGreen1 = 1
+        self.ledBlue1 = 2
+        self.ledYellow1 = 3
         self.leds1 = (self.ledRed1, self.ledGreen1, self.ledBlue1, self.ledYellow1)
 
-        self.btn5 = 0
-        self.btn6 = 1
-        self.btn7 = 2
-        self.btn8 = 3
+        self.btn5 = 4
+        self.btn6 = 5
+        self.btn7 = 6
+        self.btn8 = 7
         self.btns1 = (self.btn5, self.btn6, self.btn7, self.btn8)
 
         self.pcfAddress = 0x20

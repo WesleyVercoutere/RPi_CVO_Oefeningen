@@ -11,7 +11,7 @@ def is_set(value, bit):
 
 
 getal1 = 12
-getal2 = 15
+getal2 = 15f
 
 print(f"bits from {getal1}")
 for i in range(8):
