@@ -22,22 +22,65 @@ Zorg er nu voor dat de drukkknoppen van de RP de leds van de PCF8574 sturen en o
     Led Pi Blue 	    : GPIO 13
     Led Pi Yellow 	    : GPIO 6
     
-    Drukknop PCF8574 1 	: P4
-    Drukknop PCF8574 2 	: P5
-    Drukknop PCF8574 3 	: P6
-    Drukknop PCF8574 4	: P7
-    Led PCF8574 Red 	: P0
-    Led PCF8574 Green	: P1
-    Led PCF8574 Blue	: P2
-    Led PCF8574 Yellow 	: P3
+    Drukknop PCF8574 1 	: P0
+    Drukknop PCF8574 2 	: P1
+    Drukknop PCF8574 3 	: P2
+    Drukknop PCF8574 4	: P3
+    Led PCF8574 Red 	: P4
+    Led PCF8574 Green	: P5
+    Led PCF8574 Blue	: P6
+    Led PCF8574 Yellow 	: P7
+"""
+
+"""
+Helper methods
+
+def set_bit(value, bit):
+    return value | (1<<bit)
+
+def clear_bit(value, bit):
+    return value & ~(1<<bit)
+
+def is_set(value, bit):
+    return value & 1 << bit != 0
 """
 
 import RPi.GPIO as GPIO
+import smbus
+import time
 
 
 class Main:
 
     def __init__(self):
+        self.ledRed = 26
+        self.ledGreen = 19
+        self.ledBlue = 13
+        self.ledYellow = 6
+        self.leds = (self.ledRed, self.ledGreen, self.ledBlue, self.ledYellow)
+
+        self.btn1 = 21
+        self.btn2 = 20
+        self.btn3 = 16
+        self.btn4 = 12
+        self.btns = (self.btn1, self.btn2, self.btn3, self.btn4)
+
+        self.ledRed1 = 4
+        self.ledGreen1 = 5
+        self.ledBlue1 = 6
+        self.ledYellow1 = 7
+        self.leds1 = (self.ledRed1, self.ledGreen1, self.ledBlue1, self.ledYellow1)
+
+        self.btn5 = 0
+        self.btn6 = 1
+        self.btn7 = 2
+        self.btn8 = 3
+        self.btns1 = (self.btn5, self.btn6, self.btn7, self.btn8)
+
+        self.pcfAddress = 0x20
+        self.pcfMessage = 240
+        self.bus = None
+
         self.setup()
         self.runLoop()
 
@@ -45,11 +88,44 @@ class Main:
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BCM)
 
-        GPIO.setup
+        GPIO.setup(self.leds, GPIO.OUT, initial=GPIO.LOW)
+        GPIO.setup(self.btns, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+
+        self.bus = smbus.SMBus(1)
+        self.bus.write_byte(self.pcfAddress, self.pcfMessage)
 
     def runLoop(self):
         while True:
-            pass
+            self.pcfMessage = self.bus.read_byte(self.pcfAddress)
+
+            for i in range(len(self.btns)):
+                if GPIO.input(self.btns[i]):
+                    statusLed = self.is_set(self.pcfMessage, self.leds1[i])
+            
+                    if statusLed:
+                        self.pcfMessage = self.clear_bit(self.pcfMessage, self.leds1[i])
+                    
+                    else:
+                        self.pcfMessage = self.set_bit(self.pcfMessage, self.leds1[i])
+
+                    time.sleep(0.2)
+
+
+            for i in range(len(self.btns1)):
+                if self.is_set(self.pcfMessage, i):
+                    GPIO.output(self.leds[i], not GPIO.input(self.leds[i]))
+                    time.sleep(0.2)
+
+            self.bus.write_byte(self.pcfAddress, self.pcfMessage)
+
+    def set_bit(self, value, bit):
+        return value | (1<<bit)
+
+    def clear_bit(self, value, bit):
+        return value & ~(1<<bit)
+
+    def is_set(self, value, bit):
+        return value & 1 << bit != 0
 
 
 if __name__ == '__main__':
