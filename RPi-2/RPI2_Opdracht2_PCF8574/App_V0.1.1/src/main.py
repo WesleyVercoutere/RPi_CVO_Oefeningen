@@ -86,7 +86,7 @@ class Main:
         self.bus = None
 
         self.setup()
-        self.runLoop()
+        self.loop()
 
     def setup(self):
         GPIO.setwarnings(False)
@@ -98,7 +98,7 @@ class Main:
         self.bus = smbus.SMBus(1)
         self.bus.write_byte(self.pcfAddress, self.pcfMessage)
 
-    def runLoop(self):
+    def loop(self):
         while True:
             self.pcfMessage = self.bus.read_byte(self.pcfAddress)
 
