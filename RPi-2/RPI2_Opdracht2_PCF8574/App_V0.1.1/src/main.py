@@ -86,6 +86,7 @@ class Main:
         self.bus = None
 
         self.setup()
+        self.initCallbacks()
         self.loop()
 
     def setup(self):
@@ -97,6 +98,9 @@ class Main:
 
         self.bus = smbus.SMBus(1)
         self.bus.write_byte(self.pcfAddress, self.pcfMessage)
+
+    def initCallbacks(self):
+        pass
 
     def loop(self):
         while True:
