@@ -95,7 +95,7 @@ class Main:
 
         GPIO.setup(self.leds, GPIO.OUT, initial=GPIO.LOW)
         GPIO.setup(self.btns, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-        GPIO.setup(self.interruptPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(self.interruptPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
         self.bus = smbus.SMBus(1)
         self.bus.write_byte(self.pcfAddress, self.pcfMessage)
@@ -104,19 +104,24 @@ class Main:
         for i in self.btns:
             GPIO.add_event_detect(i, edge=GPIO.RISING, callback=self.toggleLed, bouncetime=200)
         
-        GPIO.add_event_detect(self.interruptPin, edge=GPIO.RISING, callback=self.readI2C, bouncetime=200)
+        # GPIO.add_event_detect(self.interruptPin, edge=GPIO.FALLING, callback=self.readI2C, bouncetime=200)
 
         
     def toggleLed(self, channel):
         print(channel)
 
     def readI2C(self, channel):
-        print(channel)
+        self.pcfMessage = self.bus.read_byte(self.pcfAddress)
+        print(self.pcfMessage)
 
     def loop(self):
         while True:
-            
+            # pass
             print(GPIO.input(self.interruptPin))
+
+            if GPIO.input(self.interruptPin) == 0:
+                print(self.bus.read_byte(self.pcfAddress))
+
             time.sleep(0.5)
 
             # self.pcfMessage = self.bus.read_byte(self.pcfAddress)
