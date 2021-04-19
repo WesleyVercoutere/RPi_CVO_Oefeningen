@@ -3,8 +3,9 @@ import RPi.GPIO as GPIO
 
 class DigitalInput:
 
-    def __init__(self, pin):
+    def __init__(self, pin, isPcf=False):
         self.pin = pin
+        self.pcf = isPcf
         GPIO.setup(self.pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
     def getRawValue(self):
