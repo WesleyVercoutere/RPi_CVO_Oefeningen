@@ -34,19 +34,6 @@ Zorg er nu voor dat de drukkknoppen van de RP de leds van de PCF8574 sturen en o
     PCF8574 interrupt   : GPIO18
 """
 
-"""
-Helper methods
-
-def set_bit(value, bit):
-    return value | (1<<bit)
-
-def clear_bit(value, bit):
-    return value & ~(1<<bit)
-
-def is_set(value, bit):
-    return value & 1 << bit != 0
-"""
-
 import RPi.GPIO as GPIO
 import smbus
 import time
@@ -71,86 +58,92 @@ class Main:
         self.ledGreen1 = 1
         self.ledBlue1 = 2
         self.ledYellow1 = 3
-        self.leds1 = (self.ledRed1, self.ledGreen1, self.ledBlue1, self.ledYellow1)
+        self.ledsPCF8574 = (self.ledRed1, self.ledGreen1, self.ledBlue1, self.ledYellow1)
 
         self.btn5 = 4
         self.btn6 = 5
         self.btn7 = 6
         self.btn8 = 7
-        self.btns1 = (self.btn5, self.btn6, self.btn7, self.btn8)
+        self.btnsPCF8574 = (self.btn5, self.btn6, self.btn7, self.btn8)
 
         self.interruptPin = 18
 
         self.pcfAddress = 0x20
-        self.pcfMessage = 15
+        self.pcfMessage = 255
         self.bus = None
 
-        self.setup()
-        self.initCallbacks()
-        self.loop()
+        self._setup()
+        self._initIO()
+        self._initCallbacks()
+        self._loop()
 
-    def setup(self):
+    def _setup(self):
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BCM)
 
+    def _initIO(self):
         GPIO.setup(self.leds, GPIO.OUT, initial=GPIO.LOW)
         GPIO.setup(self.btns, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.setup(self.interruptPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
         self.bus = smbus.SMBus(1)
+
+    def _initCallbacks(self):
+        for i in self.btns:
+            GPIO.add_event_detect(i, edge=GPIO.RISING, callback=self._toggleLed, bouncetime=200)
+        
+        # GPIO.add_event_detect(self.interruptPin, edge=GPIO.BOTH, callback=self.readI2C, bouncetime=200) # Werkt niet 100%
+
+    def _PCF8574Reset(self):
         self.bus.write_byte(self.pcfAddress, self.pcfMessage)
 
-    def initCallbacks(self):
-        for i in self.btns:
-            GPIO.add_event_detect(i, edge=GPIO.RISING, callback=self.toggleLed, bouncetime=200)
-        
-        # GPIO.add_event_detect(self.interruptPin, edge=GPIO.FALLING, callback=self.readI2C, bouncetime=200)
+    def _toggleLed(self, channel=None):
+        if channel is None:
+            self._toggleLedFromPCF()
+        else:
+            self._toggleLedFromGPIO(channel)
 
-        
-    def toggleLed(self, channel):
-        print(channel)
+    def _toggleLedFromGPIO(self, channel):
+        for i in range(len(self.btns)):
+            if channel == self.btns[i]:
+                statusLed = self._isSet(self.pcfMessage, self.ledsPCF8574[i])
 
-    def readI2C(self, channel):
+                if statusLed:
+                    self.pcfMessage = self._clearBit(self.pcfMessage, self.ledsPCF8574[i])
+                else:
+                    self.pcfMessage = self._setBit(self.pcfMessage, self.ledsPCF8574[i])
+
+                self._writeI2C()
+
+    def _toggleLedFromPCF(self):
+        self._readI2C()
+        
+        for i in range(len(self.btnsPCF8574)):
+            if self._isSet(self.pcfMessage, self.btnsPCF8574[i]):
+                GPIO.output(self.leds[i], not GPIO.input(self.leds[i]))
+
+    def _readI2C(self):
         self.pcfMessage = self.bus.read_byte(self.pcfAddress)
-        print(self.pcfMessage)
+    
+    def _writeI2C(self):
+        self.bus.write_byte(self.pcfAddress, self.pcfMessage)
 
-    def loop(self):
-        while True:
-
-            if GPIO.input(self.interruptPin) == 0:
-                print(self.bus.read_byte(self.pcfAddress))
-
-            time.sleep(0.1)
-
-            # self.pcfMessage = self.bus.read_byte(self.pcfAddress)
-
-            # for i in range(len(self.btns)):
-            #     if GPIO.input(self.btns[i]):
-            #         statusLed = self.is_set(self.pcfMessage, self.leds1[i])
-            
-            #         if statusLed:
-            #             self.pcfMessage = self.clear_bit(self.pcfMessage, self.leds1[i])
-                    
-            #         else:
-            #             self.pcfMessage = self.set_bit(self.pcfMessage, self.leds1[i])
-
-            #         time.sleep(0.2)
-
-            # for i in range(len(self.btns1)):
-            #     if self.is_set(self.pcfMessage, self.btns1[i]):
-            #         GPIO.output(self.leds[i], not GPIO.input(self.leds[i]))
-            #         time.sleep(0.2)
-
-            # self.bus.write_byte(self.pcfAddress, self.pcfMessage)
-
-    def set_bit(self, value, bit):
+    def _setBit(self, value, bit):
         return value | (1 << bit)
 
-    def clear_bit(self, value, bit):
+    def _clearBit(self, value, bit):
         return value & ~(1 << bit)
 
-    def is_set(self, value, bit):
+    def _isSet(self, value, bit):
         return value & 1 << bit != 0
+
+    def _loop(self):
+        while True:
+            if GPIO.input(self.interruptPin) == 0:
+                self._toggleLed(channel=None)
+                time.sleep(0.2)
+
+            time.sleep(0.01)
 
 
 if __name__ == '__main__':
