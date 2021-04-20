@@ -79,7 +79,7 @@ class Main:
         self.btn8 = 7
         self.btns1 = (self.btn5, self.btn6, self.btn7, self.btn8)
 
-        self.interruptPin = 23
+        self.interruptPin = 18
 
         self.pcfAddress = 0x20
         self.pcfMessage = 15
@@ -116,13 +116,11 @@ class Main:
 
     def loop(self):
         while True:
-            # pass
-            print(GPIO.input(self.interruptPin))
 
             if GPIO.input(self.interruptPin) == 0:
                 print(self.bus.read_byte(self.pcfAddress))
 
-            time.sleep(0.5)
+            time.sleep(0.1)
 
             # self.pcfMessage = self.bus.read_byte(self.pcfAddress)
 
