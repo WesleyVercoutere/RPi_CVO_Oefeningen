@@ -92,7 +92,7 @@ class Main:
         for i in self.btns:
             GPIO.add_event_detect(i, edge=GPIO.RISING, callback=self._toggleLed, bouncetime=200)
         
-        # GPIO.add_event_detect(self.interruptPin, edge=GPIO.BOTH, callback=self.readI2C, bouncetime=200) # Werkt niet 100%
+        GPIO.add_event_detect(self.interruptPin, edge=GPIO.FALLING, callback=lambda _: self._toggleLed(channel=None))
 
     def _PCF8574Reset(self):
         self.bus.write_byte(self.pcfAddress, self.pcfMessage)
@@ -139,11 +139,7 @@ class Main:
 
     def _loop(self):
         while True:
-            if GPIO.input(self.interruptPin) == 0:
-                self._toggleLed(channel=None)
-                time.sleep(0.2)
-
-            time.sleep(0.01)
+            pass
 
 
 if __name__ == '__main__':
