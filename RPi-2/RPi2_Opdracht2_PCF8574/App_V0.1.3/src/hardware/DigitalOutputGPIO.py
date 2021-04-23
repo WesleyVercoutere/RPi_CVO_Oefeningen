@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO
 
 
-class DigitalOutput:
+class DigitalOutputGPIO:
 
     def __init__(self, pin):
         self.pin = pin
