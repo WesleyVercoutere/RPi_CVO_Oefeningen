@@ -14,5 +14,4 @@ class DigitalOutput:
         GPIO.output(self.pin, state)
 
     def toggle(self):
-        print("toggle ", self.pin)
         GPIO.output(self.pin, not GPIO.input(self.pin))

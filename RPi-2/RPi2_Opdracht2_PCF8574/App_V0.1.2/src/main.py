@@ -56,7 +56,8 @@ class Main:
 
     def _initCallbacks(self):
         for i in range(len(self._buttons)):
-            self._buttons[i].setEvent(edge=GPIO.RISING, callback=lambda x: self._toggle(i), bouncetime=200)
+            print("set button event: ", i)
+            self._buttons[i].setEvent(edge=GPIO.RISING, callback=lambda x: self._toggleLed(i), bouncetime=200)
 
         # self._btn1.setEvent(edge=GPIO.RISING, callback=lambda _: self._ledRed.toggle(), bouncetime=200)
         # self._btn2.setEvent(edge=GPIO.RISING, callback=lambda _: self._ledGreen.toggle(), bouncetime=200)
