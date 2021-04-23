@@ -35,16 +35,16 @@ class Main:
     def __init__(self):
         self._setup()
 
-        self._ledRed = DigitalOutput(26)
-        self._ledGreen = DigitalOutput(19)
-        self._ledBlue = DigitalOutput(13)
-        self._ledYellow = DigitalOutput(6)
+        # self._ledRed = DigitalOutput(26)
+        # self._ledGreen = DigitalOutput(19)
+        # self._ledBlue = DigitalOutput(13)
+        # self._ledYellow = DigitalOutput(6)
         self._leds = (DigitalOutput(26), DigitalOutput(19), DigitalOutput(13), DigitalOutput(6))
 
-        self._btn1 = DigitalInput(21)
-        self._btn2 = DigitalInput(20)
-        self._btn3 = DigitalInput(16)
-        self._btn4 = DigitalInput(12)
+        # self._btn1 = DigitalInput(21)
+        # self._btn2 = DigitalInput(20)
+        # self._btn3 = DigitalInput(16)
+        # self._btn4 = DigitalInput(12)
         self._buttons = (DigitalInput(21), DigitalInput(20), DigitalInput(16), DigitalInput(12))
 
         self._initCallbacks()
@@ -56,12 +56,16 @@ class Main:
 
     def _initCallbacks(self):
         for i in range(len(self._buttons)):
-            self._buttons[i].setEvent(edge=GPIO.RISING, callback=lambda x: self._leds[i].toggle(), bouncetime=200)
+            self._buttons[i].setEvent(edge=GPIO.RISING, callback=lambda x: self._toggle(i), bouncetime=200)
 
         # self._btn1.setEvent(edge=GPIO.RISING, callback=lambda _: self._ledRed.toggle(), bouncetime=200)
         # self._btn2.setEvent(edge=GPIO.RISING, callback=lambda _: self._ledGreen.toggle(), bouncetime=200)
         # self._btn3.setEvent(edge=GPIO.RISING, callback=lambda _: self._ledBlue.toggle(), bouncetime=200)
         # self._btn4.setEvent(edge=GPIO.RISING, callback=lambda _: self._ledYellow.toggle(), bouncetime=200)
+
+    def _toggleLed(self, index):
+        print("index led: ", index)
+        self._leds[index].toggle()
 
     def _loop(self):
         while True:
