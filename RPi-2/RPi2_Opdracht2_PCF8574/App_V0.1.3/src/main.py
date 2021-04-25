@@ -41,10 +41,10 @@ Zorg er nu voor dat de drukkknoppen van de RP de leds van de PCF8574 sturen en o
 
 import RPi.GPIO as GPIO
 
-from src.hardware.DigitalInputGPIO import DigitalInputGPIO
-from src.hardware.DigitalOutputGPIO import DigitalOutputGPIO
-from src.hardware.DigitalOutputPCF8574 import DigitalOutputPCF8574
-from src.hardware.DititalInputPCF8574 import DigitalInputPCF8574
+from hardware.DigitalInputGPIO import DigitalInputGPIO
+from hardware.DigitalOutputGPIO import DigitalOutputGPIO
+from hardware.DigitalOutputPCF8574 import DigitalOutputPCF8574
+from hardware.DititalInputPCF8574 import DigitalInputPCF8574
 
 
 class Main:
@@ -73,9 +73,9 @@ class Main:
 
         # PCF8574 IO
         self._ledRedPCF8574 = DigitalOutputPCF8574(0)
-        self._ledGreenPCF8574 = DigitalOutputPCF8574(0)
-        self._ledBluePCF8574 = DigitalOutputPCF8574(0)
-        self._ledYellowPCF8574 = DigitalOutputPCF8574(0)
+        self._ledGreenPCF8574 = DigitalOutputPCF8574(1)
+        self._ledBluePCF8574 = DigitalOutputPCF8574(2)
+        self._ledYellowPCF8574 = DigitalOutputPCF8574(3)
 
         self._btn1PCF8574 = DigitalInputPCF8574(4)
         self._btn2PCF8574 = DigitalInputPCF8574(5)
