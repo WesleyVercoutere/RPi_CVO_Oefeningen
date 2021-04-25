@@ -17,6 +17,7 @@ Verbind 4 leds met je RP en 4 met je PCF8574, verbind ook 4 drukknoppen met je R
 Zorg er nu voor dat de drukkknoppen van de RP de leds van de PCF8574 sturen en omgekeerd.
 """
 
+
 """
     Drukknop Pi 1 	    : GPIO 21
     Drukknop Pi 2 	    : GPIO 20
@@ -40,8 +41,10 @@ Zorg er nu voor dat de drukkknoppen van de RP de leds van de PCF8574 sturen en o
 
 import RPi.GPIO as GPIO
 
-from hardware.DigitalInputGPIO import DigitalInputGPIO
-from hardware.DigitalOutputGPIO import DigitalOutputGPIO
+from src.hardware.DigitalInputGPIO import DigitalInputGPIO
+from src.hardware.DigitalOutputGPIO import DigitalOutputGPIO
+from src.hardware.DigitalOutputPCF8574 import DigitalOutputPCF8574
+from src.hardware.DititalInputPCF8574 import DigitalInputPCF8574
 
 
 class Main:
@@ -70,17 +73,14 @@ class Main:
 
         # PCF8574 IO
         self._ledRedPCF8574 = DigitalOutputPCF8574(0)
-        self._ledGreenPCF8574 = DigitalOutputPCF8574(1)
-        self._ledBluePCF8574 = DigitalOutputPCF8574(2)
-        self._ledYellowPCF8574 = DigitalOutputPCF8574(3)
+        self._ledGreenPCF8574 = DigitalOutputPCF8574(0)
+        self._ledBluePCF8574 = DigitalOutputPCF8574(0)
+        self._ledYellowPCF8574 = DigitalOutputPCF8574(0)
 
         self._btn1PCF8574 = DigitalInputPCF8574(4)
         self._btn2PCF8574 = DigitalInputPCF8574(5)
         self._btn3PCF8574 = DigitalInputPCF8574(6)
         self._btn4PCF8574 = DigitalInputPCF8574(7)
-
-        self._interruptPCF8574 = DigitalInputGPIO(18)
-
 
     def _initCallbacks(self):
         self._btn1GPIO.setEvent(edge=GPIO.RISING, callback=lambda _: self._ledRedPCF8574.toggle(), bouncetime=200)
