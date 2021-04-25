@@ -74,7 +74,7 @@ class Main:
         self._btn4GPIO = DigitalInputGPIO(12)
 
         # PCF8574 IO
-        self._pcf8574 = PCF8574(0x20)
+        self._pcf8574 = PCF8574(0x20, 18)
 
         self._ledRedPCF8574 = DigitalOutputPCF8574(0)
         self._ledGreenPCF8574 = DigitalOutputPCF8574(1)
@@ -85,8 +85,6 @@ class Main:
         self._btn2PCF8574 = DigitalInputPCF8574(5)
         self._btn3PCF8574 = DigitalInputPCF8574(6)
         self._btn4PCF8574 = DigitalInputPCF8574(7)
-
-        self._interrupt = DigitalInputGPIO(18)
 
     def _initCallbacks(self):
         self._btn1GPIO.setEvent(edge=GPIO.RISING, callback=lambda _: self._ledRedPCF8574.toggle(), bouncetime=200)
