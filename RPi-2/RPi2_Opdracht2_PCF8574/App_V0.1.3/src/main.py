@@ -42,9 +42,9 @@ Zorg er nu voor dat de drukkknoppen van de RP de leds van de PCF8574 sturen en o
 import RPi.GPIO as GPIO
 
 from hardware.DigitalInputGPIO import DigitalInputGPIO
+from hardware.DigitalInputPCF8574 import DigitalInputPCF8574
 from hardware.DigitalOutputGPIO import DigitalOutputGPIO
 from hardware.DigitalOutputPCF8574 import DigitalOutputPCF8574
-from hardware.DititalInputPCF8574 import DigitalInputPCF8574
 
 
 class Main:
@@ -87,6 +87,11 @@ class Main:
         self._btn2GPIO.setEvent(edge=GPIO.RISING, callback=lambda _: self._ledGreenPCF8574.toggle(), bouncetime=200)
         self._btn3GPIO.setEvent(edge=GPIO.RISING, callback=lambda _: self._ledBluePCF8574.toggle(), bouncetime=200)
         self._btn4GPIO.setEvent(edge=GPIO.RISING, callback=lambda _: self._ledYellowPCF8574.toggle(), bouncetime=200)
+
+        self._btn1PCF8574.setEvent(callback=lambda _: self._ledRedGPIO.toggle())
+        self._btn2PCF8574.setEvent(callback=lambda _: self._ledGreenGPIO.toggle())
+        self._btn3PCF8574.setEvent(callback=lambda _: self._ledBlueGPIO.toggle())
+        self._btn4PCF8574.setEvent(callback=lambda _: self._ledYellowGPIO.toggle())
 
     def _loop(self):
         while True:
