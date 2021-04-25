@@ -12,9 +12,22 @@ Versie waar input en output classes zijn bijgemaakt  om de pcf8574 io aan te stu
 Deze code werkt niet 100% maar de code zelf is ook niet ok. In de classes DigitalInputPCF8574 en DigitalOutputPCF8574 wordt dezelfde code herhaald. Ook voert elke instantie van deze classes dezelfde code uit voor hetzelfde doel.
 
 V0.1.4 :
-Versie met afzonderlijke classe voor PCF8574
+Versie met afzonderlijke classe voor PCF8574.
+Deze versie een eerste aanzet tot OOP. Maar het probleem hier is dat de Main classe 2 taken uitvoert, nl.: 
+1. Het opbouwen / configureren van de applicatie
+2. Ze bevat de logica van de applicatie
+In OOP is het de bedoeling dat elke classe slechts 1 taak vervuld. Ook het uitbreiden van een applicatie moet eenvoudig en op een enkele plaats kunnen gebeuren. 
+Dat de objecten los gekoppeld zijn en sterk samenwerken (loosely coupled and highly cohesive).
+
+
+
+V0.1.5 : (later)
+Versie met het splitsen van de main class in een configuratie classe en een classe voor de logica van de applicatie. Dit is nodig om makkelijk verschillende frontends toe te voegen.
 
 V0.2.0 : (later)
-Versie met GUI (tkinter) en een lcd scherm.
+Versie met GUI (tkinter).
+
+V0.2.1 : (later)
+Versie met lcd schermpje
 
 
