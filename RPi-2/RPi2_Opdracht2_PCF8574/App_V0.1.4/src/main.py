@@ -94,12 +94,12 @@ class Main:
         self._btn3GPIO.setEvent(edge=GPIO.RISING, callback=lambda _: self._ledBluePCF8574.toggle(), bouncetime=200)
         self._btn4GPIO.setEvent(edge=GPIO.RISING, callback=lambda _: self._ledYellowPCF8574.toggle(), bouncetime=200)
 
-        self._btn1PCF8574.setEvent(callback=lambda _: self._ledRedGPIO.toggle())
-        self._btn2PCF8574.setEvent(callback=lambda _: self._ledGreenGPIO.toggle())
-        self._btn3PCF8574.setEvent(callback=lambda _: self._ledBlueGPIO.toggle())
-        self._btn4PCF8574.setEvent(callback=lambda _: self._ledYellowGPIO.toggle())
+        # self._btn1PCF8574.setEvent(callback=lambda _: self._ledRedGPIO.toggle())
+        # self._btn2PCF8574.setEvent(callback=lambda _: self._ledGreenGPIO.toggle())
+        # self._btn3PCF8574.setEvent(callback=lambda _: self._ledBlueGPIO.toggle())
+        # self._btn4PCF8574.setEvent(callback=lambda _: self._ledYellowGPIO.toggle())
 
-        self._interrupt.setEvent(edge=GPIO.FALLING, callback=self._togglePCFLeds, bouncetime=0)
+        # self._interrupt.setEvent(edge=GPIO.FALLING, callback=self._togglePCFLeds, bouncetime=0)
 
     def _togglePCFLeds(self):
         self._btn1PCF8574.runCallback()
