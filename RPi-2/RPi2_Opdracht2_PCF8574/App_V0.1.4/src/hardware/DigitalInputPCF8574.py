@@ -1,8 +1,9 @@
-import RPi.GPIO as GPIO
-import smbus
 
 
 class DigitalInputPCF8574:
 
-    def __init__(self, port):
+    def __init__(self, pin):
+        self._pin = pin
+
+    def setEvent(self, callback):
         pass
