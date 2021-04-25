@@ -12,8 +12,9 @@ class DigitalInputPCF8574:
 
         self._callback = None
 
-        GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.add_event_detect(18, edge=GPIO.FALLING, callback=lambda _: self._runCallback())
+        # Dit kan niet!!
+        # GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        # GPIO.add_event_detect(18, edge=GPIO.FALLING, callback=lambda _: self.runCallback())
 
     def _readI2C(self):
         self._pcfMessage = self._bus.read_byte(self._pcfAddress)
@@ -21,7 +22,7 @@ class DigitalInputPCF8574:
     def _isSet(self, value, bit):
         return value & 1 << bit != 0
 
-    def _runCallback(self):
+    def runCallback(self):
         self._readI2C()
 
         if self._isSet(self._pcfAddress, self._port):
