@@ -25,6 +25,8 @@ class DigitalInputPCF8574:
     def runCallback(self):
         self._readI2C()
 
+        print(self._pcfMessage)
+
         if self._isSet(self._pcfAddress, self._port):
             self._callback()
 
