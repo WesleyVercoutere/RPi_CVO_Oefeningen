@@ -41,7 +41,7 @@ class PCF8574:
         self._message =  self._message & ~(1 << bit)
 
     def _isSet(self, bit):
-        return self._message & 1 << bit != 0
+        return self._message & (1 << bit) != 0
 
     def addInput(self, *args):
         for input in args:

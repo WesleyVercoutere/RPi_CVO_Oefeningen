@@ -39,4 +39,5 @@ def is_set(value, bit):
 getal1 = 0
 
 getal1 = set_bit(getal1, 2)
+
 print(getal1)

@@ -69,3 +69,5 @@ if __name__ == "__main__":
     marcel = Persoon("Marcel", "Kiekeboe", adres1)
 
     marcelNv = Bedrijf("Marcel N.V.", adres1)
+
+    print(marcel.adres.straat)
