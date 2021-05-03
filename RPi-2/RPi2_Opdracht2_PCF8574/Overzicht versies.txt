@@ -19,10 +19,11 @@ Deze versie een eerste aanzet tot OOP. Maar het probleem hier is dat de Main cla
 In OOP is het de bedoeling dat elke classe slechts 1 taak vervuld. Ook het uitbreiden van een applicatie moet eenvoudig en op een enkele plaats kunnen gebeuren. 
 Dat de objecten los gekoppeld zijn en sterk samenwerken (loosely coupled and highly cohesive).
 
-
-
 V0.1.5 : (later)
 Versie met het splitsen van de main class in een configuratie classe en een classe voor de logica van de applicatie. Dit is nodig om makkelijk verschillende frontends toe te voegen.
+
+V0.1.6 : 
+In vorige versie worden de leds getoggeld vanuit een array in de LogicManager. Deze variabele of lijst vervangen we door een repository(verzameling) van domeinobjecten.
 
 V0.2.0 : (later)
 Versie met GUI (tkinter).
