@@ -7,3 +7,4 @@ class BaseController(metaclass=abc.ABCMeta):
         self.logicMgr = logicManager
 
     def btnToggleLed_clicked(self, btnId):
+        pass

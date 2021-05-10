@@ -44,10 +44,7 @@ Zorg er nu voor dat de drukkknoppen van de RP de leds van de PCF8574 sturen en o
 import RPi.GPIO as GPIO
 
 from hardware.DigitalInputGPIO import DigitalInputGPIO
-from hardware.DigitalInputPCF8574 import DigitalInputPCF8574
 from hardware.DigitalOutputGPIO import DigitalOutputGPIO
-from hardware.DigitalOutputPCF8574 import DigitalOutputPCF8574
-from hardware.PCF8574 import PCF8574
 
 
 class Main:
@@ -68,25 +65,10 @@ class Main:
         self._ledBlueGPIO = DigitalOutputGPIO(13)
         self._ledYellowGPIO = DigitalOutputGPIO(6)
 
-        self._btn1GPIO = DigitalInputGPIO(21)
-        self._btn2GPIO = DigitalInputGPIO(20)
-        self._btn3GPIO = DigitalInputGPIO(16)
-        self._btn4GPIO = DigitalInputGPIO(12)
-
-        # PCF8574 IO
-        self._ledRedPCF8574 = DigitalOutputPCF8574(0)
-        self._ledGreenPCF8574 = DigitalOutputPCF8574(1)
-        self._ledBluePCF8574 = DigitalOutputPCF8574(2)
-        self._ledYellowPCF8574 = DigitalOutputPCF8574(3)
-
-        self._btn1PCF8574 = DigitalInputPCF8574(4)
-        self._btn2PCF8574 = DigitalInputPCF8574(5)
-        self._btn3PCF8574 = DigitalInputPCF8574(6)
-        self._btn4PCF8574 = DigitalInputPCF8574(7)
-
-        self._pcf8574 = PCF8574(0x20, 18)
-        self._pcf8574.addInput(self._btn1PCF8574, self._btn2PCF8574, self._btn3PCF8574, self._btn4PCF8574)
-        self._pcf8574.addOutput(self._ledRedPCF8574, self._ledGreenPCF8574, self._ledBluePCF8574, self._ledYellowPCF8574)
+        self._btn1GPIO = DigitalInputGPIO(21, GPIO.PUD_UP)
+        self._btn2GPIO = DigitalInputGPIO(20, GPIO.PUD_UP)
+        self._btn3GPIO = DigitalInputGPIO(16, GPIO.PUD_UP)
+        self._btn4GPIO = DigitalInputGPIO(12, GPIO.PUD_UP)
 
     def _loop(self):
         while True:
