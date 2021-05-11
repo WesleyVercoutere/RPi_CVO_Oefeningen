@@ -1,0 +1,12 @@
+https://www.youtube.com/watch?v=sY06F_sPef4&t=216s
+https://www.youtube.com/watch?v=vO82l0IR5GI
+https://www.youtube.com/watch?v=PTfK9BFuKY0
+
+https://blog.davidvassallo.me/2014/05/11/android-linux-raspberry-pi-bluetooth-communication/
+https://stackoverflow.com/questions/51848180/pybluez-bluetooth-connection
+https://stackoverflow.com/questions/36099960/how-to-connect-to-raspberry-pi-with-an-android-app-over-bluetooth
+
+https://blog.kevindoran.co/bluetooth-programming-with-python-3/
+
+Show all installed packages
+apt list --installed

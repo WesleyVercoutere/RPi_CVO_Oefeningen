@@ -10,7 +10,7 @@ try:
         print("Bluetooth Binding Completed")
 except:
         print("Bluetooth Binding Failed")
-# server.listen(1) # One connection at a time
+server.listen(1) # One connection at a time
 # Server accepts the clients request and assigns a mac address.
 client, address = server.accept()
 print("Connected To", address)
