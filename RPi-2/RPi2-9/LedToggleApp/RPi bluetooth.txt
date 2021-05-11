@@ -7,6 +7,10 @@ https://stackoverflow.com/questions/51848180/pybluez-bluetooth-connection
 https://stackoverflow.com/questions/36099960/how-to-connect-to-raspberry-pi-with-an-android-app-over-bluetooth
 
 https://blog.kevindoran.co/bluetooth-programming-with-python-3/
+https://blog.iamlevi.net/2017/05/control-raspberry-pi-android-bluetooth/
+
+https://electronicshobbyists.com/controlling-gpio-through-android-app-over-bluetooth-raspberry-pi-bluetooth-tutorial/
 
 Show all installed packages
 apt list --installed
+
