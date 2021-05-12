@@ -1,6 +1,6 @@
 import RPi.GPIO as GPIO
-import bluetooth
 import time
+import serial
 
 from tkinter import *
 
@@ -65,30 +65,48 @@ class Main:
         frame.grid(column=0, row=0, padx=10, pady=10, sticky='ew')
 
     def _initBT(self):
-        server_sock=bluetooth.BluetoothSocket( bluetooth.RFCOMM )
-  
-        port = 1
-        server_sock.bind(("",port))
-        server_sock.listen(1)
-        act
-        client_sock,address = server_sock.accept()
-        print("Accepted connection from " + str(address))
-        
-        # data = client_sock.recv(1024)
-        # print("received [%s]" % data)
-        
-        # client_sock.close()
-        # server_sock.close()
+        self.port = serial.Serial("/dev/ttyS0",9600)
 
+    def _handleBT(self, msg):
+        if msg == 'red':
+            self._toggleLed(0)
+
+        elif msg == 'green':
+            self._toggleLed(1)
+
+        elif msg == 'blue':
+            self._toggleLed(2)
+
+        elif msg == 'yellow':
+            self._toggleLed(3)
+
+        else:
+            return
 
     def _loop(self):
+        c=0
+        # msg=[]  dan komen alle bytes in een list  bij msg=b"" komen alle bytes in een byte string
+        msg=b""
+        msgstr=""
+
         while True:
-            data = client_sock.recv(1024)
-            print(f"received {data}")
-
-            time.sleep(0.5)
-
             self.root.update()
+
+            if self.port.inWaiting()>0:
+                c = self.port.read()  # komt binnen als byte
+                
+                if c == b'\n':
+                    msgstr=msg.decode()  # 
+                    self._handleBT(msgstr)
+                    msg=b""
+                    msgstr=""
+
+                elif c==b'\r':
+                    pass
+
+                else:
+                    msg += c  # add byte aan byte string
+
     
 if __name__ == "__main__":
     main = Main()
