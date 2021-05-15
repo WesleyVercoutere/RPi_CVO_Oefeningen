@@ -1,6 +1,6 @@
 import RPi.GPIO as GPIO
 import time
-import serial
+import serial # pip install pyserial in venv
 
 from tkinter import *
 
