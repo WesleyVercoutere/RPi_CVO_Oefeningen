@@ -81,7 +81,7 @@ class Main:
             self._toggleLed(3)
 
         else:
-            return
+            print(msg)
 
     def _loop(self):
         c=0
@@ -106,6 +106,8 @@ class Main:
 
                 else:
                     msg += c  # add byte aan byte string
+
+            time.sleep(0.1)
 
     
 if __name__ == "__main__":
