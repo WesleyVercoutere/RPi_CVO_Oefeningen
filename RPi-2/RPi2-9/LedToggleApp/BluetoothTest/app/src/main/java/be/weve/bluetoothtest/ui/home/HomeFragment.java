@@ -36,14 +36,13 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        setButtons();
+        setClick();
 
         return root;
     }
 
-    private void setButtons() {
-
-        binding.RedLed.
+    private void setClick() {
+        
 
 
     }
