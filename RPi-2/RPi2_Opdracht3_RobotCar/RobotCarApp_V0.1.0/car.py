@@ -7,16 +7,16 @@ ledOnBoard = Pin(2, Pin.OUT)
 
 bt = UART(1, baudrate=9600, tx=33 , rx=32)
 
-enablePin = Pin(21, Pin.OUT);
-messagePin = Pin(22, Pin.OUT);
-clockPin = Pin(19, Pin.OUT);
-latchPin = Pin(23, Pin.OUT);
+enablePin = Pin(21, Pin.OUT)
+messagePin = Pin(22, Pin.OUT)
+clockPin = Pin(19, Pin.OUT)
+latchPin = Pin(23, Pin.OUT)
 
-pwmM1 = Pin(18, Pin.OUT);
-pwmM2 = Pin(5, Pin.OUT);
+pwmM1 = Pin(18, Pin.OUT)
+pwmM2 = Pin(5, Pin.OUT)
 
-pwmM3 = Pin(17, Pin.OUT);
-pwmM4 = Pin(16, Pin.OUT);
+pwmM3 = Pin(17, Pin.OUT)
+pwmM4 = Pin(16, Pin.OUT)
 
 #Start program
 enablePin.off()
@@ -97,10 +97,4 @@ while True:
         latchPin.off()
         time.sleep(5)
     '''        
-            
-            
-    
-    
-    
-    
     
