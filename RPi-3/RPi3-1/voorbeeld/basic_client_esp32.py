@@ -16,7 +16,7 @@ def do_connect():
     if not sta_if.isconnected():
         print('connecting to network...')
         sta_if.active(True) # ESP acts as a station and connects to an acces point
-        sta_if.connect('telenet-5432836', 'hwwmbxr7sswM') # use your 
+        sta_if.connect('telenet-69249', '5E40nQkE42tk') # use your 
         while not sta_if.isconnected():
             pass
     print('network config:', sta_if.ifconfig())  #network config: ('192.168.0.110', '255.255.255.0', '192.168.0.1', '42.2.24.0')
@@ -27,7 +27,7 @@ do_connect()
 import socket
 
 #Then get the IP address of the server:
-addr_info = socket.getaddrinfo("192.168.0.172", 5555)
+addr_info = socket.getaddrinfo("192.168.0.170", 5555)
 
 #The getaddrinfo function actually returns a list of addresses, and each address has more information than we need.
 #We want to get just the first valid address,
