@@ -1,5 +1,6 @@
 '''httpserver met juiste Content-Length header en html bericht uit file! 
 '''
+from RequestObject import RequestObject
 import socket
 import sys
 
@@ -10,189 +11,104 @@ class WebServer:
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.bind(('0.0.0.0', self.PORT))
         self.socket.listen(1)
-        
-        print(socket.gethostbyname(socket.gethostname()))
+
+        self.conn = None
 
     def run(self) -> None:
         try:
             while True:
-                conn, addr = self.socket.accept()
-                
-                request = conn.recv(2048)
-                print("message from client=",request.decode("UTF-8"))
+                print("Server is waiting for a connection at",self._get_ip_address(), "and port", self.PORT)
+                print()
+                self.conn, addr = self.socket.accept()
+                request = self.conn.recv(2048)
                 
                 if len(request) > 0:                  
-                    
-                    pass
-
-                    # if b"GET / HTTP" in request or b"GET /index.html" in request:                
-                    #     antwoord_browser("index.html","html")                
-                        
-                    # elif b"GET /my_data.html" in request:
-                    #     antwoord_browser("my_data.html","html")                  
-                    # elif b"GET /my_hobbies.html" in request:
-                    #     antwoord_browser("my_hobbies.html","html")                   
-                    # elif b"GET /my_work.html" in request:            
-                    #     antwoord_browser("my_work.html","html")             
-                        
-                    # elif b"GET /favicon.ico" in request:
-                    #     antwoord_browser("favicon.ico","favicon")   
-                        
-                    # elif b"wim.jpg" in request:
-                    #     antwoord_browser("wim.jpg","jpg")
-                        
-                    # elif b"pianoles.jpg" in request:
-                    #     antwoord_browser("pianoles.jpg","jpg")
-                        
-                    # elif b"iotsolutions.png" in request:
-                    #     antwoord_browser("iotsolutions.png","png")
-                        
-                    # elif b"cvofocus.jpg" in request:
-                    #     antwoord_browser("cvofocus.jpg","jpg")
-                        
-                    # elif b"piano.png" in request:
-                    #     antwoord_browser("piano.png","png")
-                        
-                    # elif b"programmeren.jpg" in request:
-                    #     antwoord_browser("programmeren.jpg","jpg")
-                        
-                    # elif b"joggen.jpg" in request:
-                    #     antwoord_browser("joggen.jpg","jpg")
-                        
-                    # elif b"hiking2.jpg" in request:
-                    #     antwoord_browser("hiking2.jpg","jpg")
-                        
-                    # elif b"schaken.jpg" in request:
-                    #     antwoord_browser("schaken.jpg","jpg")
-                        
-                    # elif b"gegevens.jpg" in request:
-                    #     antwoord_browser("gegevens.jpg","jpg")
+                    self._handle_request(request)
                                                 
-                        
-                    print("\nServer closed connection!")
+                else:
+                    print("client disconnected")
+                    break
 
-        except:
+        except Exception as ex:
             e=sys.exc_info()[0]
-            print("Except in main!!", e)
+            print("Except in main!!", ex)
+
+    def _get_ip_address(self) -> str:
+        ip_address = ''
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8",80))
+        print("s.getsockname()=",s.getsockname())
+        ip_address = s.getsockname()[0]
+        print("ip_address=",ip_address)
+        print()
+        s.close()
+        return ip_address
+
+    def _handle_request(self, request) -> None:
+        request_obj = self._filter_request(request)
+        self._respond(request_obj)
         
+    def _filter_request(self, request) -> RequestObject:
+        r = request.decode("utf-8")
+        r = r.split('\n')[0]
+        print(r)
+        r = r.split(' ')[1]
+        print(r)
+
+        obj = RequestObject()
+
+        if r == "/":
+            obj.filename = "index.html"
+            obj.filetype = "html"
+        else:
+            obj.filename = r[1:]
+            obj.filetype = r.split(".")[1]
+
+        return obj
+        
+    def _respond(self, request_obj: RequestObject):
+        try:
+            path = "/home/weve/Documents/RPi_CVO_Oefeningen/RPi-3/RPi3-3/src/resources/"
+
+            if request_obj.filetype == "html":
+                f = open(f"{path}html/{request_obj.filename}", "r")
+
+            elif request_obj.filetype == "jpg" or request_obj.filetype == "favicon" or request_obj.filetype == "png" :
+                f =open(f"{path}images/{request_obj.filename}", "rb")
+            
+            else:
+                print("else, why?")
+                
+            response = f.read()
+            length_response = len(response)
+            
+            self.conn.send(b"HTTP/1.1 200 OK\r\n")
+            
+            if request_obj.filetype=="html":
+                self.conn.sendall(b"Content-Type: text/html\r\n")
+            elif request_obj.filetype=="jpg":
+                self.conn.sendall(b"Content-Type: imgage/jpg\r\n")
+            elif request_obj.filetype=="png":
+                self.conn.sendall(b"Content-Type: image/png\r\n")
+            elif request_obj.filetype=="favicon":
+                self.conn.sendall(b"Content-Type: image/ico\r\n")
+            else:
+                print("no type found!")
+                
+            content_length_header="Content-Length:"+str(length_response)+"\r\n\r\n"
+            self.conn.sendall(content_length_header.encode("UTF-8"))
+
+            if request_obj.filetype == "html":
+                self.conn.sendall(response.encode("UTF-8"))
+            else:
+                self.conn.sendall(response)
+            self.conn.close()
+        
+        except Exception as ex:
+            e=sys.exc_info()[0]
+            print("Except in antwoord_browser !!", ex)
+            self.conn.close()      
         
 if __name__ == "__main__":
-
     app = WebServer()
     app.run()
-
-
-
-'''
-PORT=8080
-
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind(('0.0.0.0', PORT))
-s.listen(1)
-
-print(socket.gethostbyname(socket.gethostname()))
-request=b""
-
-def antwoord_browser(bestands_naam, type_bestand):
-    try:
-        if type_bestand=="html":
-            f=open(bestands_naam,"r") # default "rt" not needed to specify   b for binary ...
-        elif type_bestand=="jpg" or type_bestand=="favicon" or type_bestand=="png" :
-            f=open(bestands_naam,"rb") # default "rt" not needed to specify   b for binary ...
-        else:
-            print("else, why?")
-            
-        response=f.read()
-        length_response=len(response)
-        print("\nDe respons heeft een lengte=", length_response, "bytes")
-        
-        conn.send(b"HTTP/1.1 200 OK\r\n")
-        
-        if type_bestand=="html":
-            conn.sendall(b"Content-Type: text/html\r\n")
-        elif type_bestand=="jpg":
-            conn.sendall(b"Content-Type: imgage/jpg\r\n")
-        elif type_bestand=="png":
-            conn.sendall(b"Content-Type: image/png\r\n")
-        elif type_bestand=="favicon":
-            conn.sendall(b"Content-Type: image/ico\r\n")
-        else:
-            print("no type found!")
-            
-        content_length_header="Content-Length:"+str(length_response)+"\r\n\r\n"
-        conn.sendall(content_length_header.encode("UTF-8"))  # we beginnen te tellen NA de lege lijn!
-        if type_bestand=="html":
-            conn.sendall(response.encode("UTF-8")) # zet string om naar bytes
-        else:
-            conn.sendall(response) # 
-        conn.close()
-    except:
-        e=sys.exc_info()[0]
-        print("Except in antwoord_browser !!", e)
-        conn.close()      
-
-try:
-    while True:
-        print("Server is waiting for a connection at",socket.gethostbyname(socket.gethostname()), "and port", PORT)
-        conn, addr = s.accept()
-        print('Server got a connection from' , addr)
-        
-        request = conn.recv(2048)
-        #print("message from client=",request)
-        print("len request =",len(request))
-        print("message from client=",request.decode("UTF-8"))
-        
-        if len(request) > 0:                  
-           
-            if b"GET / HTTP" in request or b"GET /index.html" in request:                
-                antwoord_browser("index.html","html")                
-                
-            elif b"GET /my_data.html" in request:
-                 antwoord_browser("my_data.html","html")                  
-            elif b"GET /my_hobbies.html" in request:
-                antwoord_browser("my_hobbies.html","html")                   
-            elif b"GET /my_work.html" in request:            
-                antwoord_browser("my_work.html","html")             
-                
-            elif b"GET /favicon.ico" in request:
-                antwoord_browser("favicon.ico","favicon")   
-                
-            elif b"wim.jpg" in request:
-                antwoord_browser("wim.jpg","jpg")
-                
-            elif b"pianoles.jpg" in request:
-                antwoord_browser("pianoles.jpg","jpg")
-                
-            elif b"iotsolutions.png" in request:
-                antwoord_browser("iotsolutions.png","png")
-                
-            elif b"cvofocus.jpg" in request:
-                antwoord_browser("cvofocus.jpg","jpg")
-                
-            elif b"piano.png" in request:
-                antwoord_browser("piano.png","png")
-                
-            elif b"programmeren.jpg" in request:
-                antwoord_browser("programmeren.jpg","jpg")
-                
-            elif b"joggen.jpg" in request:
-                antwoord_browser("joggen.jpg","jpg")
-                
-            elif b"hiking2.jpg" in request:
-                antwoord_browser("hiking2.jpg","jpg")
-                
-            elif b"schaken.jpg" in request:
-                antwoord_browser("schaken.jpg","jpg")
-                
-            elif b"gegevens.jpg" in request:
-                antwoord_browser("gegevens.jpg","jpg")
-                                           
-                
-            print("\nServer closed connection!")
-
-except:
-    e=sys.exc_info()[0]
-    print("Except in main!!", e)
-          
-
-'''
