@@ -3,7 +3,88 @@
 import socket
 import sys
 
-PORT=7806
+class WebServer:
+
+    def __init__(self) -> None:
+        self.PORT = 8080
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket.bind(('0.0.0.0', self.PORT))
+        self.socket.listen(1)
+        
+        print(socket.gethostbyname(socket.gethostname()))
+
+    def run(self) -> None:
+        try:
+            while True:
+                conn, addr = self.socket.accept()
+                
+                request = conn.recv(2048)
+                print("message from client=",request.decode("UTF-8"))
+                
+                if len(request) > 0:                  
+                    
+                    pass
+
+                    # if b"GET / HTTP" in request or b"GET /index.html" in request:                
+                    #     antwoord_browser("index.html","html")                
+                        
+                    # elif b"GET /my_data.html" in request:
+                    #     antwoord_browser("my_data.html","html")                  
+                    # elif b"GET /my_hobbies.html" in request:
+                    #     antwoord_browser("my_hobbies.html","html")                   
+                    # elif b"GET /my_work.html" in request:            
+                    #     antwoord_browser("my_work.html","html")             
+                        
+                    # elif b"GET /favicon.ico" in request:
+                    #     antwoord_browser("favicon.ico","favicon")   
+                        
+                    # elif b"wim.jpg" in request:
+                    #     antwoord_browser("wim.jpg","jpg")
+                        
+                    # elif b"pianoles.jpg" in request:
+                    #     antwoord_browser("pianoles.jpg","jpg")
+                        
+                    # elif b"iotsolutions.png" in request:
+                    #     antwoord_browser("iotsolutions.png","png")
+                        
+                    # elif b"cvofocus.jpg" in request:
+                    #     antwoord_browser("cvofocus.jpg","jpg")
+                        
+                    # elif b"piano.png" in request:
+                    #     antwoord_browser("piano.png","png")
+                        
+                    # elif b"programmeren.jpg" in request:
+                    #     antwoord_browser("programmeren.jpg","jpg")
+                        
+                    # elif b"joggen.jpg" in request:
+                    #     antwoord_browser("joggen.jpg","jpg")
+                        
+                    # elif b"hiking2.jpg" in request:
+                    #     antwoord_browser("hiking2.jpg","jpg")
+                        
+                    # elif b"schaken.jpg" in request:
+                    #     antwoord_browser("schaken.jpg","jpg")
+                        
+                    # elif b"gegevens.jpg" in request:
+                    #     antwoord_browser("gegevens.jpg","jpg")
+                                                
+                        
+                    print("\nServer closed connection!")
+
+        except:
+            e=sys.exc_info()[0]
+            print("Except in main!!", e)
+        
+        
+if __name__ == "__main__":
+
+    app = WebServer()
+    app.run()
+
+
+
+'''
+PORT=8080
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind(('0.0.0.0', PORT))
@@ -114,12 +195,4 @@ except:
     print("Except in main!!", e)
           
 
-        
-        
-        
-
-
-
-
-
-
+'''
