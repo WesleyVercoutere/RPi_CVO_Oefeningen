@@ -1,4 +1,4 @@
-from RequestObject import RequestObject
+from domain.RequestObject import RequestObject
 import socket
 import sys
 
@@ -118,7 +118,3 @@ class WebServer:
             e=sys.exc_info()[0]
             print("Except in antwoord_browser !!", ex)
             self.conn.close()      
-        
-if __name__ == "__main__":
-    app = WebServer()
-    app.run()
