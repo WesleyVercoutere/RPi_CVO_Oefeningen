@@ -66,6 +66,17 @@ class WebServer:
         
     def _respond(self, request_obj: RequestObject):
         try:
+            '''
+            import os
+            print os.sep
+            to see how separator looks on a current OS.
+            In your code you can use:
+
+            import os
+            path = os.path.join('folder_name', 'file_name')
+
+            path = os.sep.join('folder_name', 'file_name')
+            '''
             # path = "/home/weve/Documents/RPi_CVO_Oefeningen/RPi-3/RPi3-3/src/resources/"
             path = ""
 
