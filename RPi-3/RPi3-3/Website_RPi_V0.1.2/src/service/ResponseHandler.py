@@ -2,12 +2,13 @@ import os
 
 from domain.ResponseObject import ResponseObject
 from domain.RequestObject import RequestObject
+from service.ResourceHelper import ResourceHelper
 
 
 class ResponseHandler:
 
     def __init__(self) -> None:
-        pass
+        self._resource_helper = ResourceHelper()
 
     def get_response(self, request_obj: RequestObject) -> ResponseObject:
         path = os.getcwd()

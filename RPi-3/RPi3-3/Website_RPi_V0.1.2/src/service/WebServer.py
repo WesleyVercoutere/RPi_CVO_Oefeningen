@@ -31,12 +31,12 @@ class WebServer:
         self._socket.bind(('0.0.0.0', self.PORT))
         self._socket.listen(1)
 
+        print(f"Server is waiting for a connection at {self._ip_helper.get_ip_address()}, port : {self.PORT}")
+        print()
+
     def _start_server(self) -> None:
         try:
             while True:
-                print(f"Server is waiting for a connection at {self._ip_helper.get_ip_address()}, port : {self.PORT}")
-                print()
-                
                 self._conn = self._socket.accept()[0]
                 request = self._conn.recv(2048)
                 
@@ -49,7 +49,9 @@ class WebServer:
                     break
 
         except Exception as ex:
-            print("Exception in _start_server()!!", ex)
+            print("Exception in _start_server()!!")
+            print(ex)
+            print()
 
     def _handle_request(self, request) -> None:
         self._request = self._request_handler.get_request(request)
@@ -66,5 +68,7 @@ class WebServer:
             self._conn.close()
         
         except Exception as ex:
-            print("Exception in _handle_response()!!", ex)
+            print("Exception in _handle_response()!!")
+            print(ex)
+            print()
             self._conn.close()
