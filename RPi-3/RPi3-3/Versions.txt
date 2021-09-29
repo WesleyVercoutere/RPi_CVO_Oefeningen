@@ -1,0 +1,14 @@
+V0.1.0 :
+    - Voorbeeld "website_op_RP_vb_20-9-2021.py" in 1 class
+
+V0.1.1 :
+    - program entry : __main__.py
+    - class WebServer -> verwijderen code request en response handling
+    - Handler en helper classen toegevoegd
+
+V0.1.2 :
+    - Verder vereenvoudigen ResponseHandler.get_response()
+    - Toevoegen ResourceHelper class
+
+V0.1.3 :
+    - IOC introduceren, ResponseHandler niet meer verantwoordelijk voor het aanmaken van een ResourceHelper object.
