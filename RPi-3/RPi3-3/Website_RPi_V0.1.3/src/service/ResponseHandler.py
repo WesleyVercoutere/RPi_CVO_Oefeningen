@@ -11,7 +11,7 @@ class ResponseHandler:
         self._context = resource_context
 
     def get_response(self, request_obj: RequestObject) -> ResponseObject:
-        self._init_context(request_obj)
+        self._context.set_state(Resource[request_obj.filetype.upper()].get_state())
         state: IResourceState = self._context.get_state()
         response = ResponseObject()
 
@@ -25,6 +25,3 @@ class ResponseHandler:
             response.header_1 = b"HTTP/1.1 404 Not Found\r\n"
 
         return response
-
-    def _init_context(self, request_obj: RequestObject) -> None:
-        self._context.set_state(Resource[request_obj.filetype.upper()].get_state())
