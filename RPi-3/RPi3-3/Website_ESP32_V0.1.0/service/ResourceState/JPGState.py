@@ -9,7 +9,7 @@ class JPGState(IResourceState):
         pass
 
     def get_content(self, request_obj: RequestObject):
-        file = os.path.join(os.getcwd(), "src", "resources", request_obj.filename)
+        file = f"/resources/{request_obj.filename}"
         file = open(file, "rb")
 
         content = file.read()
