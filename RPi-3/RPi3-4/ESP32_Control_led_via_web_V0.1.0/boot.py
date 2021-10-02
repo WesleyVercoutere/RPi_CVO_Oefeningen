@@ -8,7 +8,7 @@ def do_connect():
         print('connecting to network...')
         sta_if.active(True) # ESP acts as a station and connects to an acces point
         sta_if.ifconfig(('192.168.0.20', '255.255.255.0', '192.168.0.1', '8.8.8.8'))
-        sta_if.connect('telenet-69249', '5E40nQkE42tk') # use your 
+        sta_if.connect('SSID', 'KEY') # use your 
 
         while not sta_if.isconnected():
             pass
