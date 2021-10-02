@@ -1,3 +1,4 @@
+Website RPi
 V0.1.0 :
     - Voorbeeld "website_op_RP_vb_20-9-2021.py" in 1 class
 
@@ -13,3 +14,6 @@ V0.1.2 :
 V0.1.3 :
     - IOC introduceren, ResponseHandler niet meer verantwoordelijk voor het aanmaken van een ResourceHelper object.
     - If, elif, else => code smell, vooral if type == "html", wordt meerdere keren gebruikt. Kan opgelost worden met een state pattern
+
+Website ESP32
+V0.1.0 : afgeleide van RPi V0.1.3, geen enums mogelijk met MicroPython. Dus if else in de resource context...
