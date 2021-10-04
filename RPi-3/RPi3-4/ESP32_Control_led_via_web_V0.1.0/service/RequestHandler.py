@@ -12,7 +12,7 @@ class RequestHandler:
         obj = RequestObject()
 
         if req == "/":
-            obj.filename = "html/index.html"
+            obj.filename = "html/led_off.html"
             obj.filetype = "html"
         else:
             obj.filename = req[1:]
