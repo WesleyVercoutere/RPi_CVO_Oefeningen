@@ -55,7 +55,7 @@ class WebServer:
 
     def _handle_response(self, request: RequestHandler) -> None:
         try:
-            response: ResponseHandler = self._response_handler.get_response(request)
+            response = self._response_handler.get_response(request)
 
             self._conn.send(response.header_1)
             self._conn.send(response.header_2)
