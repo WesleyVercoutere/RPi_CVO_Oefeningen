@@ -1,5 +1,6 @@
 import socket
 
+from webserver.service.IPAddressHelper import IPAddressHelper
 from webserver.service.RequestHandler import RequestHandler
 
 
@@ -12,15 +13,28 @@ class WebServer:
         self._conn = None
 
         self._request_handler = RequestHandler()
+        self._ip_helper = IPAddressHelper()
 
     def run(self) -> None:
         self._init_socket()
         self._start_server()
 
+    def route(self, *routes):
+        def wrapper(f):
+            for route in routes:
+                print(f"Register route: {route}")
+
+                self._request_handler.register_route(route, f)
+        
+        return wrapper
+
     def _init_socket(self) -> None:
         self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self._socket.bind(('0.0.0.0', self.PORT))
         self._socket.listen(1)
+
+        print(f"Server is waiting for a connection at {self._ip_helper.get_ip_address()}, port : {self.PORT}")
+        print()
 
     def _start_server(self) -> None:
         try:
