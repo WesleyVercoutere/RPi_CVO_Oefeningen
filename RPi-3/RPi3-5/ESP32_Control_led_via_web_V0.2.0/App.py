@@ -9,6 +9,5 @@ class App:
         self._controller = Controller(self._web_server)
 
     def run(self) -> None:
-        print("start run")
         self._controller.register_routes()
         self._web_server.run()

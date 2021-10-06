@@ -8,9 +8,9 @@ class Controller:
     def register_routes(self):
 
         @self._web.route("/", "/home", "/index", "/led_off")
-        def get_led_off(self):
+        def get_led_off():
             return "resources/html/led_off.html"
 
         @self._web.route("/led_on")
-        def get_led_on(self):
+        def get_led_on():
             return "resources/html/led_on.html"

@@ -2,6 +2,7 @@ import socket
 
 from webserver.service.IPAddressHelper import IPAddressHelper
 from webserver.service.RequestHandler import RequestHandler
+from webserver.service.RouteManager import RouteManager
 
 
 class WebServer:
@@ -11,9 +12,10 @@ class WebServer:
     def __init__(self) -> None:
         self._socket = None
         self._conn = None
-
-        self._request_handler = RequestHandler()
+        
         self._ip_helper = IPAddressHelper()
+        self._routeMgr = RouteManager()
+        self._request_handler = RequestHandler(self._routeMgr)
 
     def run(self) -> None:
         self._init_socket()
@@ -22,9 +24,7 @@ class WebServer:
     def route(self, *routes):
         def wrapper(f):
             for route in routes:
-                print(f"Register route: {route}")
-
-                self._request_handler.register_route(route, f)
+                self._routeMgr.register_route(route, f)
         
         return wrapper
 
