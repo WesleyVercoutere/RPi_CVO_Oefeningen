@@ -1,6 +1,9 @@
 import socket
+from webserver.domain.RequestObject import RequestObject
 
 from webserver.service.IPAddressHelper import IPAddressHelper
+from webserver.service.ResourceContext import ResourceContext
+from webserver.service.ResponseHandler import ResponseHandler
 from webserver.service.RequestHandler import RequestHandler
 from webserver.service.RouteManager import RouteManager
 
@@ -16,6 +19,8 @@ class WebServer:
         self._ip_helper = IPAddressHelper()
         self._routeMgr = RouteManager()
         self._request_handler = RequestHandler(self._routeMgr)
+        self._resource_context = ResourceContext()
+        self._response_handler = ResponseHandler(self._resource_context)
 
     def run(self) -> None:
         self._init_socket()
@@ -43,8 +48,9 @@ class WebServer:
                 request = self._conn.recv(2048)
                 
                 if len(request) > 0:                  
-                    request = self._handle_request(request)
-                                                
+                    request = self._request_handler.handle_request(request)
+                    self._handle_response(request)
+                       
                 else:
                     print("client disconnected")
                     break
@@ -54,5 +60,20 @@ class WebServer:
             print(ex)
             print()
 
-    def _handle_request(self, request) -> None:
-        self._request_handler.handle_request(request)
+    def _handle_response(self, request: RequestObject) -> None:
+        try:
+            response = self._response_handler.get_response(request)
+
+            self._conn.send(response.header_1)
+            self._conn.send(response.header_2)
+            self._conn.send(response.content_length)
+            self._conn.sendall(response.content)
+
+            self._conn.close()
+        
+        except Exception as ex:
+            print("Exception in _handle_response()!!")
+            print(ex)
+            print()
+            self._conn.close()
+
