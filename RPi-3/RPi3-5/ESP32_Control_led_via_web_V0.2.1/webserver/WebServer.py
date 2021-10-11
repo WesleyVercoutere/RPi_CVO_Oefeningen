@@ -53,7 +53,6 @@ class WebServer:
                        
                 else:
                     print("client disconnected")
-                    break
 
         except Exception as ex:
             print("Exception in _start_server()!!")
@@ -76,4 +75,3 @@ class WebServer:
             print(ex)
             print()
             self._conn.close()
-

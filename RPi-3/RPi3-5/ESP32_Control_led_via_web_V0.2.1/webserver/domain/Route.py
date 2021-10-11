@@ -11,3 +11,15 @@ class Route:
     @property
     def handler(self):
         return self.__handler
+
+    def __eq__(self, o: object) -> bool:
+        if o == None:
+            return False
+
+        if not isinstance(o, Route):
+            return False
+
+        return o.route == self.route
+
+    def __hash__(self) -> int:
+        return hash(self.__route)

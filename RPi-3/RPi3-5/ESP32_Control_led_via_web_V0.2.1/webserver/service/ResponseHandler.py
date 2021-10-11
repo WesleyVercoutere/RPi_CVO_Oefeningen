@@ -11,7 +11,7 @@ class ResponseHandler:
 
     def get_response(self, request_obj: RequestObject) -> ResponseObject:
         self._context.set_state(request_obj.file_type)
-        state: IResourceState = self._context.get_state()
+        state = self._context.get_state()
         
         response = ResponseObject()
 
