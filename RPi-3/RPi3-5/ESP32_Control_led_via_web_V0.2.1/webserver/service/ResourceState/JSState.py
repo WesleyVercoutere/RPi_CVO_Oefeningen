@@ -17,3 +17,5 @@ class JSState(IResourceState):
     def get_header(self):
         return b"Content-Type: text/js\r\n"
 
+    def get_cache(self):
+        return b"Cache-Control: max-age=3600\r\n"

@@ -16,3 +16,6 @@ class JPGState(IResourceState):
 
     def get_header(self):
         return b"Content-Type: imgage/jpg\r\n"
+
+    def get_cache(self):
+        return b"Cache-Control: public, max-age=3600\r\n"

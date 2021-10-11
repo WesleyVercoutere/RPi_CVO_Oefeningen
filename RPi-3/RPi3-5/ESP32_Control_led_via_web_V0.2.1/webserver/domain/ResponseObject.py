@@ -2,6 +2,7 @@ class ResponseObject:
 
     def __init__(self):
         self.__header_1 = b""
+        self.__cache = b""
         self.__header_2 = b""
         self.__content_length = b""
         self.__content = b""
@@ -13,6 +14,14 @@ class ResponseObject:
     @header_1.setter
     def header_1(self, value):
         self.__header_1 = value
+
+    @property
+    def cache(self):
+        return self.__cache
+
+    @cache.setter
+    def cache(self, value):
+        self.__cache = value
 
     @property
     def header_2(self):

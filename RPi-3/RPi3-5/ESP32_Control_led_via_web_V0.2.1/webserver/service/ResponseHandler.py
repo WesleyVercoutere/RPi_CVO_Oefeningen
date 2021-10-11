@@ -20,9 +20,10 @@ class ResponseHandler:
             response.content_length = (f"Content-Length:{str(len(response.content))}\r\n\r\n").encode("UTF-8")
             response.header_2 = state.get_header()
             response.header_1 = b"HTTP/1.1 200 OK\r\n"
+            response.cache = state.get_cache()
 
         except Exception as ex:
-            print(ex)
+            print(f"In ResponseHandler file {request_obj.file} {ex}")
 
             response.header_1 = b"HTTP/1.1 404 Not Found\r\n"
 

@@ -11,3 +11,6 @@ class IResourceState:
 
     def get_header(self):
         raise NotImplementedError
+
+    def get_cache(self):
+        raise NotImplementedError

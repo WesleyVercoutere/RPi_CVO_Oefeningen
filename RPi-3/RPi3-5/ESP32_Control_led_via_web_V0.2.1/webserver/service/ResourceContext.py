@@ -3,6 +3,7 @@ from webserver.service.ResourceState.HTMLState import HTMLState
 from webserver.service.ResourceState.JPGState import JPGState
 from webserver.service.ResourceState.JSState import JSState
 from webserver.service.ResourceState.CSSState import CSSState
+from webserver.service.ResourceState.GZState import GZState
 
 
 class ResourceContext:
@@ -22,6 +23,9 @@ class ResourceContext:
 
         if type.lower() == "css":
             self._state = CSSState()
+
+        if type.lower() == "gz":
+            self._state = GZState()
         
     def get_state(self) -> IResourceState:
         return self._state

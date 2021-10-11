@@ -16,3 +16,5 @@ class HTMLState(IResourceState):
     def get_header(self):
         return b"Content-Type: text/html\r\n"
 
+    def get_cache(self):
+        return b"Cache-Control: no-cache, no-store\r\n"
