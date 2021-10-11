@@ -1,5 +1,6 @@
 from machine import Pin
 
+
 class LedService:
 
     def __init__(self) -> None:

@@ -8,10 +8,8 @@ class JSState(IResourceState):
         super().__init__()
 
     def get_content(self, request_obj: RequestObject):
-        file = f"/resources/{request_obj.file}"
-        print(file)
-
-        file = open(request_obj.file, "r")
+        file = f"resources{request_obj.file}"
+        file = open(file, "r")
         content = file.read()
 
         return content.encode("UTF-8")

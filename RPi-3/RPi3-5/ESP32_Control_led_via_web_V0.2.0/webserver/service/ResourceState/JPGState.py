@@ -8,7 +8,7 @@ class JPGState(IResourceState):
         super().__init__()
 
     def get_content(self, request_obj: RequestObject):
-        file = f"/resources/{request_obj.file}"
+        file = f"resources{request_obj.file}"
         file = open(file, "rb")
 
         content = file.read()

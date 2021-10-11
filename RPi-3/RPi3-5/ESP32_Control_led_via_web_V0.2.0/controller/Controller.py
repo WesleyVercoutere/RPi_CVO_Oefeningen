@@ -1,5 +1,6 @@
 from webserver.WebServer import WebServer
 
+
 class Controller:
 
     def __init__(self, web_server: WebServer) -> None:

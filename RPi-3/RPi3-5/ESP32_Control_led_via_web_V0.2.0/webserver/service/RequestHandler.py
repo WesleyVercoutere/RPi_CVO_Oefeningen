@@ -25,8 +25,6 @@ class RequestHandler:
         req.file = file
         req.file_type = self._get_file_type(file)
 
-        print(req.file_type)
-
         return req
 
     def _filter_request(self, request) -> RequestObject:
