@@ -8,7 +8,7 @@ class HTMLState(IResourceState):
         super().__init__()
 
     def get_content(self, request_obj: RequestObject):
-        file = open(request_obj.file, "r")
+        file = open(request_obj.relative_path, "r")
         content = file.read()
 
         return content.encode("UTF-8")

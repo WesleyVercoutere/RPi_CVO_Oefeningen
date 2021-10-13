@@ -1,4 +1,4 @@
-from service.LedService import LedService
+from app.service.LedService import LedService
 from webserver.WebServer import WebServer
 
 

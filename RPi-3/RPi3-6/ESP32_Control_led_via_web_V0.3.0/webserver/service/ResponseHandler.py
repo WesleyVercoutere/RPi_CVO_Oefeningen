@@ -10,7 +10,7 @@ class ResponseHandler:
         self._context = resource_context
 
     def get_response(self, request_obj: RequestObject) -> ResponseObject:
-        self._context.set_state(request_obj.file_type)
+        self._context.set_state(request_obj.file_extension)
         state = self._context.get_state()
         
         response = ResponseObject()
@@ -23,7 +23,7 @@ class ResponseHandler:
             response.cache = state.get_cache()
 
         except Exception as ex:
-            print(f"In ResponseHandler file {request_obj.file} {ex}")
+            print(f"In ResponseHandler file {request_obj.relative_path} {ex}")
 
             response.header_1 = b"HTTP/1.1 404 Not Found\r\n"
 

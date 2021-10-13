@@ -2,9 +2,9 @@ class RequestObject:
 
     def __init__(self) -> None:
         self.__request_type = "" #GET / POST / PUT / DELETE ...
-        self.__path = ""
-        self.__file = ""
-        self.__file_type = ""
+        self.__relative_path = ""
+        self.__filename = ""
+        self.__file_extension = ""
 
     @property
     def request_type(self):
@@ -15,25 +15,25 @@ class RequestObject:
         self.__request_type = value
     
     @property
-    def path(self):
-        return self.__path
+    def relative_path(self):
+        return self.__relative_path
 
-    @path.setter
-    def path(self, value):
-        self.__path = value
-
-    @property
-    def file(self):
-        return self.__file
-
-    @file.setter
-    def file(self, value):
-        self.__file = value
+    @relative_path.setter
+    def relative_path(self, value):
+        self.__relative_path = value
 
     @property
-    def file_type(self):
-        return self.__file_type
+    def filename(self):
+        return self.__filename
 
-    @file_type.setter
-    def file_type(self, value):
-        self.__file_type = value
+    @filename.setter
+    def filename(self, value):
+        self.__filename = value
+
+    @property
+    def file_extension(self):
+        return self.__file_extension
+
+    @file_extension.setter
+    def file_extension(self, value):
+        self.__file_extension = value

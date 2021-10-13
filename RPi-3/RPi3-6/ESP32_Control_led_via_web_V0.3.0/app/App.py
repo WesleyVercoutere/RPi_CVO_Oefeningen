@@ -1,5 +1,5 @@
-from controller.Controller import Controller
-from service.LedService import LedService
+from app.controller.Controller import Controller
+from app.service.LedService import LedService
 from webserver.WebServer import WebServer
 
 
