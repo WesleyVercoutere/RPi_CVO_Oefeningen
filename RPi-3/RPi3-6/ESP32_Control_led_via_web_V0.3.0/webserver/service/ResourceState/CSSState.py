@@ -1,5 +1,4 @@
 from webserver.service.IResourceState import IResourceState
-from webserver.domain.RequestObject import RequestObject
 
 
 class CSSState(IResourceState):
@@ -7,8 +6,8 @@ class CSSState(IResourceState):
     def __init__(self) -> None:
         super().__init__()
 
-    def get_content(self, request_obj: RequestObject):
-        file = f"resources{request_obj.relative_path}"
+    def get_content(self):
+        file = f"resources{self.request_obj.relative_path}"
         file = open(file, "r")
         content = file.read()
 

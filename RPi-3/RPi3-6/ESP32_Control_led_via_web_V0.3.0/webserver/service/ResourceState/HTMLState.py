@@ -1,5 +1,4 @@
 from webserver.service.IResourceState import IResourceState
-from webserver.domain.RequestObject import RequestObject
 
 
 class HTMLState(IResourceState):
@@ -7,8 +6,8 @@ class HTMLState(IResourceState):
     def __init__(self) -> None:
         super().__init__()
 
-    def get_content(self, request_obj: RequestObject):
-        file = open(request_obj.relative_path, "r")
+    def get_content(self):
+        file = open(self.request_obj.relative_path, "r")
         content = file.read()
 
         return content.encode("UTF-8")
