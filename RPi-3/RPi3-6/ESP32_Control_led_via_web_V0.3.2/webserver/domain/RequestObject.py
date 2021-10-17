@@ -5,6 +5,8 @@ class RequestObject:
         self.__request_route = ""
         self.__filename = ""
         self.__file_extension = ""
+        self.__response_type = ""
+        self.__handler = None
 
     @property
     def request_type(self):
@@ -37,3 +39,19 @@ class RequestObject:
     @file_extension.setter
     def file_extension(self, value):
         self.__file_extension = value
+
+    @property
+    def response_type(self):
+        return self.__response_type
+
+    @response_type.setter
+    def response_type(self, value):
+        self.__response_type = value
+
+    @property
+    def handler(self):
+        return self.__handler
+
+    @handler.setter
+    def handler(self, value):
+        self.__handler = value

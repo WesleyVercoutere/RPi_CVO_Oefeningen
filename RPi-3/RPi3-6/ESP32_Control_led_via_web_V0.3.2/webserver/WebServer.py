@@ -17,8 +17,9 @@ class WebServer:
         self._conn = None
         
         self._ip_helper = IPAddressHelper()
-        self._routeMgr = RouteManager()
-        self._request_handler = RequestHandler(self._routeMgr)
+        self._routeMgr_html = RouteManager()
+        self._routeMgr_api = RouteManager()
+        self._request_handler = RequestHandler(htmlMgr=self._routeMgr_html, apiMgr=self._routeMgr_api)
         self._resource_context = ResourceContext()
         self._response_handler = ResponseHandler(self._resource_context)
 
@@ -26,10 +27,20 @@ class WebServer:
         self._init_socket()
         self._start_server()
 
-    def route(self, *routes):
+    def register_route_html(self, *routes):
+        # Todo: check if route exist in api and raise RouteExistException
+
         def wrapper(f):
             for route in routes:
-                self._routeMgr.register_route(route, f)
+                self._routeMgr_html.register_route(route, f)
+        
+        return wrapper
+
+    def register_route_api(self, route):
+        # Todo: check if route exist in html RouteExistException
+
+        def wrapper(f):
+            self._routeMgr_api.register_route(route, f)
         
         return wrapper
 
