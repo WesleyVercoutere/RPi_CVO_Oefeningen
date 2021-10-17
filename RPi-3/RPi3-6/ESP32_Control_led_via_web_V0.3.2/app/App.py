@@ -1,5 +1,3 @@
-import _thread
-
 from app.controller.Controller import Controller
 from app.service.ButtonService import ButtonService
 from app.service.HardwareService import HardwareService
@@ -13,9 +11,6 @@ class App:
         self._led_service = LedService()
         self._btn_service = ButtonService()
         self._hw_service = HardwareService(self._led_service, self._btn_service)
-
-        self._init_hardware()
-
         self._web_server = WebServer()
         self._controller = Controller(self._web_server, self._led_service)
 
@@ -26,6 +21,3 @@ class App:
 
         # _thread.start_new_thread(self._hw_service.run, ())
         # _thread.start_new_thread(self._web_server.run, ())
-
-    def _init_hardware(self):
-        print("init buttons and leds, add them to the repos and services...")
