@@ -15,7 +15,7 @@ class RequestHandler:
         # print(request.decode("utf-8"))
         # print()
 
-        self._req_obj = RequestObject
+        self._req_obj = RequestObject()
 
         self._filter_request(request)
         html = self._htmlMgr.get_route(self._req_obj.request_route)

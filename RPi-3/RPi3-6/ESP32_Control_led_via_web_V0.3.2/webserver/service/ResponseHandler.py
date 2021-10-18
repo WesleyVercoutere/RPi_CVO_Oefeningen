@@ -16,14 +16,17 @@ class ResponseHandler:
         response = ResponseObject()
 
         try:
-            response.content = state.get_content()
-            response.content_length = (f"Content-Length:{str(len(response.content))}\r\n\r\n").encode("UTF-8")
-            response.header_2 = state.get_header()
-            response.header_1 = b"HTTP/1.1 200 OK\r\n"
-            response.cache = state.get_cache()
+            if state.get_content() is not None:
+                response.content = state.get_content()
+                response.content_length = (f"Content-Length:{str(len(response.content))}\r\n\r\n").encode("UTF-8")
+                response.header_1 = b"HTTP/1.1 200 OK\r\n"
+                response.header_2 = state.get_header()
+                response.cache = state.get_cache()
+            else:
+                response.header_1 = b"HTTP/1.1 204 No Content\r\n" 
 
         except Exception as ex:
-            print(f"In ResponseHandler request {request_obj.request_route}")
+            print(f"Exception in ResponseHandler request {request_obj.request_route}")
             print(ex)
 
             response.header_1 = b"HTTP/1.1 404 Not Found\r\n"

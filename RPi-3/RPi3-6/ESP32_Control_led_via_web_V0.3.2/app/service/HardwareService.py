@@ -1,5 +1,5 @@
 import time
-from machine import Pin
+# from machine import Pin
 
 from app.service.ButtonService import ButtonService
 from app.service.LedService import LedService
@@ -12,7 +12,8 @@ class HardwareService:
         self._btn_service = btn_service
 
     def set_callbacks(self):
-        self._btn_service.btn_1.irq(trigger=Pin.IRQ_FALLING, handler=self._callback_toggle_led)
+        # self._btn_service.btn_1.irq(trigger=Pin.IRQ_FALLING, handler=self._callback_toggle_led)
+        pass
 
     def run(self) -> None:
         while True:
