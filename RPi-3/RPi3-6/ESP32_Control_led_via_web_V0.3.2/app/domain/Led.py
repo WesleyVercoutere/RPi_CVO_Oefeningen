@@ -14,14 +14,26 @@ class Led():
     def id(self):
         return self.__id
 
+    @id.setter
+    def id(self, value):
+        self.__id = value
+
     @property
     def pin_nr(self):
         return self.__pin_nr
+
+    @pin_nr.setter
+    def pin_nr(self, value):
+        self.__pin_nr = value
 
     @property
     def color(self):
         return self.__color
     
+    @color.setter
+    def color(self, value):
+        self.__color = value
+
     @property
     def state(self):
         return self.__state

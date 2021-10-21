@@ -8,7 +8,11 @@ class APIState(IResourceState):
 
     def get_content(self):
         json = self.request_obj.handler()
-        return json
+
+        if json is not None:
+            return json.encode("utf-8")
+
+        return None
 
     def get_header(self):
         return b"Content-Type: application/json\r\n"

@@ -1,3 +1,5 @@
+import json
+
 from app.service.manager.LedManager import LedManager
 from webserver.WebServer import WebServer
 
@@ -27,3 +29,7 @@ class Controller:
         @self._web.register_route_api("/toggle")
         def toggle_led():
             self._led_mgr.led_toggle()
+
+        @self._web.register_route_api("/get_led_info")
+        def get_led_info():
+            return json.dumps(self._led_mgr.get_led().__dict__)

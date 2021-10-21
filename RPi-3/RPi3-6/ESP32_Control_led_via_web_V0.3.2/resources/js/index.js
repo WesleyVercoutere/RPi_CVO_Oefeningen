@@ -1,22 +1,45 @@
 window.onload = (event) => {
 
-    console.log("Window loaded");
-
-    var counter = 0;
-
     setInterval(function() {
-
-        counter = updateCounter(counter);
-        console.log(counter);
-
-    }, 1000);
+        getLed();       
+    }, 500);
 
 }
 
-function updateCounter(counter) {
-    return counter += 1;
+function getLed() {
+
+    var xhttp = new XMLHttpRequest();
+
+	xhttp.onreadystatechange = function() {
+	    if (this.readyState == 4 && this.status == 200) {
+            updateView(JSON.parse(this.responseText));
+		}
+	};
+	xhttp.open("GET", "/get_led_info", true);
+	xhttp.send();
 }
 
-function btnClicked(btn) {
-    console.log("Button clicked : " + btn);
+function updateView(data) {
+    console.log(data);
+
+    element = document.getElementById('lightBulb');
+
+    if (data.state) {
+        element.src='images/light-bulb-on.jpg';
+    }
+    else {
+        element.src='images/light-bulb-off.jpg';
+    }
+}
+
+function btnClicked(route) {
+    var xhttp = new XMLHttpRequest();
+
+	xhttp.onreadystatechange = function() {
+	    if (this.readyState == 4 && this.status == 204) {
+            getLed()
+		}
+	};
+	xhttp.open("GET", route, true);
+	xhttp.send();
 }
