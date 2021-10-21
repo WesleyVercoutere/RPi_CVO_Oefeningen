@@ -17,6 +17,6 @@ function updateCounter(counter) {
     return counter += 1;
 }
 
-function btnClicked() {
-    alert('clicked');
+function btnClicked(btn) {
+    console.log("Button clicked : " + btn);
 }

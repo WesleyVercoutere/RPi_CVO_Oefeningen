@@ -1,7 +1,7 @@
 # from machine import Pin
 
 
-class LedService:
+class LedManager:
 
     def __init__(self) -> None:
         # self.ledOnBoard = Pin(14, Pin.OUT)

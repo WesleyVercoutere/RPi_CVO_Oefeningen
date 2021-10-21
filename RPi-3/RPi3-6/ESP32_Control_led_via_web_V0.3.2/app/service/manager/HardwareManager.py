@@ -1,13 +1,13 @@
 import time
 # from machine import Pin
 
-from app.service.ButtonService import ButtonService
-from app.service.LedService import LedService
+from app.service.manager.ButtonManager import ButtonManager
+from app.service.manager.LedManager import LedManager
 
 
-class HardwareService:
+class HardwareManager:
 
-    def __init__(self, led_service: LedService, btn_service: ButtonService) -> None:
+    def __init__(self, led_service: LedManager, btn_service: ButtonManager) -> None:
         self._led_service = led_service
         self._btn_service = btn_service
 
