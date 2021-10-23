@@ -31,8 +31,9 @@ class WebServer:
         # Todo: check if route exist in api and raise RouteExistException
 
         def wrapper(f):
-            for route in routes:
-                self._routeMgr_html.register_route(route, f)
+            [self._routeMgr_html.register_route(route, f) for route in routes]
+            # for route in routes:
+            #     self._routeMgr_html.register_route(route, f)
         
         return wrapper
 
