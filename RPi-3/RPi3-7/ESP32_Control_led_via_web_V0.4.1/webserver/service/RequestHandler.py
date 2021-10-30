@@ -6,20 +6,18 @@ from webserver.service.RouteManager import RouteManager
 
 class RequestHandler:
 
-    def __init__(self, htmlMgr: RouteManager = None, apiMgr: RouteManager = None) -> None:
-        self._htmlMgr = htmlMgr
-        self._apiMgr = apiMgr
+    def __init__(self, routeMgr: RouteManager = None) -> None:
+        self._htmlMgr = routeMgr
         self._req_obj = None
 
     def handle_request(self, request) -> RequestObject:
-        # print(request.decode("utf-8"))
-        # print()
+        print(request.decode("utf-8"))
+        print()
 
         self._req_obj = RequestObject()
 
         self._filter_request(request)
         html = self._htmlMgr.get_route(self._req_obj.request_route)
-        api = self._apiMgr.get_route(self._req_obj.request_route)
         
         if html is not None:
             self._handle_html_request(html)

@@ -10,6 +10,9 @@ def do_connect():
         wlan.active(True)
         wlan.ifconfig(('192.168.0.20', '255.255.255.0', '192.168.0.1', '8.8.8.8'))
         
+        SSID = "telenet-69249"
+        passwd = "5E40nQkE42tk"
+
         wlan.connect(SSID, passwd)
         # print("Add SSID en passwd!!!")
         
