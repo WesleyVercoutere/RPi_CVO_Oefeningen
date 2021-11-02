@@ -1,9 +1,15 @@
+from webserver.util.HTTPRequestMethod import HTTPRequestMethod
+from webserver.util.RequestType import RequestType
+
+
 class Route:
 
-    def __init__(self, route, base_route, handler, parameters=None) -> None:
+    def __init__(self,route, base_route, handler, type: RequestType, method: HTTPRequestMethod, parameters=None) -> None:
         self.__route = route
         self.__base_route = base_route
         self.__handler = handler
+        self.__type = type
+        self.__method = method
         self.__parameters = None
 
         self._set_parameters(parameters)
@@ -19,6 +25,14 @@ class Route:
     @property
     def handler(self):
         return self.__handler
+
+    @property
+    def type(self):
+        return self.__type
+
+    @property
+    def method(self):
+        return self.__method
 
     @property
     def parameters(self):

@@ -26,10 +26,10 @@ class LedManager:
 
         return dtos
 
-    def led_on(self):
+    def led_on(self, id):
         self.led.state = True
 
-    def led_off(self):
+    def led_off(self, id):
         self.led.state = False
 
     def led_toggle(self, led: Led):

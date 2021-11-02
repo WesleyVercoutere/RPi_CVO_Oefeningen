@@ -5,6 +5,8 @@ from webserver.service.IPAddressHelper import IPAddressHelper
 from webserver.service.ResponseFactory import ResponseFactory
 from webserver.service.RequestHandler import RequestHandler
 from webserver.service.RouteManager import RouteManager
+from webserver.util.HTTPRequestMethod import HTTPRequestMethod
+from webserver.util.RequestType import RequestType
 
 
 class WebServer:
@@ -24,9 +26,9 @@ class WebServer:
         self._init_socket()
         self._start_server()
 
-    def register_route(self, *routes):
+    def register_route(self, *routes, type: RequestType = RequestType.NORMAL, method: HTTPRequestMethod = HTTPRequestMethod.GET):
         def wrapper(f):
-            [self._routeMgr.register_route(route, f) for route in routes]
+            [self._routeMgr.register_route(type=type, method=method, route=route, f=f) for route in routes]
         
         return wrapper
 
@@ -39,22 +41,22 @@ class WebServer:
         print()
 
     def _start_server(self) -> None:
-        try:
-            while True:
-                self._conn = self._socket.accept()[0]
-                request = self._conn.recv(2048)
-                
-                if len(request) > 0:                  
-                    request = self._request_handler.handle_request(request)
-                    self._handle_response(request)
-                       
-                else:
-                    print("client disconnected")
+        # try:
+        while True:
+            self._conn = self._socket.accept()[0]
+            request = self._conn.recv(2048)
+            
+            if len(request) > 0:                  
+                request = self._request_handler.handle_request(request)
+                self._handle_response(request)
+                    
+            else:
+                print("client disconnected")
 
-        except Exception as ex:
-            print("Exception in _start_server()!!")
-            print(ex)
-            print()
+        # except Exception as ex:
+        #     print("Exception in _start_server()!!")
+        #     print(ex)
+        #     print()
 
     def _handle_response(self, request: RequestObject) -> None:
         try:

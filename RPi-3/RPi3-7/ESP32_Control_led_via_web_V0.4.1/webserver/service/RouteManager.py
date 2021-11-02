@@ -2,6 +2,8 @@ import re
 
 from webserver.domain.Route import Route
 from webserver.exception.RouteException import RouteException
+from webserver.util.HTTPRequestMethod import HTTPRequestMethod
+from webserver.util.RequestType import RequestType
 
 
 class RouteManager:
@@ -9,7 +11,7 @@ class RouteManager:
     def __init__(self) -> None:
         self._routes = list()
 
-    def register_route(self, route, f) -> None:
+    def register_route(self, type: RequestType, method: HTTPRequestMethod, route: str, f) -> None:
         if route[0] != "/":
             raise RouteException(f"Route {route} doesn't start with a /")
 
@@ -26,7 +28,7 @@ class RouteManager:
             else:
                 base_route += f"/{sub}"
 
-        route_obj = Route(route=route, base_route=base_route, handler=f, parameters=parameters)
+        route_obj = Route(route=route, base_route=base_route, handler=f, type=type, method=method, parameters=parameters)
         self._add_route(route_obj)
 
     def get_all_routes(self) -> set:
@@ -55,7 +57,7 @@ class RouteManager:
                 if url_split[i] != route_split[i]:
                     parameters.append(url_split[i])
 
-            found = Route(route=url, base_route=r.base_route, handler=r.handler, parameters=parameters)
+            found = Route(route=url, base_route=r.base_route, handler=r.handler, type=r.type, method=r.method, parameters=parameters)
 
         return found
 

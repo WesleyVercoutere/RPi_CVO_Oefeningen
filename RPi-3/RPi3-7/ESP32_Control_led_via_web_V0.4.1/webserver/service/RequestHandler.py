@@ -10,8 +10,8 @@ class RequestHandler:
         self._req_obj = None
 
     def handle_request(self, request) -> RequestObject:
-        # print(request.decode("utf-8"))
         # print()
+        # print(request.decode("utf-8"))
 
         self._req_obj = RequestObject()
 

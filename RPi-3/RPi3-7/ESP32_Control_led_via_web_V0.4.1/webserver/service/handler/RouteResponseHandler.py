@@ -1,6 +1,7 @@
 from webserver.domain.RequestObject import RequestObject
 from webserver.domain.ResponseObject import ResponseObject
 from webserver.domain.Route import Route
+from webserver.domain.StateObject import StateObject
 from webserver.service.IResponseHandler import IResponseHandler
 
 
@@ -9,26 +10,21 @@ class RouteResponseHandler(IResponseHandler):
     def __init__(self, request: RequestObject) -> None:
         super().__init__(request)
 
-    def get_response(self) -> ResponseObject:
-        response = ResponseObject()
-        req = self._execute_handler()
+    def get_response(self) -> ResponseObject: 
+        route: Route = self._request.route      
+        req = self._execute_handler(route)
+
+        self._context.set_state(type = route.type)
+        self._state = self._context.get_state()
+        self._state.set_state(req=req)
+
+        return self._create_response()
+
+    def _execute_handler(self, route: Route):
         
-        if ".html" in req.lower():
-            html = self._open_html_page(req)
-
-            response.content = html.encode("UTF-8")
-            response.content_length = (f"Content-Length:{str(len(response.content))}\r\n\r\n").encode("UTF-8")
-            response.header_1 = response.header_1 = b"HTTP/1.1 200 OK\r\n"
-            response.header_2 = b"Content-Type: text/html\r\n"
-            response.cache = b"Cache-Control: no-cache, no-store\r\n"
-
-        return response
-
-    def _execute_handler(self):
-        route: Route = self._request.route
-
-        if route.parameters is not None and len(route.parameters) != 0:
-            pass
+        if route.parameters is not None: #and len(route.parameters) != 0:
+            par1 = route.parameters[0]
+            route.handler()
 
         return route.handler()
 
