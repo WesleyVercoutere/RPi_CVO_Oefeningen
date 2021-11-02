@@ -29,6 +29,6 @@ class ResponseHandler:
             print(f"Exception in ResponseHandler request {request_obj.request_route}")
             print(ex)
 
-            response.header_1 = b"HTTP/1.1 404 Not Found\r\n"
+            response.header_1 = b"HTTP/1.1 404 Not Found\r\n" 
 
         return response

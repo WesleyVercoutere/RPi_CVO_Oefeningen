@@ -1,11 +1,16 @@
 class Route:
 
-    def __init__(self, base_route, handler, parameters=None) -> None:
+    def __init__(self, route, base_route, handler, parameters=None) -> None:
+        self.__route = route
         self.__base_route = base_route
         self.__handler = handler
         self.__parameters = None
 
         self._set_parameters(parameters)
+
+    @property
+    def route(self):
+        return self.__route
 
     @property
     def base_route(self):
@@ -49,11 +54,6 @@ class Route:
 
         if len(o.parameters) != len(self.parameters):
             return False
-
-        for i in range(len(self.parameters)):
-            if self.parameters[i] != o.parameters[i]:
-                print(self.parameters[i], o.parameters[i])
-                return False
         
         return True
 

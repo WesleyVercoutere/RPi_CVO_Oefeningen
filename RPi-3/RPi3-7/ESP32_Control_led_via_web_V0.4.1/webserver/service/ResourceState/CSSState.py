@@ -7,7 +7,7 @@ class CSSState(IResourceState):
         super().__init__()
 
     def get_content(self):
-        file = f"resources{self.request_obj.filename}"
+        file = f"resources{self._state.file_name}"
         file = open(file, "r")
         content = file.read()
 

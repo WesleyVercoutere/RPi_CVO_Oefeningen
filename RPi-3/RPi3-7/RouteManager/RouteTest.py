@@ -9,16 +9,17 @@ class RouteTest:
         route3 = Route("/Test", self.dummy, ["id"])
         route4 = Route("/Test", self.dummy, ["id"])
         route5 = Route("/Test", self.dummy, ["name"])
-        route5 = Route("/Test", self.dummy, ("id", "name"))
         route6 = Route("/Test", self.dummy, ("id", "name"))
-
+        route7 = Route("/Test", self.dummy, ("id", "name"))
+        route8 = Route("/Test", self.dummy, ("1", "2"))
 
         self.test_route_equals(route1, route2, True)
         self.test_route_equals(route3, route4, True)
         self.test_route_equals(route1, route4, False)
         self.test_route_equals(route1, route5, False)
-        self.test_route_equals(route3, route5, False)
-        self.test_route_equals(route5, route6, True)
+        self.test_route_equals(route3, route5, True)
+        self.test_route_equals(route6, route7, True)
+        self.test_route_equals(route6, route8, True)
 
     def dummy(self):
         pass
@@ -27,7 +28,6 @@ class RouteTest:
         result = r1.__eq__(r2)
 
         print(result == equals)
-
 
 
 if __name__ == "__main__":

@@ -6,6 +6,9 @@ class RouteManagerTest:
         self.mgr = None
         self.setup()
 
+        print("**************************")
+        print("** Test first character **")
+        print("**************************")
         self.test_first_character_is_slash(self.url1, True)
         self.test_first_character_is_slash(self.url2, True)
         self.test_first_character_is_slash(self.url3, True) # Test nog niet afgehandeld in manager
@@ -14,17 +17,26 @@ class RouteManagerTest:
         self.test_first_character_is_slash(self.url6, False)
         self.test_first_character_is_slash(self.url7, False)
 
+        print()
+        print("*********************")
+        print("** Test base route **")
+        print("*********************")
         self.test_base_route(self.url4, "/test")
         self.test_base_route(self.url5, "/test/nogtest")
         self.test_base_route(self.url6, "/test")
         self.test_base_route(self.url7, "/test")
 
+        print()
+        print("*********************")
+        print("** Test find route **")
+        print("*********************")
         self.test_find_route("/test", True)
         self.test_find_route("/test/nogtest", True)
         self.test_find_route("/test/1", True, ["id"])
         self.test_find_route("/test/1/weve", True, ["id", "name"])
         self.test_find_route("/test/weve", True, ["name"])
         self.test_find_route("/mispoes", False)
+        self.test_find_route("/", True)
 
     def setup(self) -> None:
         self.url1 = "test"
@@ -36,6 +48,9 @@ class RouteManagerTest:
         self.url6 = "/test/{id}"
         self.url7 = "/test/{id}/{name}"
         self.url8 = "/test/{name}"
+        
+        self.url9 = "/"
+        self.url10 = "/home"
 
     def dummy(self) -> None:
         pass
@@ -64,7 +79,6 @@ class RouteManagerTest:
         finally:
             print(CERR + f"test first character {route}: {output}" + CEND)
 
-    
     def test_base_route(self, route, base_route):
         self.mgr = RouteManager()
         self.mgr.register_route(route, self.dummy)
@@ -102,16 +116,27 @@ class RouteManagerTest:
         if (not found and r is not None) or (found and r is None):
             CERR = CRED
             output = "fail"
+            print(CERR + f"test find route {url}: {output}" + CEND)
+            return
 
-        print(CERR + f"test find route {url}: {output}" + CEND)
+        if r is not None and r.route != url:
+            CERR = CRED
+            output = "fail"
 
+        rroute = ""
+
+        if r is not None:
+            rroute = r.route
+
+        print(CERR + f"test find route {url} - {rroute}: {output}" + CEND)
 
     def setup_routes(self):
         self.mgr.register_route(self.url4, self.dummy)
         self.mgr.register_route(self.url5, self.dummy)
         self.mgr.register_route(self.url6, self.dummy)
         self.mgr.register_route(self.url7, self.dummy)
-        self.mgr.register_route(self.url8, self.dummy)
+        self.mgr.register_route(self.url9, self.dummy)
+        self.mgr.register_route(self.url10, self.dummy)
 
 
 if __name__ == "__main__":

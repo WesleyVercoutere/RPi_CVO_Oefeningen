@@ -1,18 +1,14 @@
 from webserver.domain.RequestObject import RequestObject
+from webserver.domain.StateObject import StateObject
 
 
 class IResourceState:
 
     def __init__(self) -> None:
-        self.__request_obj = None
+        self._state = None
 
-    @property
-    def request_obj(self) -> RequestObject:
-        return self.__request_obj
-
-    @request_obj.setter
-    def request_obj(self, value) -> None:
-        self.__request_obj = value
+    def set_state(self, state: StateObject):
+        self._state = state
     
     def get_content(self):
         raise NotImplementedError

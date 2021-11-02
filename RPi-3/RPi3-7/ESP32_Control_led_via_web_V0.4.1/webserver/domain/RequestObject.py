@@ -2,13 +2,10 @@ class RequestObject:
 
     def __init__(self) -> None:
         self.__request_type = "" #GET / POST / PUT / DELETE ...
-        self.__request_route = ""
-        self.__parameter = None
-        self.__filename = ""
-        self.__file_extension = ""
+        self.__request_url = ""
         self.__response_type = ""
-        self.__handler = None
-
+        self.__route = None
+        
     @property
     def request_type(self):
         return self.__request_type
@@ -18,36 +15,12 @@ class RequestObject:
         self.__request_type = value
     
     @property
-    def request_route(self):
-        return self.__request_route
+    def request_url(self):
+        return self.__request_url
 
-    @request_route.setter
-    def request_route(self, value):
-        self.__request_route = value
-
-    @property
-    def parameter(self):
-        return self.__parameter
-
-    @parameter.setter
-    def parameter(self, value):
-        self.__parameter = value
-
-    @property
-    def filename(self):
-        return self.__filename
-
-    @filename.setter
-    def filename(self, value):
-        self.__filename = value
-
-    @property
-    def file_extension(self):
-        return self.__file_extension
-
-    @file_extension.setter
-    def file_extension(self, value):
-        self.__file_extension = value
+    @request_url.setter
+    def request_url(self, value):
+        self.__request_url = value
 
     @property
     def response_type(self):
@@ -58,9 +31,9 @@ class RequestObject:
         self.__response_type = value
 
     @property
-    def handler(self):
-        return self.__handler
+    def route(self):
+        return self.__route
 
-    @handler.setter
-    def handler(self, value):
-        self.__handler = value
+    @route.setter
+    def route(self, value):
+        self.__route = value

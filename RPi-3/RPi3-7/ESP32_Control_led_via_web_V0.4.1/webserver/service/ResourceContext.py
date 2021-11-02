@@ -1,7 +1,5 @@
-from webserver.domain.RequestObject import RequestObject
+from webserver.domain.StateObject import StateObject
 from webserver.service.IResourceState import IResourceState
-from webserver.service.ResourceState.APIState import APIState
-from webserver.service.ResourceState.HTMLState import HTMLState
 from webserver.service.ResourceState.JPGState import JPGState
 from webserver.service.ResourceState.JSState import JSState
 from webserver.service.ResourceState.CSSState import CSSState
@@ -14,27 +12,25 @@ class ResourceContext:
     def __init__(self) -> None:
         self._state: IResourceState = None
 
-    def set_state(self, req_obj: RequestObject) -> None:
-        if req_obj.response_type.lower() == "html":
-            self._state = HTMLState()
+    def set_state(self, state_obj: StateObject) -> None:
 
-        if req_obj.response_type.lower() == "api":
-            self._state = APIState()
-
-        if req_obj.response_type.lower() == "resource" and req_obj.file_extension.lower() == "jpg":
+        if state_obj.file_extension.lower() == "jpg":
             self._state = JPGState()
 
-        if req_obj.response_type.lower() == "resource" and req_obj.file_extension.lower() == "js":
+        elif state_obj.file_extension.lower() == "js":
             self._state = JSState()
 
-        if req_obj.response_type.lower() == "resource" and req_obj.file_extension.lower() == "css":
+        elif state_obj.file_extension.lower() == "css":
             self._state = CSSState()
 
-        if req_obj.response_type.lower() == "resource" and req_obj.file_extension.lower() == "gz":
+        elif state_obj.file_extension.lower() == "gz":
             self._state = GZState()
 
-        if req_obj.response_type.lower() == "resource" and req_obj.file_extension.lower() == "ico":
+        elif state_obj.file_extension.lower() == "ico":
             self._state = ICOState()
+
+        else:
+            self._state = None
         
     def get_state(self) -> IResourceState:
         return self._state

@@ -7,14 +7,15 @@ class GZState(IResourceState):
         super().__init__()
 
     def get_content(self):
-        file = f"resources{self.request_obj.filename}"
+        file = f"resources{self._state.file_name}"
         file = open(file, "rb")
         content = file.read()
 
         return content
 
     def get_header(self):
-        extension = self.request_obj.filename.split(".")[-2]
+        extension = self._state.file_extension
+        header = b""
 
         if extension == "css":
             header = b"Content-Type: text/css\r\n"

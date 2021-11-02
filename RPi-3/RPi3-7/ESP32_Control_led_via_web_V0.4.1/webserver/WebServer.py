@@ -2,8 +2,7 @@ import socket
 from webserver.domain.RequestObject import RequestObject
 
 from webserver.service.IPAddressHelper import IPAddressHelper
-from webserver.service.ResourceContext import ResourceContext
-from webserver.service.ResponseHandler import ResponseHandler
+from webserver.service.ResponseFactory import ResponseFactory
 from webserver.service.RequestHandler import RequestHandler
 from webserver.service.RouteManager import RouteManager
 
@@ -19,8 +18,7 @@ class WebServer:
         self._ip_helper = IPAddressHelper()
         self._routeMgr = RouteManager()
         self._request_handler = RequestHandler(routeMgr=self._routeMgr)
-        self._resource_context = ResourceContext()
-        self._response_handler = ResponseHandler(self._resource_context)
+        self._response_factory = ResponseFactory()
 
     def run(self) -> None:
         self._init_socket()
@@ -60,7 +58,7 @@ class WebServer:
 
     def _handle_response(self, request: RequestObject) -> None:
         try:
-            response = self._response_handler.get_response(request)
+            response = self._response_factory.get_response(request)
 
             self._conn.send(response.header_1)
             self._conn.send(response.cache)
