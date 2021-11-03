@@ -27,10 +27,12 @@ class LedManager:
         return dtos
 
     def led_on(self, id):
-        self.led.state = True
+        led: Led = self._repo.read_by_id(id)
+        led.get_pin().on()
 
     def led_off(self, id):
-        self.led.state = False
+        led: Led = self._repo.read_by_id(id)
+        led.get_pin().off()
 
     def led_toggle(self, led: Led):
         led.state = not led.state
@@ -38,4 +40,3 @@ class LedManager:
 
     def get_led(self):
         return self._mapper.map_to_dto(self.led)
-    

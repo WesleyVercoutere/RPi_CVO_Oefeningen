@@ -18,10 +18,15 @@ class IResponseHandler:
 
         try:
             response.content = self._state.get_content()
-            response.content_length = (f"Content-Length:{str(len(response.content))}\r\n\r\n").encode("UTF-8")
-            response.header_1 = b"HTTP/1.1 200 OK\r\n"
-            response.header_2 = self._state.get_header()
-            response.cache = self._state.get_cache()
+
+            if response.content is not None:
+                response.content_length = (f"Content-Length:{str(len(response.content))}\r\n\r\n").encode("UTF-8")
+                response.header_1 = b"HTTP/1.1 200 OK\r\n"
+                response.header_2 = self._state.get_header()
+                response.cache = self._state.get_cache()
+            
+            else:
+                response.header_1 = b"HTTP/1.1 204 No Content\r\n"
 
         except Exception as ex:
             print(ex)

@@ -22,9 +22,9 @@ class RouteResponseHandler(IResponseHandler):
 
     def _execute_handler(self, route: Route):
         
-        if route.parameters is not None: #and len(route.parameters) != 0:
+        if route.parameters is not None and len(route.parameters) != 0:
             par1 = route.parameters[0]
-            route.handler()
+            return route.handler(par1)
 
         return route.handler()
 

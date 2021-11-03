@@ -14,7 +14,15 @@ class LedRepository(AbstractRepository):
         self._leds.append(obj)
 
     def read_by_id(self, id):
-        return next((led for led in self._leds if led.id == id), None)
+        
+        for led in self._leds:
+
+            if led.id == int(id):
+                return led
+        
+        return None
+
+        # return next((led for led in self._leds if led.id == id), None)
 
     def read_all(self):
         return self._leds
