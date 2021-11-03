@@ -28,10 +28,12 @@ class LedManager:
 
     def led_on(self, id):
         led: Led = self._repo.read_by_id(id)
+        led.state = True
         led.get_pin().on()
 
     def led_off(self, id):
         led: Led = self._repo.read_by_id(id)
+        led.state = False
         led.get_pin().off()
 
     def led_toggle(self, led: Led):

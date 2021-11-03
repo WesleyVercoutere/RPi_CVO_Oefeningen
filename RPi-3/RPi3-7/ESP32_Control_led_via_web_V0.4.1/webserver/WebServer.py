@@ -62,12 +62,16 @@ class WebServer:
         try:
             response = self._response_factory.get_response(request)
 
-            self._conn.send(response.header_1)
-            self._conn.send(response.cache)
-            self._conn.send(response.header_2)
-            self._conn.send(response.content_length)
-            self._conn.sendall(response.content)
+            if response.content is not None and not response.error:
+                self._conn.send(response.header_1)
+                self._conn.send(response.cache)
+                self._conn.send(response.header_2)
+                self._conn.send(response.content_length)
+                self._conn.sendall(response.content)
 
+            else:
+                self._conn.send(response.header_1)
+                
             self._conn.close()
         
         except Exception as ex:

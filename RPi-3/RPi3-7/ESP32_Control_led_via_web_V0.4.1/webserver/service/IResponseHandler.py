@@ -28,8 +28,11 @@ class IResponseHandler:
             else:
                 response.header_1 = b"HTTP/1.1 204 No Content\r\n"
 
+            response.error = False
+
         except Exception as ex:
-            print(ex)
+            # print(ex)
+            response.error = True
             response.header_1 = b"HTTP/1.1 404 NOT FOUND\r\n"
 
         return response

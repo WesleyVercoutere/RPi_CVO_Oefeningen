@@ -7,6 +7,8 @@ class ResponseObject:
         self.__content_length = b""
         self.__content = b""
 
+        self.__error = True
+
     @property
     def header_1(self):
         return self.__header_1
@@ -46,3 +48,11 @@ class ResponseObject:
     @content.setter
     def content(self, value):
         self.__content = value
+
+    @property
+    def error(self):
+        return self.__error
+
+    @error.setter
+    def error(self, value):
+        self.__error = value

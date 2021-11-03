@@ -17,7 +17,9 @@ class ResourceResponseHandler(IResponseHandler):
 
         self._context.set_state(state_obj=state)
         self._state = self._context.get_state()
-        self._state.set_state(state=state)
+
+        if self._state is not None:
+            self._state.set_state(state=state)
 
         return self._create_response()
 

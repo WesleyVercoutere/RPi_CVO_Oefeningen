@@ -6,11 +6,11 @@ window.onload = (event) => {
     loadLeds(function(){ledsLoaded = true});
     loadButtons(function(){btnsLoaded = true});
 
-    // setInterval(function() {
-    //     if (ledsLoaded && btnsLoaded) {
-    //         getLeds();
-    //     }      
-    // }, 500);
+    setInterval(function() {
+        if (ledsLoaded && btnsLoaded) {
+            getLeds();
+        }      
+    }, 500);
 
 }
 
