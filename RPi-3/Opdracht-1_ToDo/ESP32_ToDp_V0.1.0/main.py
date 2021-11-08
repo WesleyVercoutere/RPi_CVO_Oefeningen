@@ -1,6 +1,6 @@
-from app.App import App
+from app.ToDoApp import ToDoApp
 
 
 if __name__ == "__main__":
-    app = App()
-    app.run()
+    todo = ToDoApp()
+    todo.run()
