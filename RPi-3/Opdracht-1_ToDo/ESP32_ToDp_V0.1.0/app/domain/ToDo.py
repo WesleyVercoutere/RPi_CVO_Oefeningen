@@ -2,12 +2,12 @@
 
 class ToDo:
 
-    def __init__(self) -> None:
-        self.__id = 0
-        self.__title = ""
-        self.__carried_out_by = ""
-        self.__start = ""
-        self.__end = ""
+    def __init__(self, id=0, title="", carried_out_by="", start="", end="") -> None:
+        self.__id = id
+        self.__title = title
+        self.__carried_out_by = carried_out_by
+        self.__start = start
+        self.__end = end
 
     @property
     def id(self):
