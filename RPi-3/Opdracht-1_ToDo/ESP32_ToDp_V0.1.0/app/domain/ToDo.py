@@ -3,48 +3,48 @@
 class ToDo:
 
     def __init__(self, id=0, title="", carried_out_by="", start="", end="") -> None:
-        self.__id = id
-        self.__title = title
-        self.__carried_out_by = carried_out_by
-        self.__start = start
-        self.__end = end
+        self._id = id
+        self._title = title
+        self._carried_out_by = carried_out_by
+        self._start = start
+        self._end = end
 
     @property
     def id(self):
-        return self.__id
+        return self._id
 
     @id.setter
     def id(self, value):
-        self.__id = value
+        self._id = value
 
     @property
     def title(self):
-        return self.__title
+        return self._title
 
     @title.setter
     def title(self, value):
-        self.__title = value
+        self._title = value
 
     @property
     def carried_out_by(self):
-        return self.__carried_out_by
+        return self._carried_out_by
 
     @carried_out_by.setter
     def carried_out_by(self, value):
-        self.__carried_out_by = value
+        self._carried_out_by = value
 
     @property
     def start(self):
-        return self.__start
+        return self._start
 
     @start.setter
     def start(self, value):
-        self.__start = value
+        self._start = value
 
     @property
     def end(self):
-        return self.__end
+        return self._end
 
     @end.setter
     def id(self, value):
-        self.__end = value
+        self._end = value
